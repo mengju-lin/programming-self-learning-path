@@ -30,6 +30,20 @@
 - 寫 3 個小練習：成績平均、字串清洗、字典查詢。
 - 所有輸出加上清楚訊息，讓初學者可看懂。
 
+### 練習例子（Examples）
+- 例子 1：成績平均
+  Input 格式：`scores: list[int]`，例如 `[78, 85, 92, 66]`。  
+  Logic：先檢查清單不可為空，再用 `sum(scores) / len(scores)` 計算，最後四捨五入到小數點 2 位。  
+  範例輸出：`{"avg_score": 80.25, "count": 4}`。
+- 例子 2：字串清洗
+  Input 格式：`raw_name: str`，例如 `"  amy  chen  "`。  
+  Logic：`strip()` 去前後空白，將多重空白合併成單一空白，再轉 `title()`。  
+  範例輸出：`"Amy Chen"`。
+- 例子 3：字典查詢
+  Input 格式：`student: dict`，例如 `{"name":"Amy","score":90}`。  
+  Logic：用 `get()` 安全讀取欄位，缺值時回傳預設訊息，再組字串輸出。  
+  範例輸出：`"Amy score=90"`。
+
 ### 學習方法（Learning Method）
 - 先看範例再改寫（Example → Rewrite）。
 - 每段程式先口述邏輯，再執行。
@@ -75,6 +89,20 @@
 - 建立 `chapter2_flow.py`。
 - 練習：分數等級判斷、清單篩選、重試輸入。
 - 加入例外處理，避免程式因錯誤輸入中斷。
+
+### 練習例子（Examples）
+- 例子 1：分數等級判斷
+  Input 格式：`score: int`（0~100）。  
+  Logic：`if/elif/else` 切分 A/B/C/D，超出範圍標記 `invalid`。  
+  範例輸出：`{"score": 85, "grade": "B"}`。
+- 例子 2：及格清單篩選
+  Input 格式：`scores: list[int]`。  
+  Logic：用 `for` 走訪，`continue` 略過不及格，保留及格分數。  
+  範例輸出：`{"passed": [78, 85, 92], "count": 3}`。
+- 例子 3：安全輸入重試
+  Input 格式：使用者輸入字串。  
+  Logic：`while` + `try/except`，轉型失敗就提示重試，成功後 `break`。  
+  範例輸出：`{"input_score": 88, "status": "accepted"}`。
 
 ### 學習方法（Learning Method）
 - 每個流程圖先畫出來再寫程式。
@@ -122,6 +150,20 @@
 - 把重複邏輯改成函式（至少 3 個）。
 - 每個函式都寫 docstring，說明輸入與輸出。
 
+### 練習例子（Examples）
+- 例子 1：函式抽取
+  Input 格式：重複文字清理流程。  
+  Logic：抽成 `normalize_name(name: str) -> str`，保留單一職責。  
+  範例輸出：`"Amy Chen"`。
+- 例子 2：參數化函式
+  Input 格式：`scores: list[int]`, `pass_score: int = 60`。  
+  Logic：以 `pass_score` 計算及格數與比例，避免硬編碼。  
+  範例輸出：`{"passed": 3, "pass_rate": 0.75}`。
+- 例子 3：模組匯入
+  Input 格式：`utils/text_tools.py` 的函式。  
+  Logic：主程式 `import` 並呼叫，避免循環引用。  
+  範例輸出：主程式可正確印出清理後內容。
+
 ### 學習方法（Learning Method）
 - 小步重構（Refactor）而非一次重寫。
 - 先寫測試案例，再補函式內容。
@@ -167,6 +209,20 @@
 - 建立 `chapter4_oop.py`。
 - 實作 `Task` 類別：`title`、`status`、`estimate_hours`。
 - 加入方法：`mark_done()`、`to_dict()`。
+
+### 練習例子（Examples）
+- 例子 1：建立類別
+  Input 格式：`title: str`, `estimate_hours: int`。  
+  Logic：在 `__init__` 初始化欄位與 `status="todo"`。  
+  範例輸出：`Task(title="Write API", status="todo")`。
+- 例子 2：狀態更新
+  Input 格式：`Task` 物件。  
+  Logic：`mark_done()` 只更新狀態，不改其他欄位。  
+  範例輸出：`{"title":"Write API","status":"done"}`。
+- 例子 3：序列化
+  Input 格式：`Task` 物件。  
+  Logic：`to_dict()` 回傳可被 JSON 寫入的乾淨欄位。  
+  範例輸出：`{"title":"Write API","status":"done","estimate_hours":3}`。
 
 ### 學習方法（Learning Method）
 - 先寫資料欄位，再補行為方法。
@@ -214,6 +270,20 @@
 - 練習讀取 JSON、處理日期、輸出統計摘要。
 - 產出 `output/summary.json`。
 
+### 練習例子（Examples）
+- 例子 1：路徑建立
+  Input 格式：目標路徑字串，如 `"output/summary.json"`。  
+  Logic：以 `Path` 建立資料夾，避免硬編碼系統路徑。  
+  範例輸出：`output/` 建立成功。
+- 例子 2：JSON 寫入
+  Input 格式：`dict`（進度、時間、章節）。  
+  Logic：`json.dumps(..., ensure_ascii=False)` 並以 UTF-8 存檔。  
+  範例輸出：`{"chapter":"CH1","progress":40,"updated_at":"2026-03-22T18:30:00"}`。
+- 例子 3：JSON 驗證
+  Input 格式：已寫入的 `summary.json`。  
+  Logic：讀回後檢查必要欄位，不足則回報缺漏。  
+  範例輸出：`{"valid": true, "missing_fields": []}`。
+
 ### 學習方法（Learning Method）
 - 每學一個模組就做一個實用任務。
 - 優先看官方文件範例（官方 API 命名最準確）。
@@ -259,6 +329,20 @@
 - 建立專案目錄與 `pyproject.toml`。
 - 安裝 Flask、建立 `app.py`、設定首頁路由。
 - 將 checklist JSON 資料顯示在頁面上。
+
+### 練習例子（Examples）
+- 例子 1：專案初始化
+  Input 格式：命令列 `uv init` / `uv add flask`。  
+  Logic：建立虛擬環境與依賴，確認 `pyproject.toml` 正確。  
+  範例輸出：專案可成功 `uv sync`。
+- 例子 2：路由建立
+  Input 格式：HTTP `GET /`。  
+  Logic：定義 `@app.route("/")`，回傳固定文字或 JSON。  
+  範例輸出：`{"message":"Checklist Ready"}`。
+- 例子 3：checklist 渲染
+  Input 格式：`checklist.json`。  
+  Logic：後端讀檔，前端渲染章節與任務清單。  
+  範例輸出：畫面可看到章節、任務、進度條。
 
 ### 學習方法（Learning Method）
 - 一次只新增一個功能並立即測試。
