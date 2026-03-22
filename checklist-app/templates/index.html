@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learning Path Checklist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#f0f9ff",
+                100: "#e0f2fe",
+                300: "#7dd3fc",
+                500: "#0ea5e9",
+                700: "#0369a1"
+              }
+            }
+          }
+        }
+      };
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body class="min-h-screen bg-slate-100 text-slate-900">
+    <div class="mx-auto max-w-6xl p-4 md:p-8">
+      <header class="rounded-2xl bg-gradient-to-r from-brand-700 to-brand-500 p-6 text-white shadow-lg">
+        <p class="text-sm tracking-wide opacity-90">Learning Path Checklist</p>
+        <h1 class="mt-1 text-2xl font-bold md:text-3xl">{{ checklist.title }}</h1>
+        <p class="mt-2 text-sm opacity-90">
+          總時數 {{ checklist.estimated_total_hours }} 小時 · 每章 {{ checklist.quiz_rule.per_chapter_questions }} 題（{{ checklist.quiz_rule.duration_minutes }} 分鐘）
+        </p>
+
+        <div class="mt-5">
+          <div class="mb-2 flex items-center justify-between text-sm">
+            <span>整體完成進度</span>
+            <span id="overall-progress-label">0%</span>
+          </div>
+          <div class="h-3 overflow-hidden rounded-full bg-white/30">
+            <div id="overall-progress-bar" class="h-full w-0 rounded-full bg-white transition-all duration-500"></div>
+          </div>
+        </div>
+      </header>
+
+      <main id="chapters" class="mt-6 grid gap-4 md:grid-cols-2"></main>
+    </div>
+
+    <script id="checklist-data" type="application/json">{{ checklist | tojson }}</script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
