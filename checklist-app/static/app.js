@@ -113,16 +113,51 @@ function makeSpark(card) {
   setTimeout(() => spark.remove(), 700);
 }
 
+let moneyLayerEl = null;
+
+function moneyLayer() {
+  if (!moneyLayerEl) {
+    moneyLayerEl = document.createElement("div");
+    moneyLayerEl.className = "money-layer";
+    document.body.appendChild(moneyLayerEl);
+  }
+  return moneyLayerEl;
+}
+
+function makeMoney() {
+  const layer = moneyLayer();
+  const money = document.createElement("span");
+  const symbols = ["$", "$$", "$$$", "$$$$", "NT$", "USD$"];
+  money.className = "money-pop";
+  money.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+  money.style.left = `${Math.random() * 100}vw`;
+  money.style.top = `${62 + Math.random() * 34}vh`;
+  money.style.setProperty("--mx", `${-280 + Math.random() * 560}px`);
+  money.style.setProperty("--my", `${-220 - Math.random() * 680}px`);
+  money.style.setProperty("--ms", `${1.3 + Math.random() * 2.2}`);
+  money.style.setProperty("--rot", `${-26 + Math.random() * 52}deg`);
+  money.style.fontSize = `${1.6 + Math.random() * 2.8}rem`;
+  layer.appendChild(money);
+  setTimeout(() => money.remove(), 1450);
+}
+
+function rainMoney(_card, count = 180) {
+  for (let i = 0; i < count; i += 1) {
+    setTimeout(() => makeMoney(), i * 7);
+  }
+}
+
 function celebrate(card) {
   for (let i = 0; i < 16; i += 1) {
     setTimeout(() => makeSpark(card), i * 20);
   }
+  rainMoney(card, 260);
 }
 
 function renderSpList() {
   spListEl.innerHTML = "";
 
-  data.sps.forEach((sp) => {
+  data.sps.forEach((sp, idx) => {
     const progress = spProgress(sp);
     const active = sp.sp_id === state.selectedSpId;
 
@@ -143,6 +178,7 @@ function renderSpList() {
         <div class="h-full rounded-full bg-sky-500" style="width: ${progress.pct}%"></div>
       </div>
     `;
+    button.style.animation = `slide-up 380ms ease-out ${idx * 45}ms both`;
 
     button.addEventListener("click", () => {
       state.selectedSpId = sp.sp_id;
@@ -157,7 +193,7 @@ function renderSpList() {
 function renderChapterList(sp) {
   chapterListEl.innerHTML = "";
 
-  sp.chapters.forEach((chapter) => {
+  sp.chapters.forEach((chapter, idx) => {
     const progress = chapterProgress(sp, chapter);
     const active = chapter.id === state.selectedChapterId;
 
@@ -175,6 +211,7 @@ function renderChapterList(sp) {
       </div>
       <p class="mt-1 text-xs text-slate-500">${progress.done}/${progress.total} 任務</p>
     `;
+    button.style.animation = `slide-up 420ms ease-out ${idx * 55}ms both`;
 
     button.addEventListener("click", () => {
       state.selectedChapterId = chapter.id;
@@ -195,6 +232,8 @@ function renderChapterDetail(sp, chapter) {
   const completed = progress.total > 0 && progress.done === progress.total;
 
   chapterDetailEl.classList.toggle("chapter-complete", completed);
+  chapterDetailEl.classList.add("chapter-enter");
+  setTimeout(() => chapterDetailEl.classList.remove("chapter-enter"), 360);
 
   const syntaxHtml = (chapter.syntax_focus || [])
     .map((item) => `<li class="text-sm text-slate-700">• ${escapeHtml(item)}</li>`)
@@ -321,11 +360,25 @@ function renderChapterDetail(sp, chapter) {
     checkbox.addEventListener("change", () => {
       const chapterTasksLength = (chapter.tasks || []).length;
       const beforeCompleted = chapterProgress(sp, chapter).done === chapterTasksLength;
+      const currentTaskId = checkbox.dataset.taskId;
+      const wasCheckedNow = checkbox.checked;
       const key = taskKey(sp.sp_id, checkbox.dataset.taskId);
       saved[key] = checkbox.checked;
       persist();
       render();
       updateOverallProgress();
+
+      if (wasCheckedNow) {
+        rainMoney(chapterDetailEl, 180);
+        const refreshedRow = chapterDetailEl
+          .querySelector(`input[data-task-id="${currentTaskId}"]`)
+          ?.closest("label");
+        if (refreshedRow) {
+          refreshedRow.classList.remove("task-hit");
+          refreshedRow.offsetWidth;
+          refreshedRow.classList.add("task-hit");
+        }
+      }
 
       const afterCompleted = chapterProgress(sp, chapter).done === chapterTasksLength;
       if (!beforeCompleted && afterCompleted) {

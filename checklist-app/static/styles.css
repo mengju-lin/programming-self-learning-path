@@ -3,6 +3,10 @@
   overflow: hidden;
 }
 
+.chapter-enter {
+  animation: chapter-enter 360ms ease-out;
+}
+
 .chapter-complete {
   border-color: #0ea5e9;
   box-shadow: 0 10px 30px rgba(14, 165, 233, 0.18);
@@ -20,6 +24,52 @@
   opacity: 0;
   pointer-events: none;
   animation: burst 650ms ease-out forwards;
+}
+
+.money-pop {
+  position: absolute;
+  font-weight: 800;
+  font-size: 2.2rem;
+  letter-spacing: 0.02em;
+  color: #16a34a;
+  text-shadow: 0 0 22px rgba(22, 163, 74, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  animation: money-fly 1.4s ease-out forwards;
+}
+
+.money-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 70;
+}
+
+.task-hit {
+  animation: task-hit 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(10px) scale(0.98);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes chapter-enter {
+  0% {
+    transform: translateY(8px);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes pop-in {
@@ -41,5 +91,37 @@
   100% {
     transform: translate(var(--dx), var(--dy)) scale(1.3);
     opacity: 0;
+  }
+}
+
+@keyframes money-fly {
+  0% {
+    transform: translate(0, 0) scale(0.8) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.98;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--mx), var(--my)) scale(var(--ms)) rotate(var(--rot));
+    opacity: 0;
+  }
+}
+
+@keyframes task-hit {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+  }
+  45% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.22);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(34, 197, 94, 0);
   }
 }
