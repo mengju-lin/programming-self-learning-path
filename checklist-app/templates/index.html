@@ -28,9 +28,11 @@
     <div class="mx-auto max-w-6xl p-4 md:p-8">
       <header class="rounded-2xl bg-gradient-to-r from-brand-700 to-brand-500 p-6 text-white shadow-lg">
         <p class="text-sm tracking-wide opacity-90">Learning Path Checklist</p>
-        <h1 class="mt-1 text-2xl font-bold md:text-3xl">{{ checklist.title }}</h1>
+        <h1 id="page-title" class="mt-1 text-2xl font-bold md:text-3xl">
+          {{ checklist.learning_path_title or checklist.title }}
+        </h1>
         <p class="mt-2 text-sm opacity-90">
-          總時數 {{ checklist.estimated_total_hours }} 小時 · 每章 {{ checklist.quiz_rule.per_chapter_questions }} 題（{{ checklist.quiz_rule.duration_minutes }} 分鐘）
+          每章 {{ checklist.quiz_rule.per_chapter_questions }} 題（{{ checklist.quiz_rule.duration_minutes }} 分鐘）
         </p>
 
         <div class="mt-5">
@@ -44,7 +46,21 @@
         </div>
       </header>
 
-      <main id="chapters" class="mt-6 grid gap-4 md:grid-cols-2"></main>
+      <main class="mt-6 grid gap-4 lg:grid-cols-12">
+        <section class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:col-span-3">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Side Projects</h2>
+          <div id="sp-list" class="mt-3 space-y-2"></div>
+        </section>
+
+        <section class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:col-span-3">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Chapters</h2>
+          <div id="chapter-list" class="mt-3 space-y-2"></div>
+        </section>
+
+        <section id="chapter-detail" class="chapter-card rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-6">
+          <p class="text-sm text-slate-500">請先選擇章節。</p>
+        </section>
+      </main>
     </div>
 
     <script id="checklist-data" type="application/json">{{ checklist | tojson }}</script>

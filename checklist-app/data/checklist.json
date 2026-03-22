@@ -1,156 +1,235 @@
 {
-  "sp_id": "SP1",
-  "title": "Python Foundations and Project Bootstrap",
+  "learning_path_title": "Learning Path Checklist",
   "language": "zh-TW",
-  "estimated_total_hours": 12,
   "quiz_rule": {
     "per_chapter_questions": 5,
     "format": "3 mcq + 2 short_answer",
     "duration_minutes": 10
   },
-  "chapters": [
+  "sps": [
     {
-      "id": "ch1",
-      "title": "語法與資料型別（Syntax and Data Types）",
-      "estimated_hours": 2,
-      "learning_method": [
-        "先看範例再改寫",
-        "每 20 分鐘寫 3 個重點",
-        "口述邏輯後再執行"
-      ],
-      "tasks": [
-        {"id": "ch1_t1", "text": "建立 chapter1_basics.py 並完成基本型別宣告", "done_criteria": "含 int/float/str/bool/list/dict"},
-        {"id": "ch1_t2", "text": "完成型別轉換練習", "done_criteria": "至少 3 筆輸入轉換案例"},
-        {"id": "ch1_t3", "text": "完成字串格式化練習", "done_criteria": "使用 f-string 產生輸出"},
-        {"id": "ch1_t4", "text": "完成資料結構練習", "done_criteria": "list 與 dict 各 1 題"},
-        {"id": "ch1_t5", "text": "撰寫章節筆記", "done_criteria": "記錄 list vs dict 使用時機"}
-      ],
-      "quiz": [
-        {"id": "ch1_q1", "type": "mcq", "question": "哪個型別最適合儲存 {name, score} 組合資料？", "options": ["list", "dict", "tuple", "set"], "answer": "dict"},
-        {"id": "ch1_q2", "type": "mcq", "question": "f\"{name}-{score}\" 是哪種語法？", "options": ["切片", "f-string", "regex", "type hint"], "answer": "f-string"},
-        {"id": "ch1_q3", "type": "mcq", "question": "以下何者是 mutable？", "options": ["tuple", "str", "list", "int"], "answer": "list"},
-        {"id": "ch1_q4", "type": "short_answer", "question": "說明 list 與 dict 差異", "answer_keywords": ["有序", "鍵值", "索引", "key"]},
-        {"id": "ch1_q5", "type": "short_answer", "question": "舉一個需要 type casting 的情境", "answer_keywords": ["input", "int", "float"]}
-      ]
-    },
-    {
-      "id": "ch2",
-      "title": "流程控制與例外處理（Control Flow and Exceptions）",
-      "estimated_hours": 2,
-      "learning_method": [
-        "先畫流程圖再寫程式",
-        "同題用 for/while 各寫一次",
-        "先讀錯誤訊息再修正"
-      ],
-      "tasks": [
-        {"id": "ch2_t1", "text": "完成 if/elif/else 練習", "done_criteria": "至少 2 題條件判斷"},
-        {"id": "ch2_t2", "text": "完成 for 迴圈練習", "done_criteria": "對 list 進行篩選與累計"},
-        {"id": "ch2_t3", "text": "完成 while 迴圈練習", "done_criteria": "可處理重試輸入"},
-        {"id": "ch2_t4", "text": "加入 try/except/finally", "done_criteria": "可處理無效輸入而不崩潰"},
-        {"id": "ch2_t5", "text": "撰寫 break/continue 對照筆記", "done_criteria": "各提供 1 個使用情境"}
-      ],
-      "quiz": [
-        {"id": "ch2_q1", "type": "mcq", "question": "哪個關鍵字可直接跳出迴圈？", "options": ["pass", "skip", "break", "next"], "answer": "break"},
-        {"id": "ch2_q2", "type": "mcq", "question": "finally 何時執行？", "options": ["無錯誤時", "永遠會執行", "except 後才執行", "宣告變數"], "answer": "永遠會執行"},
-        {"id": "ch2_q3", "type": "mcq", "question": "何時較適合使用 while？", "options": ["固定次數", "走訪清單", "次數不固定", "只執行一次"], "answer": "次數不固定"},
-        {"id": "ch2_q4", "type": "short_answer", "question": "try/except 在輸入驗證的價值是什麼？", "answer_keywords": ["避免中斷", "錯誤處理", "使用者輸入"]},
-        {"id": "ch2_q5", "type": "short_answer", "question": "舉一個 continue 適用情境", "answer_keywords": ["略過", "不合法資料", "下一輪"]}
-      ]
-    },
-    {
-      "id": "ch3",
-      "title": "函式與模組化（Functions and Modularization）",
-      "estimated_hours": 2,
-      "learning_method": [
-        "先寫測試案例再補函式",
-        "用單一職責檢查函式",
-        "重複邏輯立即抽函式"
-      ],
-      "tasks": [
-        {"id": "ch3_t1", "text": "建立 chapter3_functions.py", "done_criteria": "至少 3 個基礎函式"},
-        {"id": "ch3_t2", "text": "建立 utils/text_tools.py", "done_criteria": "成功從主程式匯入"},
-        {"id": "ch3_t3", "text": "加入預設參數與關鍵字參數", "done_criteria": "至少各 1 個函式"},
-        {"id": "ch3_t4", "text": "為函式加入 docstring 與 type hint", "done_criteria": "至少 3 個函式符合"},
-        {"id": "ch3_t5", "text": "整理重構前後差異", "done_criteria": "記錄可讀性與重用性改進"}
-      ],
-      "quiz": [
-        {"id": "ch3_q1", "type": "mcq", "question": "return 的主要用途是？", "options": ["印出", "結束程式", "回傳結果", "建立模組"], "answer": "回傳結果"},
-        {"id": "ch3_q2", "type": "mcq", "question": "哪種參數可提升可讀性？", "options": ["位置參數", "關鍵字參數", "全域變數", "魔法變數"], "answer": "關鍵字參數"},
-        {"id": "ch3_q3", "type": "mcq", "question": "模組化的主要優點是？", "options": ["降低可讀性", "檔案變大", "重用與維護更佳", "移除函式"], "answer": "重用與維護更佳"},
-        {"id": "ch3_q4", "type": "short_answer", "question": "什麼是單一職責？", "answer_keywords": ["一個函式", "一個責任", "容易測試"]},
-        {"id": "ch3_q5", "type": "short_answer", "question": "命名一個清理使用者輸入的函式", "answer_keywords": ["sanitize", "clean", "input"]}
-      ]
-    },
-    {
-      "id": "ch4",
-      "title": "類別與物件導向（Classes and OOP Basics）",
-      "estimated_hours": 2,
-      "learning_method": [
-        "先定義欄位再定義方法",
-        "用真實情境命名 class",
-        "每新增方法就立即測試"
-      ],
-      "tasks": [
-        {"id": "ch4_t1", "text": "建立 Task 類別與 __init__", "done_criteria": "包含 title/status/estimate_hours"},
-        {"id": "ch4_t2", "text": "實作 mark_done()", "done_criteria": "可更新 status"},
-        {"id": "ch4_t3", "text": "實作 to_dict()", "done_criteria": "輸出可序列化 dict"},
-        {"id": "ch4_t4", "text": "建立 3 個 Task 物件測試", "done_criteria": "每個物件狀態獨立"},
-        {"id": "ch4_t5", "text": "撰寫函式 vs 類別判斷筆記", "done_criteria": "至少 2 個判斷原則"}
-      ],
-      "quiz": [
-        {"id": "ch4_q1", "type": "mcq", "question": "__init__ 的用途是？", "options": ["刪除物件", "初始化屬性", "匯入模組", "建立回傳值"], "answer": "初始化屬性"},
-        {"id": "ch4_q2", "type": "mcq", "question": "哪個通常是 class 行為？", "options": ["title", "status", "mark_done()", "estimate_hours"], "answer": "mark_done()"},
-        {"id": "ch4_q3", "type": "mcq", "question": "資料與行為要綁在一起時，建議？", "options": ["全域變數", "class", "print", "不需結構"], "answer": "class"},
-        {"id": "ch4_q4", "type": "short_answer", "question": "描述 Task 類別 3 個欄位與用途", "answer_keywords": ["title", "status", "estimate"]},
-        {"id": "ch4_q5", "type": "short_answer", "question": "class 與 object 的關係是？", "answer_keywords": ["模板", "實例", "instance"]}
-      ]
-    },
-    {
-      "id": "ch5",
-      "title": "內建套件與資料處理（Built-in Modules for Practical Tasks）",
-      "estimated_hours": 2,
-      "learning_method": [
-        "每個模組都做一個實用任務",
-        "使用官方文件範例",
-        "建立輸入輸出對照表"
-      ],
-      "tasks": [
-        {"id": "ch5_t1", "text": "用 pathlib 建立路徑與資料夾", "done_criteria": "成功建立 output 目錄"},
-        {"id": "ch5_t2", "text": "讀寫 JSON 檔案", "done_criteria": "可讀取並回寫含 3 欄位資料"},
-        {"id": "ch5_t3", "text": "加入 datetime 時間戳", "done_criteria": "結果含 ISO 格式時間"},
-        {"id": "ch5_t4", "text": "產生 summary.json", "done_criteria": "包含學習進度摘要欄位"},
-        {"id": "ch5_t5", "text": "整理模組比較筆記", "done_criteria": "至少記錄 pathlib/json/datetime 各一點"}
-      ],
-      "quiz": [
-        {"id": "ch5_q1", "type": "mcq", "question": "Path(\"data\") / \"input.json\" 的用途？", "options": ["字串相加", "路徑拼接", "排序", "型別轉換"], "answer": "路徑拼接"},
-        {"id": "ch5_q2", "type": "mcq", "question": "JSON 在 Python 常映射為？", "options": ["dict", "set", "bytes", "complex"], "answer": "dict"},
-        {"id": "ch5_q3", "type": "mcq", "question": "取得目前時間常用模組？", "options": ["random", "pathlib", "datetime", "typing"], "answer": "datetime"},
-        {"id": "ch5_q4", "type": "short_answer", "question": "pathlib 的優勢是什麼？", "answer_keywords": ["跨平台", "可讀性", "路徑操作"]},
-        {"id": "ch5_q5", "type": "short_answer", "question": "設計一個學習紀錄 JSON 欄位", "answer_keywords": ["chapter", "score", "duration"]}
-      ]
-    },
-    {
-      "id": "ch6",
-      "title": "第三方套件、uv 與 Flask 專案啟動（Third-party Packages, uv, Flask Bootstrap）",
-      "estimated_hours": 2,
-      "learning_method": [
-        "一次加一個功能就測試",
-        "先可用再美化",
-        "commit 切小步驟"
-      ],
-      "tasks": [
-        {"id": "ch6_t1", "text": "使用 uv init 建立專案", "done_criteria": "產生 pyproject.toml"},
-        {"id": "ch6_t2", "text": "安裝 Flask 並建立 app.py", "done_criteria": "首頁路由可回傳內容"},
-        {"id": "ch6_t3", "text": "讀取 checklist JSON 並渲染頁面", "done_criteria": "可顯示章節與任務"},
-        {"id": "ch6_t4", "text": "加入章節完成動畫", "done_criteria": "任務全勾選時顯示動畫"},
-        {"id": "ch6_t5", "text": "完成 README 操作說明", "done_criteria": "含啟動指令與畫面說明"}
-      ],
-      "quiz": [
-        {"id": "ch6_q1", "type": "mcq", "question": "uv 在此專案主要用途？", "options": ["畫圖", "環境與依賴管理", "資料庫管理", "CSS 編譯"], "answer": "環境與依賴管理"},
-        {"id": "ch6_q2", "type": "mcq", "question": "@app.route(\"/\") 代表？", "options": ["匯入 API", "定義首頁路由", "啟動資料庫", "產生動畫"], "answer": "定義首頁路由"},
-        {"id": "ch6_q3", "type": "mcq", "question": "依賴通常定義在哪個檔案？", "options": ["README.md", "index.html", "pyproject.toml", ".gitignore"], "answer": "pyproject.toml"},
-        {"id": "ch6_q4", "type": "short_answer", "question": "描述從 uv init 到啟動 Flask 的流程", "answer_keywords": ["uv init", "uv add flask", "uv run flask"]},
-        {"id": "ch6_q5", "type": "short_answer", "question": "提升 checklist 意願的 2 個 UI 元素", "answer_keywords": ["進度條", "動畫", "完成徽章"]}
+      "sp_id": "SP1",
+      "title": "Python Foundations and Project Bootstrap",
+      "estimated_total_hours": 12,
+      "chapters": [
+        {
+          "id": "ch1",
+          "title": "語法與資料型別（Syntax and Data Types）",
+          "estimated_hours": 2,
+          "learning_method": [
+            "先看範例再改寫",
+            "每 20 分鐘寫 3 個重點",
+            "口述邏輯後再執行"
+          ],
+          "syntax_focus": [
+            "int / float / str / bool",
+            "list 與 dict",
+            "f-string"
+          ],
+          "steps": [
+            "建立 chapter1_basics.py。",
+            "宣告 6 種型別並印出 type。",
+            "完成成績平均、字串清洗、字典查詢 3 個小練習。",
+            "用 f-string 輸出可讀結果。"
+          ],
+          "example_code": "student = {\"name\": \"Amy\", \"score\": 90}\nmsg = f\"{student['name']} score={student['score']}\"\nprint(msg)",
+          "tasks": [
+            {"id": "ch1_t1", "text": "建立 chapter1_basics.py 並完成基本型別宣告", "done_criteria": "含 int/float/str/bool/list/dict"},
+            {"id": "ch1_t2", "text": "完成型別轉換練習", "done_criteria": "至少 3 筆輸入轉換案例"},
+            {"id": "ch1_t3", "text": "完成字串格式化練習", "done_criteria": "使用 f-string 產生輸出"},
+            {"id": "ch1_t4", "text": "完成資料結構練習", "done_criteria": "list 與 dict 各 1 題"},
+            {"id": "ch1_t5", "text": "撰寫章節筆記", "done_criteria": "記錄 list vs dict 使用時機"}
+          ],
+          "quiz": [
+            {"id": "ch1_q1", "type": "mcq", "question": "哪個型別最適合儲存 {name, score} 組合資料？", "options": ["list", "dict", "tuple", "set"], "answer": "dict"},
+            {"id": "ch1_q2", "type": "mcq", "question": "f\"{name}-{score}\" 是哪種語法？", "options": ["切片", "f-string", "regex", "type hint"], "answer": "f-string"},
+            {"id": "ch1_q3", "type": "mcq", "question": "以下何者是 mutable？", "options": ["tuple", "str", "list", "int"], "answer": "list"},
+            {"id": "ch1_q4", "type": "short_answer", "question": "說明 list 與 dict 差異", "answer_keywords": ["有序", "鍵值", "索引", "key"]},
+            {"id": "ch1_q5", "type": "short_answer", "question": "舉一個需要 type casting 的情境", "answer_keywords": ["input", "int", "float"]}
+          ]
+        },
+        {
+          "id": "ch2",
+          "title": "流程控制與例外處理（Control Flow and Exceptions）",
+          "estimated_hours": 2,
+          "learning_method": [
+            "先畫流程圖再寫程式",
+            "同題用 for/while 各寫一次",
+            "先讀錯誤訊息再修正"
+          ],
+          "syntax_focus": [
+            "if / elif / else",
+            "for / while",
+            "try / except / finally",
+            "break / continue"
+          ],
+          "steps": [
+            "建立 chapter2_flow.py。",
+            "完成條件分支題：分數等級判斷。",
+            "完成 for、while 各一題迴圈練習。",
+            "加入 try/except，處理錯誤輸入。"
+          ],
+          "example_code": "for score in scores:\n    if score < 60:\n        continue\n    passed.append(score)",
+          "tasks": [
+            {"id": "ch2_t1", "text": "完成 if/elif/else 練習", "done_criteria": "至少 2 題條件判斷"},
+            {"id": "ch2_t2", "text": "完成 for 迴圈練習", "done_criteria": "對 list 進行篩選與累計"},
+            {"id": "ch2_t3", "text": "完成 while 迴圈練習", "done_criteria": "可處理重試輸入"},
+            {"id": "ch2_t4", "text": "加入 try/except/finally", "done_criteria": "可處理無效輸入而不崩潰"},
+            {"id": "ch2_t5", "text": "撰寫 break/continue 對照筆記", "done_criteria": "各提供 1 個使用情境"}
+          ],
+          "quiz": [
+            {"id": "ch2_q1", "type": "mcq", "question": "哪個關鍵字可直接跳出迴圈？", "options": ["pass", "skip", "break", "next"], "answer": "break"},
+            {"id": "ch2_q2", "type": "mcq", "question": "finally 何時執行？", "options": ["無錯誤時", "永遠會執行", "except 後才執行", "宣告變數"], "answer": "永遠會執行"},
+            {"id": "ch2_q3", "type": "mcq", "question": "何時較適合使用 while？", "options": ["固定次數", "走訪清單", "次數不固定", "只執行一次"], "answer": "次數不固定"},
+            {"id": "ch2_q4", "type": "short_answer", "question": "try/except 在輸入驗證的價值是什麼？", "answer_keywords": ["避免中斷", "錯誤處理", "使用者輸入"]},
+            {"id": "ch2_q5", "type": "short_answer", "question": "舉一個 continue 適用情境", "answer_keywords": ["略過", "不合法資料", "下一輪"]}
+          ]
+        },
+        {
+          "id": "ch3",
+          "title": "函式與模組化（Functions and Modularization）",
+          "estimated_hours": 2,
+          "learning_method": [
+            "先寫測試案例再補函式",
+            "用單一職責檢查函式",
+            "重複邏輯立即抽函式"
+          ],
+          "syntax_focus": [
+            "def / return",
+            "預設參數與關鍵字參數",
+            "docstring 與 type hints",
+            "import / module"
+          ],
+          "steps": [
+            "建立 chapter3_functions.py 與 utils/text_tools.py。",
+            "把重複邏輯抽成至少 3 個函式。",
+            "每個函式補上 docstring 與 type hints。",
+            "主程式成功匯入並呼叫模組函式。"
+          ],
+          "example_code": "def normalize_name(name: str, strip_space: bool = True) -> str:\n    return name.strip().title() if strip_space else name.title()",
+          "tasks": [
+            {"id": "ch3_t1", "text": "建立 chapter3_functions.py", "done_criteria": "至少 3 個基礎函式"},
+            {"id": "ch3_t2", "text": "建立 utils/text_tools.py", "done_criteria": "成功從主程式匯入"},
+            {"id": "ch3_t3", "text": "加入預設參數與關鍵字參數", "done_criteria": "至少各 1 個函式"},
+            {"id": "ch3_t4", "text": "為函式加入 docstring 與 type hint", "done_criteria": "至少 3 個函式符合"},
+            {"id": "ch3_t5", "text": "整理重構前後差異", "done_criteria": "記錄可讀性與重用性改進"}
+          ],
+          "quiz": [
+            {"id": "ch3_q1", "type": "mcq", "question": "return 的主要用途是？", "options": ["印出", "結束程式", "回傳結果", "建立模組"], "answer": "回傳結果"},
+            {"id": "ch3_q2", "type": "mcq", "question": "哪種參數可提升可讀性？", "options": ["位置參數", "關鍵字參數", "全域變數", "魔法變數"], "answer": "關鍵字參數"},
+            {"id": "ch3_q3", "type": "mcq", "question": "模組化的主要優點是？", "options": ["降低可讀性", "檔案變大", "重用與維護更佳", "移除函式"], "answer": "重用與維護更佳"},
+            {"id": "ch3_q4", "type": "short_answer", "question": "什麼是單一職責？", "answer_keywords": ["一個函式", "一個責任", "容易測試"]},
+            {"id": "ch3_q5", "type": "short_answer", "question": "命名一個清理使用者輸入的函式", "answer_keywords": ["sanitize", "clean", "input"]}
+          ]
+        },
+        {
+          "id": "ch4",
+          "title": "類別與物件導向（Classes and OOP Basics）",
+          "estimated_hours": 2,
+          "learning_method": [
+            "先定義欄位再定義方法",
+            "用真實情境命名 class",
+            "每新增方法就立即測試"
+          ],
+          "syntax_focus": [
+            "class / __init__",
+            "instance method",
+            "object state update"
+          ],
+          "steps": [
+            "建立 Task 類別，加入 title、status、estimate_hours。",
+            "實作 mark_done() 更新任務狀態。",
+            "實作 to_dict() 供序列化輸出。",
+            "建立 3 個物件，驗證互不影響。"
+          ],
+          "example_code": "class Task:\n    def __init__(self, title: str, estimate_hours: int):\n        self.title = title\n        self.estimate_hours = estimate_hours\n        self.status = 'todo'",
+          "tasks": [
+            {"id": "ch4_t1", "text": "建立 Task 類別與 __init__", "done_criteria": "包含 title/status/estimate_hours"},
+            {"id": "ch4_t2", "text": "實作 mark_done()", "done_criteria": "可更新 status"},
+            {"id": "ch4_t3", "text": "實作 to_dict()", "done_criteria": "輸出可序列化 dict"},
+            {"id": "ch4_t4", "text": "建立 3 個 Task 物件測試", "done_criteria": "每個物件狀態獨立"},
+            {"id": "ch4_t5", "text": "撰寫函式 vs 類別判斷筆記", "done_criteria": "至少 2 個判斷原則"}
+          ],
+          "quiz": [
+            {"id": "ch4_q1", "type": "mcq", "question": "__init__ 的用途是？", "options": ["刪除物件", "初始化屬性", "匯入模組", "建立回傳值"], "answer": "初始化屬性"},
+            {"id": "ch4_q2", "type": "mcq", "question": "哪個通常是 class 行為？", "options": ["title", "status", "mark_done()", "estimate_hours"], "answer": "mark_done()"},
+            {"id": "ch4_q3", "type": "mcq", "question": "資料與行為要綁在一起時，建議？", "options": ["全域變數", "class", "print", "不需結構"], "answer": "class"},
+            {"id": "ch4_q4", "type": "short_answer", "question": "描述 Task 類別 3 個欄位與用途", "answer_keywords": ["title", "status", "estimate"]},
+            {"id": "ch4_q5", "type": "short_answer", "question": "class 與 object 的關係是？", "answer_keywords": ["模板", "實例", "instance"]}
+          ]
+        },
+        {
+          "id": "ch5",
+          "title": "內建套件與資料處理（Built-in Modules for Practical Tasks）",
+          "estimated_hours": 2,
+          "learning_method": [
+            "每個模組都做一個實用任務",
+            "使用官方文件範例",
+            "建立輸入輸出對照表"
+          ],
+          "syntax_focus": [
+            "pathlib",
+            "json",
+            "datetime"
+          ],
+          "steps": [
+            "使用 pathlib 建立 output 目錄。",
+            "讀寫 JSON 檔案保存進度。",
+            "加入 datetime 時間戳。",
+            "重新讀回檔案驗證格式。"
+          ],
+          "example_code": "from pathlib import Path\nimport json\nfrom datetime import datetime\n\npayload = {'updated_at': datetime.now().isoformat(), 'progress': 40}\nPath('output').mkdir(exist_ok=True)\nPath('output/summary.json').write_text(json.dumps(payload, ensure_ascii=False), encoding='utf-8')",
+          "tasks": [
+            {"id": "ch5_t1", "text": "用 pathlib 建立路徑與資料夾", "done_criteria": "成功建立 output 目錄"},
+            {"id": "ch5_t2", "text": "讀寫 JSON 檔案", "done_criteria": "可讀取並回寫含 3 欄位資料"},
+            {"id": "ch5_t3", "text": "加入 datetime 時間戳", "done_criteria": "結果含 ISO 格式時間"},
+            {"id": "ch5_t4", "text": "產生 summary.json", "done_criteria": "包含學習進度摘要欄位"},
+            {"id": "ch5_t5", "text": "整理模組比較筆記", "done_criteria": "至少記錄 pathlib/json/datetime 各一點"}
+          ],
+          "quiz": [
+            {"id": "ch5_q1", "type": "mcq", "question": "Path(\"data\") / \"input.json\" 的用途？", "options": ["字串相加", "路徑拼接", "排序", "型別轉換"], "answer": "路徑拼接"},
+            {"id": "ch5_q2", "type": "mcq", "question": "JSON 在 Python 常映射為？", "options": ["dict", "set", "bytes", "complex"], "answer": "dict"},
+            {"id": "ch5_q3", "type": "mcq", "question": "取得目前時間常用模組？", "options": ["random", "pathlib", "datetime", "typing"], "answer": "datetime"},
+            {"id": "ch5_q4", "type": "short_answer", "question": "pathlib 的優勢是什麼？", "answer_keywords": ["跨平台", "可讀性", "路徑操作"]},
+            {"id": "ch5_q5", "type": "short_answer", "question": "設計一個學習紀錄 JSON 欄位", "answer_keywords": ["chapter", "score", "duration"]}
+          ]
+        },
+        {
+          "id": "ch6",
+          "title": "第三方套件、uv 與 Flask 專案啟動（Third-party Packages, uv, Flask Bootstrap）",
+          "estimated_hours": 2,
+          "learning_method": [
+            "一次加一個功能就測試",
+            "先可用再美化",
+            "commit 切小步驟"
+          ],
+          "syntax_focus": [
+            "uv init / uv add flask",
+            "Flask app route",
+            "uv run flask"
+          ],
+          "steps": [
+            "使用 uv init 建立專案。",
+            "安裝 Flask 並建立 app.py。",
+            "實作首頁 route 並啟動服務。",
+            "把 checklist 資料渲染到畫面。"
+          ],
+          "example_code": "from flask import Flask\napp = Flask(__name__)\n\n@app.route('/')\ndef home():\n    return 'Checklist Ready'",
+          "tasks": [
+            {"id": "ch6_t1", "text": "使用 uv init 建立專案", "done_criteria": "產生 pyproject.toml"},
+            {"id": "ch6_t2", "text": "安裝 Flask 並建立 app.py", "done_criteria": "首頁路由可回傳內容"},
+            {"id": "ch6_t3", "text": "讀取 checklist JSON 並渲染頁面", "done_criteria": "可顯示章節與任務"},
+            {"id": "ch6_t4", "text": "加入章節完成動畫", "done_criteria": "任務全勾選時顯示動畫"},
+            {"id": "ch6_t5", "text": "完成 README 操作說明", "done_criteria": "含啟動指令與畫面說明"}
+          ],
+          "quiz": [
+            {"id": "ch6_q1", "type": "mcq", "question": "uv 在此專案主要用途？", "options": ["畫圖", "環境與依賴管理", "資料庫管理", "CSS 編譯"], "answer": "環境與依賴管理"},
+            {"id": "ch6_q2", "type": "mcq", "question": "@app.route(\"/\") 代表？", "options": ["匯入 API", "定義首頁路由", "啟動資料庫", "產生動畫"], "answer": "定義首頁路由"},
+            {"id": "ch6_q3", "type": "mcq", "question": "依賴通常定義在哪個檔案？", "options": ["README.md", "index.html", "pyproject.toml", ".gitignore"], "answer": "pyproject.toml"},
+            {"id": "ch6_q4", "type": "short_answer", "question": "描述從 uv init 到啟動 Flask 的流程", "answer_keywords": ["uv init", "uv add flask", "uv run flask"]},
+            {"id": "ch6_q5", "type": "short_answer", "question": "提升 checklist 意願的 2 個 UI 元素", "answer_keywords": ["進度條", "動畫", "完成徽章"]}
+          ]
+        }
       ]
     }
   ]

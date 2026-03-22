@@ -8,6 +8,15 @@
 - 每章固定 5 題週檢核測驗（10 分鐘內）
 - 本階段先不提供評分規準（Rubric）
 
+## 詳細 Outline 導覽
+
+- SP1 詳細學習路徑：`sp1-detailed-learning-path.md`
+- SP2 詳細大綱：`sp2-detailed-outline.md`
+- SP3 詳細大綱：`sp3-detailed-outline.md`
+- SP4 詳細大綱：`sp4-detailed-outline.md`
+- SP5 詳細大綱：`sp5-detailed-outline.md`
+- SP6 詳細大綱：`sp6-detailed-outline.md`
+
 ## 預計 Side Projects（第二版）
 
 ### SP1 - Python 基礎與專案啟動實戰（Python Foundations and Project Bootstrap）
