@@ -1,5 +1,5 @@
 {
-  "learning_path_title": "Learning Path Checklist",
+  "learning_path_title": "Learning Path Checklist (SP1-SP6)",
   "language": "zh-TW",
   "quiz_rule": {
     "per_chapter_questions": 5,
@@ -9,109 +9,115 @@
   "sps": [
     {
       "sp_id": "SP1",
-      "title": "Python Foundations and Project Bootstrap",
+      "title": "Python 學習任務啟動器",
+      "sp_doc_url": "/docs/sp1-detailed-outline",
+      "sp_doc_label": "開啟 SP1 詳細文件",
       "estimated_total_hours": 12,
       "chapters": [
         {
-          "id": "ch1",
-          "title": "語法與資料型別（Syntax and Data Types）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先看範例再改寫",
-            "每 20 分鐘寫 3 個重點",
-            "口述邏輯後再執行"
+          "id": "sp1_ch1",
+          "title": "資料型別與常見結構",
+          "estimated_hours": 2.5,
+          "chapter_summary": "建立 Python 基礎資料處理能力，讓輸入資料能穩定轉成可讀輸出。",
+          "detail_doc_url": "/docs/sp1-detailed-outline",
+          "detail_doc_label": "查看 SP1 資料型別與常見結構 詳細說明",
+          "detail_doc_hint": "對照 SP1 Chapter 1：Input/Output 與錯誤處理。",
+          "input_contract": [
+            "scores: list[int]，至少 1 筆",
+            "student: {name, score}",
+            "raw_name: str，可含多餘空白"
           ],
-          "syntax_focus": [
-            "int / float / str / bool",
-            "list 與 dict",
-            "f-string"
+          "output_contract": [
+            "avg_score: float",
+            "normalized_name: str",
+            "student_line: str",
+            "errors: list[str]"
+          ],
+          "constraints": [
+            "scores 不得為空",
+            "student.score 需可轉數字",
+            "raw_name 清理後不得為空"
+          ],
+          "learning_method": [
+            "先驗證型別再運算",
+            "先正確再美化輸出",
+            "錯誤訊息要可讀"
           ],
           "steps": [
-            "建立 chapter1_basics.py。",
-            "宣告 6 種型別並印出 type。",
-            "完成成績平均、字串清洗、字典查詢 3 個小練習。",
-            "用 f-string 輸出可讀結果。"
+            "建立 chapter1_basics.py",
+            "實作 3 個函式",
+            "輸出 ch1_result.json",
+            "自我檢查型別與空值"
           ],
-          "example_code": "student = {\"name\": \"Amy\", \"score\": 90}\nmsg = f\"{student['name']} score={student['score']}\"\nprint(msg)",
+          "example_code": "def normalize_name(name: str) -> str:\n    return ' '.join(name.split()).title()",
           "tasks": [
             {
-              "id": "ch1_t1",
-              "text": "建立 chapter1_basics.py 並完成基本型別宣告",
-              "done_criteria": "含 int/float/str/bool/list/dict"
+              "id": "sp1_ch1_t1",
+              "text": "完成型別與資料結構練習",
+              "done_criteria": "list/dict 皆有實作"
             },
             {
-              "id": "ch1_t2",
-              "text": "完成型別轉換練習",
-              "done_criteria": "至少 3 筆輸入轉換案例"
+              "id": "sp1_ch1_t2",
+              "text": "完成格式化輸出",
+              "done_criteria": "f-string 輸出正確"
             },
             {
-              "id": "ch1_t3",
-              "text": "完成字串格式化練習",
-              "done_criteria": "使用 f-string 產生輸出"
-            },
-            {
-              "id": "ch1_t4",
-              "text": "完成資料結構練習",
-              "done_criteria": "list 與 dict 各 1 題"
-            },
-            {
-              "id": "ch1_t5",
-              "text": "撰寫章節筆記",
-              "done_criteria": "記錄 list vs dict 使用時機"
+              "id": "sp1_ch1_t3",
+              "text": "輸出章節結果",
+              "done_criteria": "產生 output/ch1_result.json"
             }
           ],
           "quiz": [
             {
-              "id": "ch1_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "哪個型別最適合儲存 {name, score} 組合資料？",
+              "question": "哪個型別最適合 name+score？",
               "options": [
                 "list",
                 "dict",
-                "tuple",
-                "set"
+                "set",
+                "tuple"
               ],
               "answer": "dict"
             },
             {
-              "id": "ch1_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "f\"{name}-{score}\" 是哪種語法？",
+              "question": "f-string 的主要用途？",
               "options": [
-                "切片",
-                "f-string",
-                "regex",
-                "type hint"
+                "排序",
+                "格式化輸出",
+                "型別轉換",
+                "測試"
               ],
-              "answer": "f-string"
+              "answer": "格式化輸出"
             },
             {
-              "id": "ch1_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "以下何者是 mutable？",
+              "question": "哪個是 mutable？",
               "options": [
-                "tuple",
                 "str",
+                "tuple",
                 "list",
                 "int"
               ],
               "answer": "list"
             },
             {
-              "id": "ch1_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "說明 list 與 dict 差異",
+              "question": "list 與 dict 使用時機差異",
               "answer_keywords": [
-                "有序",
-                "鍵值",
                 "索引",
-                "key"
+                "鍵值",
+                "查詢"
               ]
             },
             {
-              "id": "ch1_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "舉一個需要 type casting 的情境",
+              "question": "舉一個型別轉換案例",
               "answer_keywords": [
                 "input",
                 "int",
@@ -119,671 +125,318 @@
               ]
             }
           ],
-          "io_logic_note": "本章重點是把原始資料（數字、字串、字典）轉成可讀、可驗證的輸出，避免直接硬印原始值。",
-          "practice_examples": [
-            "成績平均：list[int] -> 平均值 dict",
-            "字串清洗：raw str -> 標準姓名 str",
-            "字典查詢：dict -> 人類可讀訊息 str"
-          ],
-          "examples": [
-            {
-              "id": "ch1_ex1",
-              "title": "成績平均",
-              "input_format": "scores: list[int], e.g. [78, 85, 92, 66]",
-              "logic": "檢查清單不可為空，使用 sum/len 計算並四捨五入到小數點 2 位。",
-              "example_output": "{\"avg_score\": 80.25, \"count\": 4}"
-            },
-            {
-              "id": "ch1_ex2",
-              "title": "字串清洗",
-              "input_format": "raw_name: str, e.g. \"  amy  chen  \"",
-              "logic": "strip 去前後空白，合併多重空白，最後轉 title 格式。",
-              "example_output": "\"Amy Chen\""
-            },
-            {
-              "id": "ch1_ex3",
-              "title": "字典查詢",
-              "input_format": "student: dict, e.g. {\"name\":\"Amy\",\"score\":90}",
-              "logic": "使用 get() 安全讀值，欄位缺漏時回傳預設訊息。",
-              "example_output": "\"Amy score=90\""
-            }
-          ]
+          "io_logic_note": "先檢查輸入合法，再產出一致格式輸出。"
         },
         {
-          "id": "ch2",
-          "title": "流程控制與例外處理（Control Flow and Exceptions）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先畫流程圖再寫程式",
-            "同題用 for/while 各寫一次",
-            "先讀錯誤訊息再修正"
+          "id": "sp1_ch2",
+          "title": "流程控制與例外處理",
+          "estimated_hours": 2.5,
+          "chapter_summary": "建立條件與迴圈穩定度，避免錯誤輸入讓程式中斷。",
+          "detail_doc_url": "/docs/sp1-detailed-outline",
+          "detail_doc_label": "查看 SP1 流程控制與例外處理 詳細說明",
+          "detail_doc_hint": "對照 SP1 Chapter 2：while/try-except 重點。",
+          "input_contract": [
+            "scores: list[int | str]",
+            "raw_input_sequence: list[str]"
           ],
-          "syntax_focus": [
-            "if / elif / else",
-            "for / while",
-            "try / except / finally",
-            "break / continue"
+          "output_contract": [
+            "passed_scores: list[int]",
+            "accepted_input: int",
+            "error_count: int"
+          ],
+          "constraints": [
+            "非法輸入需捕捉",
+            "接受到合法輸入才停止 while",
+            "錯誤次數需記錄"
+          ],
+          "learning_method": [
+            "先畫流程再寫程式",
+            "正常路徑完成後再補例外",
+            "break/continue 分開練習"
           ],
           "steps": [
-            "建立 chapter2_flow.py。",
-            "完成條件分支題：分數等級判斷。",
-            "完成 for、while 各一題迴圈練習。",
-            "加入 try/except，處理錯誤輸入。"
+            "實作分級判斷",
+            "實作篩選邏輯",
+            "實作輸入重試",
+            "輸出錯誤統計"
           ],
-          "example_code": "for score in scores:\n    if score < 60:\n        continue\n    passed.append(score)",
+          "example_code": "while True:\n    try:\n        score = int(input('score: '))\n        break\n    except ValueError:\n        print('請輸入數字')",
           "tasks": [
             {
-              "id": "ch2_t1",
-              "text": "完成 if/elif/else 練習",
-              "done_criteria": "至少 2 題條件判斷"
+              "id": "sp1_ch2_t1",
+              "text": "完成分支判斷",
+              "done_criteria": "if/elif/else 至少 2 題"
             },
             {
-              "id": "ch2_t2",
-              "text": "完成 for 迴圈練習",
-              "done_criteria": "對 list 進行篩選與累計"
+              "id": "sp1_ch2_t2",
+              "text": "完成迴圈練習",
+              "done_criteria": "for 與 while 各 1 題"
             },
             {
-              "id": "ch2_t3",
-              "text": "完成 while 迴圈練習",
-              "done_criteria": "可處理重試輸入"
-            },
-            {
-              "id": "ch2_t4",
-              "text": "加入 try/except/finally",
-              "done_criteria": "可處理無效輸入而不崩潰"
-            },
-            {
-              "id": "ch2_t5",
-              "text": "撰寫 break/continue 對照筆記",
-              "done_criteria": "各提供 1 個使用情境"
+              "id": "sp1_ch2_t3",
+              "text": "完成例外處理",
+              "done_criteria": "非法輸入不崩潰"
             }
           ],
           "quiz": [
             {
-              "id": "ch2_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "哪個關鍵字可直接跳出迴圈？",
+              "question": "哪個關鍵字可離開迴圈？",
               "options": [
                 "pass",
-                "skip",
                 "break",
+                "skip",
                 "next"
               ],
               "answer": "break"
             },
             {
-              "id": "ch2_q2",
+              "id": "q2",
               "type": "mcq",
               "question": "finally 何時執行？",
               "options": [
-                "無錯誤時",
-                "永遠會執行",
-                "except 後才執行",
-                "宣告變數"
+                "只有成功時",
+                "永遠執行",
+                "只有失敗時",
+                "不執行"
               ],
-              "answer": "永遠會執行"
+              "answer": "永遠執行"
             },
             {
-              "id": "ch2_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "何時較適合使用 while？",
+              "question": "while 何時較適合？",
               "options": [
                 "固定次數",
-                "走訪清單",
                 "次數不固定",
-                "只執行一次"
+                "只跑一次",
+                "不需條件"
               ],
               "answer": "次數不固定"
             },
             {
-              "id": "ch2_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "try/except 在輸入驗證的價值是什麼？",
+              "question": "try/except 的核心價值",
               "answer_keywords": [
-                "避免中斷",
-                "錯誤處理",
-                "使用者輸入"
+                "防中斷",
+                "錯誤處理"
               ]
             },
             {
-              "id": "ch2_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "舉一個 continue 適用情境",
+              "question": "給一個 continue 情境",
               "answer_keywords": [
                 "略過",
-                "不合法資料",
-                "下一輪"
+                "不合法資料"
               ]
             }
           ],
-          "io_logic_note": "本章重點是讓邏輯在不同輸入情境下都穩定運作，特別是錯誤輸入。",
-          "practice_examples": [
-            "等級判斷：score int -> grade str",
-            "及格篩選：scores list -> passed list",
-            "重試輸入：raw input str -> accepted int"
-          ],
-          "examples": [
-            {
-              "id": "ch2_ex1",
-              "title": "等級判斷",
-              "input_format": "score: int (0~100)",
-              "logic": "if/elif/else 切分 A/B/C/D，超出範圍回傳 invalid。",
-              "example_output": "{\"score\": 85, \"grade\": \"B\"}"
-            },
-            {
-              "id": "ch2_ex2",
-              "title": "及格篩選",
-              "input_format": "scores: list[int]",
-              "logic": "for 走訪 + continue 略過不及格，收集及格清單。",
-              "example_output": "{\"passed\": [78, 85, 92], \"count\": 3}"
-            },
-            {
-              "id": "ch2_ex3",
-              "title": "安全輸入重試",
-              "input_format": "raw input: str",
-              "logic": "while + try/except 轉 int，失敗提示重試，成功 break。",
-              "example_output": "{\"input_score\": 88, \"status\": \"accepted\"}"
-            }
-          ]
+          "io_logic_note": "流程分支與錯誤路徑都要可預期。"
         },
         {
-          "id": "ch3",
-          "title": "函式與模組化（Functions and Modularization）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先寫測試案例再補函式",
-            "用單一職責檢查函式",
-            "重複邏輯立即抽函式"
+          "id": "sp1_ch3",
+          "title": "函式、類別與模組化",
+          "estimated_hours": 3,
+          "chapter_summary": "把重複邏輯轉成可重用模組，為後續 SP 建立可維護基礎。",
+          "detail_doc_url": "/docs/sp1-detailed-outline",
+          "detail_doc_label": "查看 SP1 函式、類別與模組化 詳細說明",
+          "detail_doc_hint": "對照 SP1 Chapter 3：Task 類別與模組拆分。",
+          "input_contract": [
+            "tasks: list[dict]，含 title",
+            "module_config: {use_utils: bool}"
           ],
-          "syntax_focus": [
-            "def / return",
-            "預設參數與關鍵字參數",
-            "docstring 與 type hints",
-            "import / module"
+          "output_contract": [
+            "task_objects: list[dict]",
+            "reusable_functions: list[str]",
+            "module_ready: bool"
+          ],
+          "constraints": [
+            "每個函式單一職責",
+            "Task 至少有 title/status",
+            "模組可被主程式匯入"
+          ],
+          "learning_method": [
+            "先拆函式再建類別",
+            "函式命名用動詞開頭",
+            "每次重構都跑一次測試"
           ],
           "steps": [
-            "建立 chapter3_functions.py 與 utils/text_tools.py。",
-            "把重複邏輯抽成至少 3 個函式。",
-            "每個函式補上 docstring 與 type hints。",
-            "主程式成功匯入並呼叫模組函式。"
+            "抽出 3~5 個函式",
+            "建立 Task 類別",
+            "拆到 utils/",
+            "寫最小測試"
           ],
-          "example_code": "def normalize_name(name: str, strip_space: bool = True) -> str:\n    return name.strip().title() if strip_space else name.title()",
+          "example_code": "class Task:\n    def __init__(self, title: str, estimate_hours: int = 1):\n        self.title = title\n        self.status = 'todo'",
           "tasks": [
             {
-              "id": "ch3_t1",
-              "text": "建立 chapter3_functions.py",
-              "done_criteria": "至少 3 個基礎函式"
+              "id": "sp1_ch3_t1",
+              "text": "完成函式重構",
+              "done_criteria": "至少 3 個可重用函式"
             },
             {
-              "id": "ch3_t2",
-              "text": "建立 utils/text_tools.py",
-              "done_criteria": "成功從主程式匯入"
+              "id": "sp1_ch3_t2",
+              "text": "完成 Task 類別",
+              "done_criteria": "含 mark_done 與 to_dict"
             },
             {
-              "id": "ch3_t3",
-              "text": "加入預設參數與關鍵字參數",
-              "done_criteria": "至少各 1 個函式"
-            },
-            {
-              "id": "ch3_t4",
-              "text": "為函式加入 docstring 與 type hint",
-              "done_criteria": "至少 3 個函式符合"
-            },
-            {
-              "id": "ch3_t5",
-              "text": "整理重構前後差異",
-              "done_criteria": "記錄可讀性與重用性改進"
+              "id": "sp1_ch3_t3",
+              "text": "完成模組拆分",
+              "done_criteria": "utils 可被匯入"
             }
           ],
           "quiz": [
             {
-              "id": "ch3_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "return 的主要用途是？",
+              "question": "return 的主要用途？",
               "options": [
-                "印出",
-                "結束程式",
+                "印字",
                 "回傳結果",
-                "建立模組"
+                "終止電腦",
+                "開檔"
               ],
               "answer": "回傳結果"
             },
             {
-              "id": "ch3_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "哪種參數可提升可讀性？",
+              "question": "何時優先考慮 class？",
               "options": [
-                "位置參數",
-                "關鍵字參數",
-                "全域變數",
-                "魔法變數"
+                "資料與行為需綁定",
+                "只印字",
+                "只跑一次",
+                "沒有輸入"
               ],
-              "answer": "關鍵字參數"
+              "answer": "資料與行為需綁定"
             },
             {
-              "id": "ch3_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "模組化的主要優點是？",
+              "question": "模組化帶來什麼？",
               "options": [
-                "降低可讀性",
-                "檔案變大",
-                "重用與維護更佳",
-                "移除函式"
+                "更難讀",
+                "重用與維護",
+                "減少測試",
+                "固定速度"
               ],
-              "answer": "重用與維護更佳"
+              "answer": "重用與維護"
             },
             {
-              "id": "ch3_q4",
+              "id": "q4",
               "type": "short_answer",
               "question": "什麼是單一職責？",
               "answer_keywords": [
-                "一個函式",
-                "一個責任",
-                "容易測試"
+                "一個函式做一件事"
               ]
             },
             {
-              "id": "ch3_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "命名一個清理使用者輸入的函式",
+              "question": "輸入清理函式怎麼命名？",
               "answer_keywords": [
-                "sanitize",
+                "normalize",
                 "clean",
                 "input"
               ]
             }
           ],
-          "io_logic_note": "本章重點是把重複流程抽成可重複使用的函式，降低維護成本。",
-          "practice_examples": [
-            "normalize_name(name) -> str",
-            "count_passed(scores, pass_score) -> dict",
-            "module import + function call"
-          ],
-          "examples": [
-            {
-              "id": "ch3_ex1",
-              "title": "函式抽取",
-              "input_format": "raw name string",
-              "logic": "將重複清理邏輯抽成單一函式並加上 type hints。",
-              "example_output": "\"Amy Chen\""
-            },
-            {
-              "id": "ch3_ex2",
-              "title": "參數化函式",
-              "input_format": "scores: list[int], pass_score: int=60",
-              "logic": "計算及格數量與比例，避免硬編碼臨界值。",
-              "example_output": "{\"passed\": 3, \"pass_rate\": 0.75}"
-            },
-            {
-              "id": "ch3_ex3",
-              "title": "模組匯入",
-              "input_format": "utils module",
-              "logic": "主程式 import 後呼叫，避免循環引用。",
-              "example_output": "主程式可正常執行並輸出清理結果"
-            }
-          ]
+          "io_logic_note": "輸入資料先過函式層，再轉成類別狀態，最後輸出可序列化結果。"
         },
         {
-          "id": "ch4",
-          "title": "類別與物件導向（Classes and OOP Basics）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先定義欄位再定義方法",
-            "用真實情境命名 class",
-            "每新增方法就立即測試"
+          "id": "sp1_ch4",
+          "title": "uv 專案啟動與 Flask Checklist API",
+          "estimated_hours": 4,
+          "chapter_summary": "完成可啟動專案骨架與 checklist API，作為 SP2~SP6 的共同底座。",
+          "detail_doc_url": "/docs/sp1-detailed-outline",
+          "detail_doc_label": "查看 SP1 uv 專案啟動與 Flask Checklist API 詳細說明",
+          "detail_doc_hint": "對照 SP1 Chapter 4：uv + Flask 啟動流程。",
+          "input_contract": [
+            "checklist_file: str",
+            "run_command: uv run flask --app app.py run"
           ],
-          "syntax_focus": [
-            "class / __init__",
-            "instance method",
-            "object state update"
+          "output_contract": [
+            "api_status: 200",
+            "routes: ['/', '/api/checklist']",
+            "checklist_loaded: bool"
+          ],
+          "constraints": [
+            "checklist_file 必須是合法 JSON",
+            "API 回應 Content-Type 為 application/json",
+            "README 需含最短啟動指令"
+          ],
+          "learning_method": [
+            "先通路由再接資料",
+            "先固定 schema 再擴充欄位",
+            "啟動流程寫進 README"
           ],
           "steps": [
-            "建立 Task 類別，加入 title、status、estimate_hours。",
-            "實作 mark_done() 更新任務狀態。",
-            "實作 to_dict() 供序列化輸出。",
-            "建立 3 個物件，驗證互不影響。"
+            "uv 初始化專案",
+            "建立 /api/checklist",
+            "讀取 checklist.json",
+            "驗證回傳 200"
           ],
-          "example_code": "class Task:\n    def __init__(self, title: str, estimate_hours: int):\n        self.title = title\n        self.estimate_hours = estimate_hours\n        self.status = 'todo'",
+          "example_code": "@app.route('/api/checklist')\ndef checklist_api():\n    return jsonify(load_checklist())",
           "tasks": [
             {
-              "id": "ch4_t1",
-              "text": "建立 Task 類別與 __init__",
-              "done_criteria": "包含 title/status/estimate_hours"
+              "id": "sp1_ch4_t1",
+              "text": "完成 uv 初始化",
+              "done_criteria": "pyproject 與依賴可用"
             },
             {
-              "id": "ch4_t2",
-              "text": "實作 mark_done()",
-              "done_criteria": "可更新 status"
+              "id": "sp1_ch4_t2",
+              "text": "完成 checklist API",
+              "done_criteria": "GET /api/checklist 回 200"
             },
             {
-              "id": "ch4_t3",
-              "text": "實作 to_dict()",
-              "done_criteria": "輸出可序列化 dict"
-            },
-            {
-              "id": "ch4_t4",
-              "text": "建立 3 個 Task 物件測試",
-              "done_criteria": "每個物件狀態獨立"
-            },
-            {
-              "id": "ch4_t5",
-              "text": "撰寫函式 vs 類別判斷筆記",
-              "done_criteria": "至少 2 個判斷原則"
+              "id": "sp1_ch4_t3",
+              "text": "完成 README",
+              "done_criteria": "新成員可依文件啟動"
             }
           ],
           "quiz": [
             {
-              "id": "ch4_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "__init__ 的用途是？",
-              "options": [
-                "刪除物件",
-                "初始化屬性",
-                "匯入模組",
-                "建立回傳值"
-              ],
-              "answer": "初始化屬性"
-            },
-            {
-              "id": "ch4_q2",
-              "type": "mcq",
-              "question": "哪個通常是 class 行為？",
-              "options": [
-                "title",
-                "status",
-                "mark_done()",
-                "estimate_hours"
-              ],
-              "answer": "mark_done()"
-            },
-            {
-              "id": "ch4_q3",
-              "type": "mcq",
-              "question": "資料與行為要綁在一起時，建議？",
-              "options": [
-                "全域變數",
-                "class",
-                "print",
-                "不需結構"
-              ],
-              "answer": "class"
-            },
-            {
-              "id": "ch4_q4",
-              "type": "short_answer",
-              "question": "描述 Task 類別 3 個欄位與用途",
-              "answer_keywords": [
-                "title",
-                "status",
-                "estimate"
-              ]
-            },
-            {
-              "id": "ch4_q5",
-              "type": "short_answer",
-              "question": "class 與 object 的關係是？",
-              "answer_keywords": [
-                "模板",
-                "實例",
-                "instance"
-              ]
-            }
-          ],
-          "io_logic_note": "本章重點是建立資料模型，讓資料與行為綁定，便於後續追蹤與序列化。",
-          "practice_examples": [
-            "Task(title, estimate_hours) -> object",
-            "mark_done() -> status update",
-            "to_dict() -> serializable dict"
-          ],
-          "examples": [
-            {
-              "id": "ch4_ex1",
-              "title": "建立 Task 類別",
-              "input_format": "title: str, estimate_hours: int",
-              "logic": "在 __init__ 初始化欄位與預設 status。",
-              "example_output": "Task(title=\"Write API\", status=\"todo\")"
-            },
-            {
-              "id": "ch4_ex2",
-              "title": "狀態更新",
-              "input_format": "Task object",
-              "logic": "mark_done() 只改 status，不破壞其他欄位。",
-              "example_output": "{\"title\":\"Write API\",\"status\":\"done\"}"
-            },
-            {
-              "id": "ch4_ex3",
-              "title": "序列化輸出",
-              "input_format": "Task object",
-              "logic": "to_dict() 回傳可直接 JSON 化欄位。",
-              "example_output": "{\"title\":\"Write API\",\"status\":\"done\",\"estimate_hours\":3}"
-            }
-          ]
-        },
-        {
-          "id": "ch5",
-          "title": "內建套件與資料處理（Built-in Modules for Practical Tasks）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "每個模組都做一個實用任務",
-            "使用官方文件範例",
-            "建立輸入輸出對照表"
-          ],
-          "syntax_focus": [
-            "pathlib",
-            "json",
-            "datetime"
-          ],
-          "steps": [
-            "使用 pathlib 建立 output 目錄。",
-            "讀寫 JSON 檔案保存進度。",
-            "加入 datetime 時間戳。",
-            "重新讀回檔案驗證格式。"
-          ],
-          "example_code": "from pathlib import Path\nimport json\nfrom datetime import datetime\n\npayload = {'updated_at': datetime.now().isoformat(), 'progress': 40}\nPath('output').mkdir(exist_ok=True)\nPath('output/summary.json').write_text(json.dumps(payload, ensure_ascii=False), encoding='utf-8')",
-          "tasks": [
-            {
-              "id": "ch5_t1",
-              "text": "用 pathlib 建立路徑與資料夾",
-              "done_criteria": "成功建立 output 目錄"
-            },
-            {
-              "id": "ch5_t2",
-              "text": "讀寫 JSON 檔案",
-              "done_criteria": "可讀取並回寫含 3 欄位資料"
-            },
-            {
-              "id": "ch5_t3",
-              "text": "加入 datetime 時間戳",
-              "done_criteria": "結果含 ISO 格式時間"
-            },
-            {
-              "id": "ch5_t4",
-              "text": "產生 summary.json",
-              "done_criteria": "包含學習進度摘要欄位"
-            },
-            {
-              "id": "ch5_t5",
-              "text": "整理模組比較筆記",
-              "done_criteria": "至少記錄 pathlib/json/datetime 各一點"
-            }
-          ],
-          "quiz": [
-            {
-              "id": "ch5_q1",
-              "type": "mcq",
-              "question": "Path(\"data\") / \"input.json\" 的用途？",
-              "options": [
-                "字串相加",
-                "路徑拼接",
-                "排序",
-                "型別轉換"
-              ],
-              "answer": "路徑拼接"
-            },
-            {
-              "id": "ch5_q2",
-              "type": "mcq",
-              "question": "JSON 在 Python 常映射為？",
-              "options": [
-                "dict",
-                "set",
-                "bytes",
-                "complex"
-              ],
-              "answer": "dict"
-            },
-            {
-              "id": "ch5_q3",
-              "type": "mcq",
-              "question": "取得目前時間常用模組？",
-              "options": [
-                "random",
-                "pathlib",
-                "datetime",
-                "typing"
-              ],
-              "answer": "datetime"
-            },
-            {
-              "id": "ch5_q4",
-              "type": "short_answer",
-              "question": "pathlib 的優勢是什麼？",
-              "answer_keywords": [
-                "跨平台",
-                "可讀性",
-                "路徑操作"
-              ]
-            },
-            {
-              "id": "ch5_q5",
-              "type": "short_answer",
-              "question": "設計一個學習紀錄 JSON 欄位",
-              "answer_keywords": [
-                "chapter",
-                "score",
-                "duration"
-              ]
-            }
-          ],
-          "io_logic_note": "本章重點是把資料可靠落地（寫入/讀回/驗證），確保後續 API 可直接使用。",
-          "practice_examples": [
-            "Path 建立資料夾",
-            "dict -> JSON file",
-            "JSON file -> validation result"
-          ],
-          "examples": [
-            {
-              "id": "ch5_ex1",
-              "title": "路徑建立",
-              "input_format": "target path string, e.g. output/summary.json",
-              "logic": "使用 pathlib 建立目錄，避免平台相依路徑。",
-              "example_output": "output/ 目錄建立成功"
-            },
-            {
-              "id": "ch5_ex2",
-              "title": "JSON 寫入",
-              "input_format": "payload: dict",
-              "logic": "json.dumps + UTF-8 寫檔，保留中文欄位。",
-              "example_output": "{\"chapter\":\"CH1\",\"progress\":40,\"updated_at\":\"2026-03-22T18:30:00\"}"
-            },
-            {
-              "id": "ch5_ex3",
-              "title": "JSON 驗證",
-              "input_format": "summary.json file",
-              "logic": "讀回資料並檢查必要欄位，輸出驗證報告。",
-              "example_output": "{\"valid\": true, \"missing_fields\": []}"
-            }
-          ]
-        },
-        {
-          "id": "ch6",
-          "title": "第三方套件、uv 與 Flask 專案啟動（Third-party Packages, uv, Flask Bootstrap）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "一次加一個功能就測試",
-            "先可用再美化",
-            "commit 切小步驟"
-          ],
-          "syntax_focus": [
-            "uv init / uv add flask",
-            "Flask app route",
-            "uv run flask"
-          ],
-          "steps": [
-            "使用 uv init 建立專案。",
-            "安裝 Flask 並建立 app.py。",
-            "實作首頁 route 並啟動服務。",
-            "把 checklist 資料渲染到畫面。"
-          ],
-          "example_code": "from flask import Flask\napp = Flask(__name__)\n\n@app.route('/')\ndef home():\n    return 'Checklist Ready'",
-          "tasks": [
-            {
-              "id": "ch6_t1",
-              "text": "使用 uv init 建立專案",
-              "done_criteria": "產生 pyproject.toml"
-            },
-            {
-              "id": "ch6_t2",
-              "text": "安裝 Flask 並建立 app.py",
-              "done_criteria": "首頁路由可回傳內容"
-            },
-            {
-              "id": "ch6_t3",
-              "text": "讀取 checklist JSON 並渲染頁面",
-              "done_criteria": "可顯示章節與任務"
-            },
-            {
-              "id": "ch6_t4",
-              "text": "加入章節完成動畫",
-              "done_criteria": "任務全勾選時顯示動畫"
-            },
-            {
-              "id": "ch6_t5",
-              "text": "完成 README 操作說明",
-              "done_criteria": "含啟動指令與畫面說明"
-            }
-          ],
-          "quiz": [
-            {
-              "id": "ch6_q1",
-              "type": "mcq",
-              "question": "uv 在此專案主要用途？",
+              "question": "uv 在本專案用途？",
               "options": [
                 "畫圖",
                 "環境與依賴管理",
-                "資料庫管理",
-                "CSS 編譯"
+                "做動畫",
+                "DB 優化"
               ],
               "answer": "環境與依賴管理"
             },
             {
-              "id": "ch6_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "@app.route(\"/\") 代表？",
+              "question": "@app.route 的作用？",
               "options": [
-                "匯入 API",
-                "定義首頁路由",
-                "啟動資料庫",
-                "產生動畫"
+                "定義路由",
+                "建索引",
+                "加密資料",
+                "清理資料"
               ],
-              "answer": "定義首頁路由"
+              "answer": "定義路由"
             },
             {
-              "id": "ch6_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "依賴通常定義在哪個檔案？",
+              "question": "回傳 JSON 常用哪個函式？",
               "options": [
-                "README.md",
-                "index.html",
-                "pyproject.toml",
-                ".gitignore"
+                "print",
+                "jsonify",
+                "input",
+                "open"
               ],
-              "answer": "pyproject.toml"
+              "answer": "jsonify"
             },
             {
-              "id": "ch6_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "描述從 uv init 到啟動 Flask 的流程",
+              "question": "從 uv init 到 API 啟動最短流程",
               "answer_keywords": [
                 "uv init",
                 "uv add flask",
@@ -791,2803 +444,2238 @@
               ]
             },
             {
-              "id": "ch6_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "提升 checklist 意願的 2 個 UI 元素",
+              "question": "如何提升 checklist 可用性",
               "answer_keywords": [
-                "進度條",
-                "動畫",
-                "完成徽章"
+                "進度顯示",
+                "導覽",
+                "錯誤提示"
               ]
             }
           ],
-          "io_logic_note": "本章重點是把前面能力串成可執行服務，讓 checklist 可被載入並顯示。",
-          "practice_examples": [
-            "uv init + uv add flask",
-            "GET / route response",
-            "checklist JSON render in web page"
-          ],
-          "examples": [
-            {
-              "id": "ch6_ex1",
-              "title": "專案初始化",
-              "input_format": "CLI commands: uv init / uv add flask",
-              "logic": "建立 pyproject 與依賴，確認 uv sync 可成功。",
-              "example_output": "依賴安裝完成，環境可啟動"
-            },
-            {
-              "id": "ch6_ex2",
-              "title": "建立首頁路由",
-              "input_format": "HTTP GET /",
-              "logic": "定義 Flask route 並回傳固定訊息或 JSON。",
-              "example_output": "{\"message\":\"Checklist Ready\"}"
-            },
-            {
-              "id": "ch6_ex3",
-              "title": "渲染 checklist",
-              "input_format": "checklist.json",
-              "logic": "後端讀檔，前端渲染章節與任務。",
-              "example_output": "頁面顯示章節清單、任務勾選、進度條"
-            }
-          ]
+          "io_logic_note": "輸入為專案設定與資料檔，輸出為可重複啟動的 API 服務。"
         }
       ]
     },
     {
       "sp_id": "SP2",
-      "title": "AI Meeting-Driven PM Assistant",
-      "estimated_total_hours": 8,
+      "title": "AI 會議任務轉換器",
+      "sp_doc_url": "/docs/sp2-detailed-outline",
+      "sp_doc_label": "開啟 SP2 詳細文件",
+      "estimated_total_hours": 12,
       "chapters": [
         {
-          "id": "ch1",
-          "title": "會議資料結構化（Meeting Structuring）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先做人為規則抽取，再加 AI 補全",
-            "每次只調整一個抽取規則",
-            "先確保 schema 穩定再優化品質"
+          "id": "sp2_ch1",
+          "title": "會議逐字稿結構化",
+          "estimated_hours": 2.5,
+          "chapter_summary": "把逐字稿轉成可追蹤欄位。",
+          "detail_doc_url": "/docs/sp2-detailed-outline",
+          "detail_doc_label": "查看 SP2 會議逐字稿結構化 詳細說明",
+          "detail_doc_hint": "對照 SP2 Chapter 1。",
+          "input_contract": [
+            "meeting_notes: str",
+            "meeting_meta: {date, participants}"
           ],
-          "syntax_focus": [
-            "str 清理與切句",
-            "list[dict] schema",
-            "JSON 輸出"
+          "output_contract": [
+            "summary: list[str]",
+            "action_items: list[dict]",
+            "needs_review: list[dict]"
+          ],
+          "constraints": [
+            "due_date 無法解析時進 needs_review",
+            "owner 缺漏不得默認亂填"
+          ],
+          "learning_method": [
+            "先規則式抽取",
+            "缺欄位先標記",
+            "摘要不超過 3 點"
           ],
           "steps": [
-            "定義 meeting input/output schema。",
-            "將逐字稿切句並清除冗語。",
-            "抽取摘要、行動項目、owner、due_date。",
-            "輸出 meeting_structured.json 並做欄位檢查。"
+            "定義輸出 schema",
+            "切句抽取摘要與行動",
+            "補 owner/due_date",
+            "輸出 structured.json"
           ],
-          "example_code": "sentences = [s.strip() for s in notes.split(\"\\n\") if s.strip()]\nactions = [s for s in sentences if \"[Action]\" in s]",
+          "example_code": "actions = [s for s in sentences if s.startswith('[Action]')]",
           "tasks": [
             {
               "id": "sp2_ch1_t1",
-              "text": "建立會議輸入輸出 schema",
-              "done_criteria": "schema 含 summary/action_items/owner/due_date"
+              "text": "完成 schema",
+              "done_criteria": "summary/action_items/needs_review 皆有"
             },
             {
               "id": "sp2_ch1_t2",
-              "text": "完成會議切句與冗語清理",
-              "done_criteria": "至少 2 份會議記錄可正確切句"
+              "text": "完成抽取",
+              "done_criteria": "可從樣本逐字稿抽任務"
             },
             {
               "id": "sp2_ch1_t3",
-              "text": "完成摘要與行動項目抽取",
-              "done_criteria": "能產出至少 3 筆 action items"
-            },
-            {
-              "id": "sp2_ch1_t4",
-              "text": "加入欄位缺漏檢查",
-              "done_criteria": "缺漏欄位會標記 needs_review"
-            },
-            {
-              "id": "sp2_ch1_t5",
-              "text": "輸出 meeting_structured.json",
-              "done_criteria": "JSON 可被下一章任務拆解使用"
+              "text": "輸出 JSON",
+              "done_criteria": "meeting_structured.json 可重跑"
             }
           ],
           "quiz": [
             {
-              "id": "sp2_ch1_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "會議資料結構化的主要目的為何？",
+              "question": "結構化主要價值？",
               "options": [
-                "輸出圖片",
-                "穩定轉成欄位供後續流程使用",
-                "增加字數",
-                "只做翻譯"
+                "美化",
+                "可追蹤執行",
+                "減少字數",
+                "動畫"
               ],
-              "answer": "穩定轉成欄位供後續流程使用"
+              "answer": "可追蹤執行"
             },
             {
-              "id": "sp2_ch1_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "哪個欄位最重要用來追蹤責任歸屬？",
+              "question": "缺欄位時應？",
+              "options": [
+                "忽略",
+                "needs_review",
+                "隨機補",
+                "刪除"
+              ],
+              "answer": "needs_review"
+            },
+            {
+              "id": "q3",
+              "type": "mcq",
+              "question": "action item 最少要有？",
               "options": [
                 "owner",
-                "title",
-                "summary",
-                "status"
+                "顏色",
+                "icon",
+                "emoji"
               ],
               "answer": "owner"
             },
             {
-              "id": "sp2_ch1_q3",
-              "type": "mcq",
-              "question": "遇到缺 due_date 的 action item，較佳做法是？",
-              "options": [
-                "直接刪除",
-                "標記 needs_review",
-                "忽略問題",
-                "改成 done"
-              ],
-              "answer": "標記 needs_review"
-            },
-            {
-              "id": "sp2_ch1_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明 meeting notes 轉 structured data 的基本步驟。",
+              "question": "規則式抽取優勢",
               "answer_keywords": [
-                "切句",
-                "抽取",
-                "欄位",
-                "json"
+                "穩定",
+                "可控"
               ]
             },
             {
-              "id": "sp2_ch1_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "請舉一個行動項目抽取可能失敗的情境與處理方式。",
+              "question": "日期缺漏怎麼處理",
               "answer_keywords": [
-                "缺欄位",
-                "review",
-                "補資料"
+                "標記",
+                "review"
               ]
             }
           ],
-          "io_logic_note": "輸入是非結構化會議文字，輸出要轉成穩定欄位，讓後續任務拆解與 API 能直接使用。",
-          "practice_examples": [
-            "摘要抽取：notes str -> summary list[str]",
-            "行動項目抽取：sentences -> action_items list[dict]",
-            "資料品質檢查：action_items -> needs_review 標記"
-          ],
-          "examples": [
-            {
-              "id": "sp2_ch1_ex1",
-              "title": "摘要抽取",
-              "input_format": "meeting_notes: str（多行逐字稿）",
-              "logic": "先切句、去口語贅詞，再保留含決策語意句子作為 summary。",
-              "example_output": "{\"summary\":[\"本週先上線 MVP\",\"下週補回歸測試\"]}"
-            },
-            {
-              "id": "sp2_ch1_ex2",
-              "title": "行動項目抽取",
-              "input_format": "sentences: list[str]",
-              "logic": "尋找動作句，補齊 owner 與 due_date；缺欄位時標記 needs_review。",
-              "example_output": "{\"action_items\":[{\"task\":\"更新 API 文件\",\"owner\":\"Amy\",\"due_date\":\"2026-03-25\"}]}"
-            },
-            {
-              "id": "sp2_ch1_ex3",
-              "title": "資料品質檢查",
-              "input_format": "action_items: list[dict]",
-              "logic": "逐筆檢查 task/owner/due_date 是否存在，缺漏欄位不丟棄、改標記待補。",
-              "example_output": "{\"task\":\"整理 dashboard\",\"needs_review\":true}"
-            }
-          ]
+          "io_logic_note": "非結構化輸入先轉成可機器處理欄位，再進入任務拆解。"
         },
         {
-          "id": "ch2",
-          "title": "任務拆解與里程碑（Task Breakdown and Milestones）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先定義任務欄位，再做拆解",
-            "用小樣本驗證排序與分組",
-            "每次只新增一個拆解規則"
+          "id": "sp2_ch2",
+          "title": "任務拆解與里程碑",
+          "estimated_hours": 3,
+          "chapter_summary": "把 action items 轉成每週可執行任務。",
+          "detail_doc_url": "/docs/sp2-detailed-outline",
+          "detail_doc_label": "查看 SP2 任務拆解與里程碑 詳細說明",
+          "detail_doc_hint": "對照 SP2 Chapter 2。",
+          "input_contract": [
+            "action_items: list[{task, owner, due_date}]"
           ],
-          "syntax_focus": [
-            "函式拆分",
-            "排序與分組",
-            "datetime 日期處理"
+          "output_contract": [
+            "tasks: list[{id, task, owner, status, due_date}]",
+            "milestones: list[{week, task_ids}]",
+            "overdue_items: list[dict]"
+          ],
+          "constraints": [
+            "status 預設 todo",
+            "owner 與 due_date 不可缺漏",
+            "先排序再分組"
+          ],
+          "learning_method": [
+            "任務先可執行再細化",
+            "命名動詞開頭",
+            "逾期任務單獨標記"
           ],
           "steps": [
-            "把 action item 拆成 2-3 個子任務。",
-            "為每個子任務補 owner/status/due_date。",
-            "依 due_date 排序後按週分組成 milestone。",
-            "輸出 tasks.json 與 milestones.json。"
+            "build_tasks",
+            "拆成子任務",
+            "依週分組",
+            "標記逾期"
           ],
-          "example_code": "tasks.sort(key=lambda t: t[\"due_date\"])\nweekly = group_by_week(tasks)",
+          "example_code": "tasks.sort(key=lambda x: x['due_date'])",
           "tasks": [
             {
               "id": "sp2_ch2_t1",
-              "text": "建立 build_tasks 函式",
-              "done_criteria": "可由 action items 產生子任務清單"
+              "text": "完成任務拆解",
+              "done_criteria": "每筆 action 至少 2 個子任務"
             },
             {
               "id": "sp2_ch2_t2",
-              "text": "補齊任務必要欄位",
-              "done_criteria": "每筆任務含 owner/status/due_date"
+              "text": "完成里程碑",
+              "done_criteria": "輸出 milestones.json"
             },
             {
               "id": "sp2_ch2_t3",
-              "text": "完成任務排序",
-              "done_criteria": "依 due_date 正確遞增排序"
-            },
-            {
-              "id": "sp2_ch2_t4",
-              "text": "完成里程碑分組",
-              "done_criteria": "可輸出每週里程碑任務數"
-            },
-            {
-              "id": "sp2_ch2_t5",
-              "text": "加入逾期檢查",
-              "done_criteria": "可標記 overdue 任務"
+              "text": "完成逾期判斷",
+              "done_criteria": "可列出 overdue_items"
             }
           ],
           "quiz": [
             {
-              "id": "sp2_ch2_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "任務拆解的核心目的為何？",
+              "question": "里程碑分組前先做什麼？",
               "options": [
-                "讓任務更模糊",
-                "轉成可執行步驟",
-                "只增加文件",
-                "減少 owner"
+                "排序",
+                "刪除",
+                "上色",
+                "分頁"
               ],
-              "answer": "轉成可執行步驟"
+              "answer": "排序"
             },
             {
-              "id": "sp2_ch2_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "哪個欄位最需要用於排序里程碑？",
+              "question": "子任務最重要欄位？",
               "options": [
-                "title",
-                "due_date",
                 "owner",
-                "status"
+                "icon",
+                "theme",
+                "font"
+              ],
+              "answer": "owner"
+            },
+            {
+              "id": "q3",
+              "type": "mcq",
+              "question": "逾期判斷依據？",
+              "options": [
+                "due_date",
+                "字數",
+                "色彩",
+                "priority"
               ],
               "answer": "due_date"
             },
             {
-              "id": "sp2_ch2_q3",
-              "type": "mcq",
-              "question": "逾期任務判斷常見條件是？",
-              "options": [
-                "status=done",
-                "due_date<today 且未完成",
-                "owner為空",
-                "有描述"
-              ],
-              "answer": "due_date<today 且未完成"
-            },
-            {
-              "id": "sp2_ch2_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請描述 action item 到 task 的轉換邏輯。",
+              "question": "為何先排序再分組",
               "answer_keywords": [
-                "拆解",
-                "欄位",
-                "status"
+                "排程一致",
+                "避免遺漏"
               ]
             },
             {
-              "id": "sp2_ch2_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "里程碑分組後如何協助 PM 追蹤？",
+              "question": "好任務命名原則",
               "answer_keywords": [
-                "週次",
-                "進度",
-                "優先順序"
+                "動詞",
+                "結果",
+                "期限"
               ]
             }
           ],
-          "io_logic_note": "輸入是 action item，輸出要是可執行任務與週里程碑，才能讓進度追蹤有時間軸。",
-          "practice_examples": [
-            "任務拆解：action_items -> tasks",
-            "里程碑分組：tasks -> milestones by week",
-            "逾期檢查：tasks + today -> overdue list"
-          ],
-          "examples": [
-            {
-              "id": "sp2_ch2_ex1",
-              "title": "任務拆解",
-              "input_format": "action_items: list[dict]",
-              "logic": "每個 action item 拆為設計、開發、驗證等子任務，並初始化 status=todo。",
-              "example_output": "{\"tasks\":[{\"task\":\"設計 API schema\",\"owner\":\"Amy\",\"status\":\"todo\"}]}"
-            },
-            {
-              "id": "sp2_ch2_ex2",
-              "title": "里程碑分組",
-              "input_format": "tasks: list[dict]（含 due_date）",
-              "logic": "先排序再依週次分組，回傳每週任務數與主要目標。",
-              "example_output": "{\"milestones\":[{\"week\":\"W1\",\"tasks\":4}]}"
-            },
-            {
-              "id": "sp2_ch2_ex3",
-              "title": "逾期檢查",
-              "input_format": "tasks: list[dict], today: date",
-              "logic": "若 due_date 早於 today 且 status 非 done，標記 overdue=true。",
-              "example_output": "{\"task\":\"補單元測試\",\"status\":\"doing\",\"overdue\":true}"
-            }
-          ]
+          "io_logic_note": "輸入 action items，輸出可被 API 與看板直接使用的任務與週次分組。"
         },
         {
-          "id": "ch3",
-          "title": "Flask API 與狀態更新（Task API）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先固定 response schema",
-            "先做合法狀態，再補錯誤處理",
-            "用 curl 或 Postman 驗證"
+          "id": "sp2_ch3",
+          "title": "任務狀態 API",
+          "estimated_hours": 3,
+          "chapter_summary": "建立查詢與更新 API，讓團隊即時同步任務。",
+          "detail_doc_url": "/docs/sp2-detailed-outline",
+          "detail_doc_label": "查看 SP2 任務狀態 API 詳細說明",
+          "detail_doc_hint": "對照 SP2 Chapter 3。",
+          "input_contract": [
+            "GET /api/tasks",
+            "POST /api/tasks/<id>/status with {status}"
           ],
-          "syntax_focus": [
-            "Flask GET/POST",
-            "request JSON 驗證",
-            "任務狀態機"
+          "output_contract": [
+            "task list",
+            "updated task",
+            "error schema"
+          ],
+          "constraints": [
+            "status 只允許 todo/doing/done",
+            "非法狀態回 400",
+            "錯誤回應結構固定"
+          ],
+          "learning_method": [
+            "先定 schema 再寫邏輯",
+            "先成功路徑再錯誤路徑",
+            "每次更新都測 API"
           ],
           "steps": [
-            "建立 GET /api/tasks。",
-            "建立 POST /api/tasks/<id>/status。",
-            "驗證 status 僅允許 todo/doing/done。",
-            "更新後回傳最新任務資料。"
+            "建立查詢端點",
+            "建立更新端點",
+            "加 status 驗證",
+            "補 curl/Postman 測試"
           ],
-          "example_code": "status = request.json.get(\"status\")\nif status not in {\"todo\", \"doing\", \"done\"}:\n    return {\"error\": \"invalid status\"}, 400",
+          "example_code": "if status not in {'todo','doing','done'}:\n    return {'error': {'code':'INVALID_STATUS'}}, 400",
           "tasks": [
             {
               "id": "sp2_ch3_t1",
-              "text": "建立查詢任務 API",
-              "done_criteria": "GET /api/tasks 可回傳 tasks 陣列"
+              "text": "完成任務查詢 API",
+              "done_criteria": "GET 可回 tasks 陣列"
             },
             {
               "id": "sp2_ch3_t2",
-              "text": "建立更新狀態 API",
-              "done_criteria": "POST 可更新指定 task 狀態"
+              "text": "完成狀態更新 API",
+              "done_criteria": "POST 可更新並回傳"
             },
             {
               "id": "sp2_ch3_t3",
-              "text": "加上狀態值驗證",
-              "done_criteria": "非法狀態回傳 400"
-            },
-            {
-              "id": "sp2_ch3_t4",
-              "text": "補齊錯誤訊息格式",
-              "done_criteria": "錯誤回應含 error 欄位"
-            },
-            {
-              "id": "sp2_ch3_t5",
-              "text": "完成 API 測試紀錄",
-              "done_criteria": "至少 3 組成功/失敗請求測試"
+              "text": "完成錯誤處理",
+              "done_criteria": "非法狀態回 400"
             }
           ],
           "quiz": [
             {
-              "id": "sp2_ch3_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "任務狀態更新最適合使用哪種 method？",
+              "question": "狀態更新常用 method？",
               "options": [
                 "GET",
                 "POST",
                 "DELETE",
-                "PATCH only"
+                "HEAD"
               ],
               "answer": "POST"
             },
             {
-              "id": "sp2_ch3_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "遇到非法狀態值應回傳？",
+              "question": "非法狀態應回？",
               "options": [
                 "200",
-                "201",
                 "400",
-                "204"
+                "201",
+                "302"
               ],
               "answer": "400"
             },
             {
-              "id": "sp2_ch3_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "哪個集合可用來驗證狀態？",
+              "question": "todo/doing/done 屬於？",
               "options": [
-                "{\"new\",\"old\"}",
-                "{\"todo\",\"doing\",\"done\"}",
-                "{\"ready\"}",
-                "{\"ok\"}"
+                "狀態機",
+                "色票",
+                "快取",
+                "索引"
               ],
-              "answer": "{\"todo\",\"doing\",\"done\"}"
+              "answer": "狀態機"
             },
             {
-              "id": "sp2_ch3_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明查詢 API 與更新 API 的 I/O 差異。",
+              "question": "為何要限制狀態集合",
               "answer_keywords": [
-                "get",
-                "post",
-                "json",
-                "status"
+                "一致性",
+                "防錯"
               ]
             },
             {
-              "id": "sp2_ch3_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "為何要統一錯誤回應格式？",
+              "question": "錯誤回應應有什麼",
               "answer_keywords": [
-                "前端",
-                "解析",
-                "一致"
+                "error",
+                "code",
+                "message"
               ]
             }
           ],
-          "io_logic_note": "API 的 I/O 要穩定：輸入是 task_id+status，輸出是更新後任務或錯誤訊息。",
-          "practice_examples": [
-            "查詢任務 API：GET -> tasks list",
-            "更新狀態 API：POST -> updated task",
-            "錯誤狀態：invalid status -> 400"
-          ],
-          "examples": [
-            {
-              "id": "sp2_ch3_ex1",
-              "title": "查詢任務 API",
-              "input_format": "GET /api/tasks",
-              "logic": "回傳統一 schema 的任務清單，避免前端判斷多種格式。",
-              "example_output": "{\"tasks\":[{\"id\":\"t1\",\"status\":\"doing\"}]}"
-            },
-            {
-              "id": "sp2_ch3_ex2",
-              "title": "更新狀態 API",
-              "input_format": "POST /api/tasks/t1/status + {\"status\":\"done\"}",
-              "logic": "驗證狀態合法後更新資料，回傳更新後任務。",
-              "example_output": "{\"id\":\"t1\",\"status\":\"done\"}"
-            },
-            {
-              "id": "sp2_ch3_ex3",
-              "title": "錯誤處理",
-              "input_format": "{\"status\":\"closed\"}",
-              "logic": "非允許狀態時回傳 400 與可讀錯誤訊息。",
-              "example_output": "{\"error\":\"invalid status\"}"
-            }
-          ]
+          "io_logic_note": "API 輸入先驗證，再更新狀態並回固定輸出結構。"
         },
         {
-          "id": "ch4",
-          "title": "GitHub Issue 樣板輸出（Issue Templates）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先做單筆轉換，確認格式再批次",
-            "輸出檔名使用 task_id",
-            "每個模板要有 done criteria"
+          "id": "sp2_ch4",
+          "title": "GitHub Issue 樣板匯出",
+          "estimated_hours": 3.5,
+          "chapter_summary": "把任務資料轉為可直接貼用的 GitHub Issue。",
+          "detail_doc_url": "/docs/sp2-detailed-outline",
+          "detail_doc_label": "查看 SP2 GitHub Issue 樣板匯出 詳細說明",
+          "detail_doc_hint": "對照 SP2 Chapter 4。",
+          "input_contract": [
+            "tasks: list[{id, task, owner, due_date}]"
           ],
-          "syntax_focus": [
-            "Markdown 模板字串",
-            "批次檔案輸出",
-            "README 流程指引"
+          "output_contract": [
+            "generated_files: list[str]",
+            "count: int"
+          ],
+          "constraints": [
+            "每份 issue 要有背景/目標/完成標準",
+            "批次輸出路徑固定 issues/*.md"
+          ],
+          "learning_method": [
+            "模板固定化",
+            "批次輸出",
+            "README 記錄操作"
           ],
           "steps": [
-            "設計 Issue 樣板欄位。",
-            "將任務逐筆轉為 markdown。",
-            "批次輸出到 issues/*.md。",
-            "README 補上輸入輸出流程。"
+            "定義 issue 模板",
+            "映射 task 欄位",
+            "批次輸出檔案",
+            "補 README"
           ],
-          "example_code": "template = f\"## [Task] {task[\"task\"]}\\n- Owner: {task[\"owner\"]}\\n- Due: {task[\"due_date\"]}\"",
+          "example_code": "Path(f'issues/{task_id}.md').write_text(issue_md, encoding='utf-8')",
           "tasks": [
             {
               "id": "sp2_ch4_t1",
-              "text": "定義 issue 模板欄位",
-              "done_criteria": "模板含標題/背景/owner/due/done criteria"
+              "text": "完成 issue 模板",
+              "done_criteria": "含背景/目標/完成標準"
             },
             {
               "id": "sp2_ch4_t2",
-              "text": "完成單筆任務轉 markdown",
-              "done_criteria": "單筆輸出格式可直接貼 GitHub"
+              "text": "完成批次輸出",
+              "done_criteria": "至少 3 份 issue 檔"
             },
             {
               "id": "sp2_ch4_t3",
-              "text": "完成批次輸出腳本",
-              "done_criteria": "可輸出至少 3 份 issue md 檔"
-            },
-            {
-              "id": "sp2_ch4_t4",
-              "text": "補齊缺漏 done criteria",
-              "done_criteria": "缺欄位任務也能輸出可驗收內容"
-            },
-            {
-              "id": "sp2_ch4_t5",
-              "text": "更新 README 使用流程",
-              "done_criteria": "README 含輸入檔、執行指令、輸出位置"
+              "text": "完成操作說明",
+              "done_criteria": "README 可重現流程"
             }
           ],
           "quiz": [
             {
-              "id": "sp2_ch4_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "Issue 樣板最重要的特性是？",
+              "question": "Issue 模板最必要欄位？",
               "options": [
-                "華麗排版",
-                "欄位一致可驗收",
-                "字數多",
-                "檔名隨機"
+                "背景與完成標準",
+                "顏色",
+                "字體",
+                "貼圖"
               ],
-              "answer": "欄位一致可驗收"
+              "answer": "背景與完成標準"
             },
             {
-              "id": "sp2_ch4_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "批次輸出檔名最佳來源是？",
+              "question": "批次輸出主要價值？",
               "options": [
-                "隨機值",
-                "task_id",
-                "owner",
-                "日期"
+                "一致且省時",
+                "畫面好看",
+                "檔案變小",
+                "動畫更多"
               ],
-              "answer": "task_id"
+              "answer": "一致且省時"
             },
             {
-              "id": "sp2_ch4_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "若任務缺 done_criteria，建議做法？",
+              "question": "README 要補什麼？",
               "options": [
-                "跳過",
-                "補預設完成標準",
-                "直接 done",
-                "刪除任務"
+                "操作流程",
+                "笑話大全",
+                "字型設定",
+                "色票"
               ],
-              "answer": "補預設完成標準"
+              "answer": "操作流程"
             },
             {
-              "id": "sp2_ch4_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明 task dict 轉 markdown 的映射邏輯。",
+              "question": "好任務標題特性",
               "answer_keywords": [
-                "欄位",
-                "模板",
-                "輸出"
+                "清楚",
+                "可執行"
               ]
             },
             {
-              "id": "sp2_ch4_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "README 至少要寫哪些內容讓他人重現？",
+              "question": "Memo 區塊用途",
               "answer_keywords": [
-                "輸入",
-                "指令",
-                "輸出"
+                "提醒",
+                "提升參與度"
               ]
             }
           ],
-          "io_logic_note": "輸入是任務 dict，輸出是可直接貼到 GitHub 的 Markdown，重點是欄位完整與格式一致。",
-          "practice_examples": [
-            "單筆模板轉換：task dict -> markdown block",
-            "批次輸出：tasks list -> issues/*.md",
-            "預設完成標準：缺欄位時補 done criteria"
-          ],
-          "examples": [
-            {
-              "id": "sp2_ch4_ex1",
-              "title": "單筆模板轉換",
-              "input_format": "task: dict",
-              "logic": "映射標題、背景、owner、due_date、完成標準。",
-              "example_output": "## [Task] 更新 API 文件"
-            },
-            {
-              "id": "sp2_ch4_ex2",
-              "title": "批次輸出",
-              "input_format": "tasks: list[dict]",
-              "logic": "逐筆產生 markdown 並寫入 issues/{task_id}.md。",
-              "example_output": "issues/t1.md, issues/t2.md"
-            },
-            {
-              "id": "sp2_ch4_ex3",
-              "title": "完成標準補齊",
-              "input_format": "task without done_criteria",
-              "logic": "套用預設清單，避免 issue 無法驗收。",
-              "example_output": "- [ ] API 文件含請求/回應範例"
-            }
-          ]
+          "io_logic_note": "任務欄位完整映射到 markdown 模板，輸出可直接執行。"
         }
       ]
     },
     {
       "sp_id": "SP3",
-      "title": "Learning Event Data Pipeline",
-      "estimated_total_hours": 8,
+      "title": "學習事件資料管線",
+      "sp_doc_url": "/docs/sp3-detailed-outline",
+      "sp_doc_label": "開啟 SP3 詳細文件",
+      "estimated_total_hours": 12,
       "chapters": [
         {
-          "id": "ch1",
-          "title": "事件 Schema 定義（Event Schema）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先寫 schema 再寫驗證",
-            "用最小樣本覆蓋缺欄位案例",
-            "invalid log 格式先固定"
+          "id": "sp3_ch1",
+          "title": "Event Schema 與資料驗證",
+          "estimated_hours": 2.5,
+          "chapter_summary": "在資料進管線前先驗證，擋下髒資料。",
+          "detail_doc_url": "/docs/sp3-detailed-outline",
+          "detail_doc_label": "查看 SP3 Event Schema 與資料驗證 詳細說明",
+          "detail_doc_hint": "對照 SP3 Chapter 1。",
+          "input_contract": [
+            "event: {event_id, student_id, chapter, event_type, ts}"
           ],
-          "syntax_focus": [
-            "dict schema / dataclass",
-            "欄位驗證",
-            "invalid log"
+          "output_contract": [
+            "{valid: bool, error_reason: str|null}",
+            "invalid_events.jsonl"
+          ],
+          "constraints": [
+            "缺欄位必須 invalid",
+            "timestamp 格式錯誤必須 invalid"
+          ],
+          "learning_method": [
+            "先定 schema 再驗證",
+            "錯誤要可讀",
+            "invalid 必須可追蹤"
           ],
           "steps": [
-            "定義必要欄位與型別。",
-            "建立 validate_event(event)。",
-            "驗證失敗時記錄 error reason。",
-            "準備有效/無效事件測試資料。"
+            "定義必要欄位",
+            "寫 validate_event",
+            "寫入 invalid log",
+            "輸出統計"
           ],
-          "example_code": "required = {\"student_id\", \"chapter\", \"event_type\", \"ts\"}\nmissing = [k for k in required if k not in event]",
+          "example_code": "required = {'student_id','chapter','event_type','ts'}",
           "tasks": [
             {
               "id": "sp3_ch1_t1",
-              "text": "定義事件必要欄位",
-              "done_criteria": "至少包含 student_id/chapter/event_type/ts"
+              "text": "完成 schema",
+              "done_criteria": "必要欄位清單明確"
             },
             {
               "id": "sp3_ch1_t2",
-              "text": "完成 validate_event 函式",
-              "done_criteria": "可檢查缺欄位與型別錯誤"
+              "text": "完成驗證函式",
+              "done_criteria": "缺欄位與格式錯誤可攔截"
             },
             {
               "id": "sp3_ch1_t3",
-              "text": "實作時間欄位驗證",
-              "done_criteria": "非法 timestamp 可被攔截"
-            },
-            {
-              "id": "sp3_ch1_t4",
-              "text": "建立 invalid log",
-              "done_criteria": "失敗事件會寫入 jsonl"
-            },
-            {
-              "id": "sp3_ch1_t5",
-              "text": "建立 schema 測試資料",
-              "done_criteria": "至少含 3 筆有效+3 筆無效事件"
+              "text": "完成 invalid log",
+              "done_criteria": "含 event_id 與原因"
             }
           ],
           "quiz": [
             {
-              "id": "sp3_ch1_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "事件 schema 驗證應在何時做？",
+              "question": "Schema 驗證主要目的？",
               "options": [
-                "入庫後",
-                "最前面",
-                "前端渲染後",
-                "報表時"
+                "美化資料",
+                "確保資料品質",
+                "減少欄位",
+                "加速前端"
               ],
-              "answer": "最前面"
+              "answer": "確保資料品質"
             },
             {
-              "id": "sp3_ch1_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "以下何者通常是必要欄位？",
+              "question": "缺欄位事件應？",
               "options": [
-                "student_id",
-                "memo",
-                "avatar",
-                "color"
+                "直接入庫",
+                "標記 invalid",
+                "隨機補值",
+                "忽略"
               ],
-              "answer": "student_id"
+              "answer": "標記 invalid"
             },
             {
-              "id": "sp3_ch1_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "invalid event 最重要保留哪個資訊？",
+              "question": "invalid log 必含？",
               "options": [
-                "字數",
-                "error reason",
-                "圖片",
-                "顏色"
+                "event_id + reason",
+                "icon",
+                "font",
+                "theme"
               ],
-              "answer": "error reason"
+              "answer": "event_id + reason"
             },
             {
-              "id": "sp3_ch1_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明 schema 驗證與資料品質的關係。",
+              "question": "為何不能 raw 直接入庫",
               "answer_keywords": [
-                "品質",
-                "攔截",
-                "一致"
+                "會污染資料",
+                "難排錯"
               ]
             },
             {
-              "id": "sp3_ch1_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "若 ts 解析失敗，後續流程應如何處理？",
+              "question": "驗證順序建議",
               "answer_keywords": [
-                "invalid",
-                "log",
-                "不入庫"
+                "存在",
+                "型別",
+                "格式"
               ]
             }
           ],
-          "io_logic_note": "輸入事件必須先過 schema 驗證，才能進清理與入庫；invalid 事件要可追溯。",
-          "practice_examples": [
-            "欄位驗證：event dict -> valid/missing",
-            "時間格式驗證：ts str -> valid/error",
-            "錯誤事件落檔：invalid event -> jsonl line"
-          ],
-          "examples": [
-            {
-              "id": "sp3_ch1_ex1",
-              "title": "欄位驗證",
-              "input_format": "event: dict",
-              "logic": "檢查 student_id/chapter/event_type/ts 是否存在且非空值。",
-              "example_output": "{\"valid\":false,\"missing\":[\"student_id\"]}"
-            },
-            {
-              "id": "sp3_ch1_ex2",
-              "title": "時間格式驗證",
-              "input_format": "ts: str",
-              "logic": "parse timestamp，失敗則回傳 invalid 與錯誤原因。",
-              "example_output": "{\"valid\":false,\"error\":\"invalid timestamp\"}"
-            },
-            {
-              "id": "sp3_ch1_ex3",
-              "title": "錯誤事件落檔",
-              "input_format": "invalid event + reason",
-              "logic": "輸出到 invalid_events.jsonl，保留 event_id 與 reason。",
-              "example_output": "{\"event_id\":\"e17\",\"error\":\"missing chapter\"}"
-            }
-          ]
+          "io_logic_note": "事件先驗證再進入清理，避免垃圾進垃圾出。"
         },
         {
-          "id": "ch2",
-          "title": "清理與轉換（Cleaning and Transformation）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先做欄位標準化再做去重",
-            "每一步輸出統計數字",
-            "用小樣本比對 before/after"
+          "id": "sp3_ch2",
+          "title": "清理與轉換",
+          "estimated_hours": 3,
+          "chapter_summary": "把有效資料統一成可分析格式。",
+          "detail_doc_url": "/docs/sp3-detailed-outline",
+          "detail_doc_label": "查看 SP3 清理與轉換 詳細說明",
+          "detail_doc_hint": "對照 SP3 Chapter 2。",
+          "input_contract": [
+            "valid_events: list[dict]"
           ],
-          "syntax_focus": [
-            "map/filter",
-            "ISO8601 時間標準化",
-            "去重複"
+          "output_contract": [
+            "clean_events: list[dict]",
+            "summary: {raw, clean, removed}"
+          ],
+          "constraints": [
+            "dedupe key 固定 student_id+chapter+ts+event_type",
+            "時間格式統一 ISO8601",
+            "空主鍵資料需移除"
+          ],
+          "learning_method": [
+            "先定 dedupe key",
+            "清理結果需可追溯",
+            "保留刪除統計"
           ],
           "steps": [
-            "讀取 raw events。",
-            "統一欄位命名與 ts 格式。",
-            "去除空主鍵與重複事件。",
-            "輸出 clean_events.json。"
+            "欄位標準化",
+            "時間標準化",
+            "去重",
+            "輸出 clean 與 summary"
           ],
-          "example_code": "key = (e[\"student_id\"], e[\"chapter\"], e[\"ts\"], e[\"event_type\"])\nif key in seen: continue",
+          "example_code": "key = (e['student_id'], e['chapter'], e['ts'], e['event_type'])",
           "tasks": [
             {
               "id": "sp3_ch2_t1",
-              "text": "建立 raw 讀取流程",
-              "done_criteria": "可讀取指定來源 events 檔"
+              "text": "完成欄位標準化",
+              "done_criteria": "命名統一 snake_case"
             },
             {
               "id": "sp3_ch2_t2",
-              "text": "完成欄位標準化",
-              "done_criteria": "欄位命名與 ts 格式一致"
+              "text": "完成去重",
+              "done_criteria": "依固定 key 去重"
             },
             {
               "id": "sp3_ch2_t3",
-              "text": "完成去重複邏輯",
-              "done_criteria": "重複事件可被移除"
-            },
-            {
-              "id": "sp3_ch2_t4",
-              "text": "完成空值清理邏輯",
-              "done_criteria": "主鍵缺漏事件可被剔除"
-            },
-            {
-              "id": "sp3_ch2_t5",
-              "text": "輸出清理摘要",
-              "done_criteria": "報告含 raw/clean/removed 指標"
+              "text": "完成清理摘要",
+              "done_criteria": "含 raw/clean/removed"
             }
           ],
           "quiz": [
             {
-              "id": "sp3_ch2_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "去重複前通常先做哪一步？",
+              "question": "去重前先決定？",
               "options": [
-                "排序",
-                "欄位標準化",
-                "上傳",
-                "刪表"
-              ],
-              "answer": "欄位標準化"
-            },
-            {
-              "id": "sp3_ch2_q2",
-              "type": "mcq",
-              "question": "dedupe key 常見組合是？",
-              "options": [
-                "random id",
-                "student_id+chapter+ts+event_type",
-                "title only",
-                "owner only"
-              ],
-              "answer": "student_id+chapter+ts+event_type"
-            },
-            {
-              "id": "sp3_ch2_q3",
-              "type": "mcq",
-              "question": "清理摘要應至少包含？",
-              "options": [
-                "作者名字",
-                "raw/clean/removed",
+                "dedupe key",
+                "字體",
                 "顏色",
-                "emoji"
+                "資料夾"
               ],
-              "answer": "raw/clean/removed"
+              "answer": "dedupe key"
             },
             {
-              "id": "sp3_ch2_q4",
+              "id": "q2",
+              "type": "mcq",
+              "question": "時間格式建議統一？",
+              "options": [
+                "ISO8601",
+                "任意格式",
+                "TXT",
+                "CSV"
+              ],
+              "answer": "ISO8601"
+            },
+            {
+              "id": "q3",
+              "type": "mcq",
+              "question": "空主鍵資料處理？",
+              "options": [
+                "刪除並記錄",
+                "保留",
+                "忽略",
+                "隨機補值"
+              ],
+              "answer": "刪除並記錄"
+            },
+            {
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明時間標準化對分析一致性的幫助。",
+              "question": "清理摘要必要欄位",
               "answer_keywords": [
-                "iso",
-                "一致",
-                "聚合"
+                "raw",
+                "clean",
+                "removed"
               ]
             },
             {
-              "id": "sp3_ch2_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "空主鍵資料為何不宜保留？",
+              "question": "為何時間要含時區",
               "answer_keywords": [
-                "關聯",
-                "品質",
-                "錯誤"
+                "跨時區一致",
+                "可比較"
               ]
             }
           ],
-          "io_logic_note": "清理階段重點是把 raw 轉成可分析格式，並且保留刪除原因與數量。",
-          "practice_examples": [
-            "時間標準化：多種 ts -> ISO8601",
-            "去重複：events list -> unique events",
-            "空值清理：invalid rows -> drop count"
-          ],
-          "examples": [
-            {
-              "id": "sp3_ch2_ex1",
-              "title": "時間標準化",
-              "input_format": "ts strings with mixed formats",
-              "logic": "將不同格式時間轉為同一 ISO8601 + timezone。",
-              "example_output": "{\"ts\":\"2026-03-22T10:30:00+08:00\"}"
-            },
-            {
-              "id": "sp3_ch2_ex2",
-              "title": "去重複",
-              "input_format": "events: list[dict]",
-              "logic": "以 student_id+chapter+ts+event_type 建立 dedupe key。",
-              "example_output": "{\"raw\":1200,\"clean\":1134,\"removed\":66}"
-            },
-            {
-              "id": "sp3_ch2_ex3",
-              "title": "空值清理",
-              "input_format": "events containing null student_id",
-              "logic": "剔除主鍵缺失事件並累計刪除數。",
-              "example_output": "{\"dropped_null_student\":12}"
-            }
-          ]
+          "io_logic_note": "輸入 valid events，輸出欄位一致且可對帳的 clean events。"
         },
         {
-          "id": "ch3",
-          "title": "入庫 PostgreSQL（Load to DB）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先單批測通，再放大批次",
-            "錯誤批次要保留重試資訊",
-            "對帳結果固定輸出格式"
+          "id": "sp3_ch3",
+          "title": "PostgreSQL 批次入庫",
+          "estimated_hours": 3,
+          "chapter_summary": "把 clean events 穩定寫入 DB 並做對帳。",
+          "detail_doc_url": "/docs/sp3-detailed-outline",
+          "detail_doc_label": "查看 SP3 PostgreSQL 批次入庫 詳細說明",
+          "detail_doc_hint": "對照 SP3 Chapter 3。",
+          "input_contract": [
+            "clean_events: list[dict]",
+            "batch_size: int"
           ],
-          "syntax_focus": [
-            "INSERT",
-            "batch insert",
-            "transaction/rollback"
+          "output_contract": [
+            "inserted: int",
+            "failed_batches: int",
+            "source_count/db_count/diff"
+          ],
+          "constraints": [
+            "批次失敗需 rollback",
+            "對帳 diff 必須可解釋"
+          ],
+          "learning_method": [
+            "先正確再快",
+            "transaction 先跑通",
+            "對帳自動化"
           ],
           "steps": [
-            "建立目標資料表。",
-            "以批次方式寫入 clean events。",
-            "錯誤時 rollback 並記錄失敗批次。",
-            "完成 source vs DB 對帳。"
+            "建立目標表",
+            "批次 INSERT",
+            "失敗 rollback",
+            "source vs db 對帳"
           ],
-          "example_code": "for batch in chunks(clean_events, 500):\n    insert_batch(conn, batch)",
+          "example_code": "conn.rollback() if failed else conn.commit()",
           "tasks": [
             {
               "id": "sp3_ch3_t1",
-              "text": "建立目標資料表 SQL",
-              "done_criteria": "欄位與 schema 定義一致"
+              "text": "完成批次入庫",
+              "done_criteria": "可調 batch_size"
             },
             {
               "id": "sp3_ch3_t2",
-              "text": "完成批次寫入程式",
-              "done_criteria": "可支援至少 500 筆批次"
+              "text": "完成 rollback 路徑",
+              "done_criteria": "失敗批次可追蹤"
             },
             {
               "id": "sp3_ch3_t3",
-              "text": "加入交易控制",
-              "done_criteria": "寫入失敗可 rollback"
-            },
-            {
-              "id": "sp3_ch3_t4",
-              "text": "加入失敗重試流程",
-              "done_criteria": "失敗批次可重試與記錄"
-            },
-            {
-              "id": "sp3_ch3_t5",
-              "text": "完成對帳報告",
-              "done_criteria": "source/db/diff 三項指標完整"
+              "text": "完成對帳",
+              "done_criteria": "輸出 source/db/diff"
             }
           ],
           "quiz": [
             {
-              "id": "sp3_ch3_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "批次寫入主要優點是？",
+              "question": "transaction 核心價值？",
               "options": [
-                "降低效能",
-                "提升效率",
-                "增加重複",
-                "減少資料"
+                "一致性",
+                "美觀",
+                "動畫",
+                "壓縮"
               ],
-              "answer": "提升效率"
+              "answer": "一致性"
             },
             {
-              "id": "sp3_ch3_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "transaction rollback 的目的為何？",
+              "question": "寫入失敗應？",
               "options": [
-                "加速 UI",
-                "避免部分失敗造成髒資料",
-                "增加欄位",
-                "改變 schema"
-              ],
-              "answer": "避免部分失敗造成髒資料"
-            },
-            {
-              "id": "sp3_ch3_q3",
-              "type": "mcq",
-              "question": "對帳 diff 非 0 時應？",
-              "options": [
+                "rollback",
+                "commit",
                 "忽略",
-                "輸出警示並調查",
-                "刪庫",
-                "改前端"
+                "重啟"
               ],
-              "answer": "輸出警示並調查"
+              "answer": "rollback"
             },
             {
-              "id": "sp3_ch3_q4",
+              "id": "q3",
+              "type": "mcq",
+              "question": "入庫後第一件事？",
+              "options": [
+                "對帳",
+                "換主題",
+                "刪檔",
+                "截圖"
+              ],
+              "answer": "對帳"
+            },
+            {
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明 batch size 過大可能帶來的風險。",
+              "question": "batch size 影響什麼",
               "answer_keywords": [
+                "效能",
                 "記憶體",
-                "失敗成本",
-                "鎖定"
+                "失敗範圍"
               ]
             },
             {
-              "id": "sp3_ch3_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "source 與 DB 筆數一致為何重要？",
+              "question": "重試仍失敗怎麼辦",
               "answer_keywords": [
-                "完整性",
-                "可信度",
-                "驗證"
+                "error queue",
+                "人工排查"
               ]
             }
           ],
-          "io_logic_note": "輸入是 clean events，輸出是 DB 寫入結果與對帳報告；要能在失敗時回滾避免髒寫入。",
-          "practice_examples": [
-            "批次寫入：clean events -> inserted/failed",
-            "對帳：source count + db count -> diff",
-            "重試：failed batches -> retry result"
-          ],
-          "examples": [
-            {
-              "id": "sp3_ch3_ex1",
-              "title": "批次寫入",
-              "input_format": "clean_events: list[dict]",
-              "logic": "每批 500 筆寫入，全部成功才 commit。",
-              "example_output": "{\"inserted\":1134,\"failed\":0}"
-            },
-            {
-              "id": "sp3_ch3_ex2",
-              "title": "筆數對帳",
-              "input_format": "source_count, db_count",
-              "logic": "比較差異 diff，非 0 時輸出 warning。",
-              "example_output": "{\"source\":1134,\"db\":1134,\"diff\":0}"
-            },
-            {
-              "id": "sp3_ch3_ex3",
-              "title": "失敗重試",
-              "input_format": "failed_batches",
-              "logic": "重試最多 2 次，仍失敗則進 error queue。",
-              "example_output": "{\"retry_success\":8,\"retry_failed\":1}"
-            }
-          ]
+          "io_logic_note": "clean events 進 DB 後，必須有可重現對帳證據。"
         },
         {
-          "id": "ch4",
-          "title": "可重複執行管線（Re-runnable Pipeline）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "所有步驟都寫 log 與統計",
-            "固定 summary schema 便於比較",
-            "同參數跑兩次做一致性驗證"
+          "id": "sp3_ch4",
+          "title": "CLI 重跑與摘要報告",
+          "estimated_hours": 3.5,
+          "chapter_summary": "讓 pipeline 可重跑、可比較、可維運。",
+          "detail_doc_url": "/docs/sp3-detailed-outline",
+          "detail_doc_label": "查看 SP3 CLI 重跑與摘要報告 詳細說明",
+          "detail_doc_hint": "對照 SP3 Chapter 4。",
+          "input_contract": [
+            "--date: YYYY-MM-DD",
+            "--source: file path"
           ],
-          "syntax_focus": [
-            "argparse",
-            "logging",
-            "summary report"
+          "output_contract": [
+            "summary: {status, inserted, invalid, duration_sec, same_result_on_rerun}"
+          ],
+          "constraints": [
+            "同參數重跑 inserted/invalid 不應漂移",
+            "每步驟需有 log"
+          ],
+          "learning_method": [
+            "固定輸入產生固定輸出",
+            "summary 要短且可讀",
+            "README 明確重跑步驟"
           ],
           "steps": [
-            "建立 run_pipeline.py 參數入口。",
-            "紀錄 extract/clean/load/reconcile log。",
-            "輸出 pipeline_summary_YYYY-MM-DD.json。",
-            "README 補上重跑與排錯流程。"
+            "寫 run_pipeline.py",
+            "加 logging",
+            "輸出 summary JSON",
+            "驗證重跑一致"
           ],
-          "example_code": "parser.add_argument(\"--date\")\nparser.add_argument(\"--source\")",
+          "example_code": "python run_pipeline.py --date 2026-03-22 --source events.json",
           "tasks": [
             {
               "id": "sp3_ch4_t1",
-              "text": "建立 CLI 參數入口",
-              "done_criteria": "支援 --date 與 --source"
+              "text": "完成 CLI 入口",
+              "done_criteria": "支援 --date --source"
             },
             {
               "id": "sp3_ch4_t2",
-              "text": "補齊流程 logging",
-              "done_criteria": "每步驟都有 log 與錯誤訊息"
+              "text": "完成 summary 輸出",
+              "done_criteria": "產出 pipeline_summary_*.json"
             },
             {
               "id": "sp3_ch4_t3",
-              "text": "輸出 summary JSON",
-              "done_criteria": "摘要含 success/fail/duration"
-            },
-            {
-              "id": "sp3_ch4_t4",
-              "text": "完成 README 重跑說明",
-              "done_criteria": "README 可讓他人重跑同流程"
-            },
-            {
-              "id": "sp3_ch4_t5",
-              "text": "驗證同參數一致性",
-              "done_criteria": "同參數至少重跑 2 次結果一致"
+              "text": "完成重跑驗證",
+              "done_criteria": "同參數結果一致"
             }
           ],
           "quiz": [
             {
-              "id": "sp3_ch4_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "可重跑管線最關鍵的是？",
+              "question": "CLI 參數主要價值？",
               "options": [
-                "UI 動畫",
-                "同參數結果一致",
-                "字體顏色",
-                "檔名長度"
+                "可重跑",
+                "字體美化",
+                "動畫",
+                "壓縮"
               ],
-              "answer": "同參數結果一致"
+              "answer": "可重跑"
             },
             {
-              "id": "sp3_ch4_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "pipeline summary 的用途為何？",
+              "question": "summary 最必要欄位？",
               "options": [
-                "裝飾",
-                "快速掌握執行成果",
-                "取代資料表",
-                "改 schema"
+                "status/inserted/invalid",
+                "theme",
+                "icon",
+                "avatar"
               ],
-              "answer": "快速掌握執行成果"
+              "answer": "status/inserted/invalid"
             },
             {
-              "id": "sp3_ch4_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "argparse 常用於？",
+              "question": "logging 主要用途？",
               "options": [
-                "前端樣式",
-                "CLI 參數解析",
-                "資料視覺化",
-                "SQL 索引"
+                "排錯追蹤",
+                "畫圖",
+                "配色",
+                "加速 UI"
               ],
-              "answer": "CLI 參數解析"
+              "answer": "排錯追蹤"
             },
             {
-              "id": "sp3_ch4_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "為何需要在每步驟加 log？",
+              "question": "如何驗證可重跑",
               "answer_keywords": [
-                "排錯",
-                "追蹤",
-                "可觀測"
+                "同參數同結果"
               ]
             },
             {
-              "id": "sp3_ch4_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "請列出 summary 至少三個應有欄位。",
+              "question": "排錯順序建議",
               "answer_keywords": [
-                "inserted",
-                "invalid",
-                "duration"
+                "參數",
+                "輸入檔",
+                "驗證",
+                "入庫"
               ]
             }
           ],
-          "io_logic_note": "同一組參數要得到一致輸出，summary 要能快速回答「跑了什麼、成功多少、失敗多少」。",
-          "practice_examples": [
-            "CLI 重跑：args -> pipeline run",
-            "摘要輸出：run logs -> summary json",
-            "一致性檢查：run1 vs run2 -> same_result"
-          ],
-          "examples": [
-            {
-              "id": "sp3_ch4_ex1",
-              "title": "CLI 重跑",
-              "input_format": "--date 2026-03-22 --source events.json",
-              "logic": "依指定日期與來源執行完整流程，避免手動改程式。",
-              "example_output": "{\"status\":\"success\",\"date\":\"2026-03-22\"}"
-            },
-            {
-              "id": "sp3_ch4_ex2",
-              "title": "摘要輸出",
-              "input_format": "pipeline run logs",
-              "logic": "彙整 inserted/invalid/duration 等核心指標。",
-              "example_output": "{\"inserted\":1134,\"invalid\":22,\"duration_sec\":18.2}"
-            },
-            {
-              "id": "sp3_ch4_ex3",
-              "title": "一致性檢查",
-              "input_format": "same args on two runs",
-              "logic": "比較 summary 核心欄位，確認重跑結果一致。",
-              "example_output": "{\"same_result\":true}"
-            }
-          ]
+          "io_logic_note": "固定參數輸入，輸出一致 summary，支持維運追蹤。"
         }
       ]
     },
     {
       "sp_id": "SP4",
-      "title": "Learning Analytics API and Dashboard",
-      "estimated_total_hours": 8,
+      "title": "學習洞察 API 與儀表板",
+      "sp_doc_url": "/docs/sp4-detailed-outline",
+      "sp_doc_label": "開啟 SP4 詳細文件",
+      "estimated_total_hours": 12,
       "chapters": [
         {
-          "id": "ch1",
-          "title": "指標定義與 SQL 聚合（Metrics and SQL）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先定義 business 指標再寫 SQL",
-            "每個指標都做手算驗證",
-            "欄位命名要一致可讀"
+          "id": "sp4_ch1",
+          "title": "指標定義與 SQL 聚合",
+          "estimated_hours": 3,
+          "chapter_summary": "建立可解釋且可驗證的學習指標。",
+          "detail_doc_url": "/docs/sp4-detailed-outline",
+          "detail_doc_label": "查看 SP4 指標定義與 SQL 聚合 詳細說明",
+          "detail_doc_hint": "對照 SP4 Chapter 1。",
+          "input_contract": [
+            "learning_events table",
+            "quiz_results table",
+            "chapter filter"
           ],
-          "syntax_focus": [
-            "GROUP BY/COUNT/AVG",
-            "指標公式定義",
-            "小樣本驗證"
+          "output_contract": [
+            "completion_rate",
+            "wrong_rate",
+            "avg_stay_sec"
+          ],
+          "constraints": [
+            "rate 範圍需在 0~1",
+            "SQL 結果需可手算比對"
+          ],
+          "learning_method": [
+            "先公式再 SQL",
+            "先小樣本手算",
+            "每欄位附說明"
           ],
           "steps": [
-            "定義完成率、錯題率、停留時間公式。",
-            "寫對應 SQL 並抽成 metrics.sql。",
-            "用小樣本手算比對 SQL 結果。",
-            "整理欄位字典供 API 使用。"
+            "定義公式",
+            "寫 metrics.sql",
+            "手算比對",
+            "整理欄位說明"
           ],
-          "example_code": "SELECT chapter, SUM(completed)::float / SUM(assigned) AS completion_rate\nFROM learning_events GROUP BY chapter;",
+          "example_code": "SELECT chapter, SUM(completed)::float / SUM(assigned) AS completion_rate FROM learning_events GROUP BY chapter;",
           "tasks": [
             {
               "id": "sp4_ch1_t1",
-              "text": "定義 3 個核心指標公式",
-              "done_criteria": "完成率/錯題率/停留時間皆有文字定義"
+              "text": "完成三指標公式",
+              "done_criteria": "completion/wrong/stay 公式明確"
             },
             {
               "id": "sp4_ch1_t2",
-              "text": "完成 metrics.sql",
-              "done_criteria": "每個指標至少 1 支 SQL"
+              "text": "完成 SQL",
+              "done_criteria": "metrics.sql 可執行"
             },
             {
               "id": "sp4_ch1_t3",
-              "text": "完成小樣本手算驗證",
-              "done_criteria": "SQL 結果與手算誤差可解釋"
-            },
-            {
-              "id": "sp4_ch1_t4",
-              "text": "建立欄位字典",
-              "done_criteria": "說明每欄位來源與型別"
-            },
-            {
-              "id": "sp4_ch1_t5",
-              "text": "整理指標驗證紀錄",
-              "done_criteria": "可追蹤每次 SQL 調整原因"
+              "text": "完成手算驗證",
+              "done_criteria": "至少 1 組樣本對齊"
             }
           ],
           "quiz": [
             {
-              "id": "sp4_ch1_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "完成率常見公式為？",
+              "question": "完成率常見分母？",
               "options": [
-                "wrong/total",
-                "completed/assigned",
-                "sum/sum2",
-                "count/error"
+                "assigned",
+                "completed",
+                "wrong",
+                "stay"
               ],
-              "answer": "completed/assigned"
+              "answer": "assigned"
             },
             {
-              "id": "sp4_ch1_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "指標 SQL 驗證最佳做法是？",
+              "question": "錯題率資料來源？",
               "options": [
-                "只看直覺",
-                "用小樣本手算比對",
-                "直接上線",
-                "忽略誤差"
+                "quiz_results",
+                "css",
+                "log",
+                "image"
               ],
-              "answer": "用小樣本手算比對"
+              "answer": "quiz_results"
             },
             {
-              "id": "sp4_ch1_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "以下何者屬於聚合函式？",
+              "question": "手算比對目的？",
               "options": [
-                "AVG",
-                "PRINT",
-                "CLASS",
-                "IMPORT"
+                "驗證正確性",
+                "美觀",
+                "加速",
+                "壓縮"
               ],
-              "answer": "AVG"
+              "answer": "驗證正確性"
             },
             {
-              "id": "sp4_ch1_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明欄位字典對 API 開發的幫助。",
+              "question": "指標設計常見錯誤",
               "answer_keywords": [
-                "一致",
-                "欄位",
-                "溝通"
+                "分母定義不清"
               ]
             },
             {
-              "id": "sp4_ch1_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "若 SQL 與手算不一致，你會先檢查什麼？",
+              "question": "為何要欄位說明",
               "answer_keywords": [
-                "公式",
-                "資料範圍",
-                "join"
+                "可讀",
+                "可維護"
               ]
             }
           ],
-          "io_logic_note": "輸入是事件資料表，輸出是穩定的聚合指標；重點是公式可驗證、欄位可重用。",
-          "practice_examples": [
-            "完成率：events -> completion_rate",
-            "錯題率：quiz_results -> wrong_rate",
-            "停留時間：events timestamps -> avg_stay_sec"
-          ],
-          "examples": [
-            {
-              "id": "sp4_ch1_ex1",
-              "title": "完成率指標",
-              "input_format": "learning_events table",
-              "logic": "以 completed/assigned 聚合計算每章完成率。",
-              "example_output": "{\"chapter\":\"CH3\",\"completion_rate\":0.82}"
-            },
-            {
-              "id": "sp4_ch1_ex2",
-              "title": "錯題率指標",
-              "input_format": "quiz_results table",
-              "logic": "以 wrong_answers/total_answers 計算錯題率。",
-              "example_output": "{\"chapter\":\"CH3\",\"wrong_rate\":0.27}"
-            },
-            {
-              "id": "sp4_ch1_ex3",
-              "title": "停留時間指標",
-              "input_format": "start_ts/end_ts events",
-              "logic": "計算每章平均停留秒數並四捨五入。",
-              "example_output": "{\"chapter\":\"CH3\",\"avg_stay_sec\":523}"
-            }
-          ]
+          "io_logic_note": "輸入事件/測驗資料，輸出可被 API 消費的標準指標。"
         },
         {
-          "id": "ch2",
-          "title": "Flask 分析 API（Analytics API）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先固定 API schema 再串 SQL",
-            "優先處理參數驗證",
-            "每個 endpoint 都加錯誤測試"
+          "id": "sp4_ch2",
+          "title": "Flask 分析 API",
+          "estimated_hours": 3,
+          "chapter_summary": "提供前端可穩定消費的分析 API。",
+          "detail_doc_url": "/docs/sp4-detailed-outline",
+          "detail_doc_label": "查看 SP4 Flask 分析 API 詳細說明",
+          "detail_doc_hint": "對照 SP4 Chapter 2。",
+          "input_contract": [
+            "query: chapter/date_from"
           ],
-          "syntax_focus": [
-            "Flask Blueprint",
-            "query params 驗證",
-            "統一 response schema"
+          "output_contract": [
+            "data: metrics",
+            "meta: records",
+            "error schema"
+          ],
+          "constraints": [
+            "非法 chapter 回 400",
+            "空資料回空集合"
+          ],
+          "learning_method": [
+            "先 schema 再實作",
+            "先驗參數再查 DB",
+            "錯誤格式一致"
           ],
           "steps": [
-            "建立 /api/metrics/overview。",
-            "支援 chapter/date_from 篩選。",
-            "統一 success/error 回應格式。",
-            "處理非法參數與空資料。"
+            "建立 /api/metrics/overview",
+            "參數驗證",
+            "空資料處理",
+            "錯誤處理"
           ],
-          "example_code": "if chapter not in allowed_chapters:\n    return {\"error\": \"invalid chapter\"}, 400",
+          "example_code": "if chapter not in allowed_chapters:\n    return {'error': {'code':'INVALID_CHAPTER'}}, 400",
           "tasks": [
             {
               "id": "sp4_ch2_t1",
-              "text": "建立 overview endpoint",
-              "done_criteria": "可回傳章節分析指標"
+              "text": "完成 overview API",
+              "done_criteria": "可回三項指標"
             },
             {
               "id": "sp4_ch2_t2",
-              "text": "完成 query params 驗證",
-              "done_criteria": "非法參數回 400"
+              "text": "完成參數驗證",
+              "done_criteria": "非法 chapter 回 400"
             },
             {
               "id": "sp4_ch2_t3",
-              "text": "統一 API 回應 schema",
-              "done_criteria": "success/error 欄位格式一致"
-            },
-            {
-              "id": "sp4_ch2_t4",
-              "text": "處理空資料情境",
-              "done_criteria": "無資料時回空集合非 500"
-            },
-            {
-              "id": "sp4_ch2_t5",
-              "text": "完成 endpoint 測試",
-              "done_criteria": "至少含成功/非法/空資料三種案例"
+              "text": "完成統一回應格式",
+              "done_criteria": "正常/錯誤皆固定 schema"
             }
           ],
           "quiz": [
             {
-              "id": "sp4_ch2_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "非法參數最常見 HTTP 狀態碼？",
+              "question": "非法參數建議回？",
               "options": [
-                "200",
-                "302",
                 "400",
-                "500"
+                "200",
+                "201",
+                "302"
               ],
               "answer": "400"
             },
             {
-              "id": "sp4_ch2_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "API schema 一致性的主要好處是？",
+              "question": "空資料建議處理？",
               "options": [
-                "前端更容易解析",
-                "SQL 更快",
-                "字串更短",
-                "不用文件"
+                "回空集合",
+                "丟例外",
+                "回 HTML",
+                "重導"
               ],
-              "answer": "前端更容易解析"
+              "answer": "回空集合"
             },
             {
-              "id": "sp4_ch2_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "query params 常用於？",
+              "question": "固定 schema 好處？",
               "options": [
-                "傳遞篩選條件",
-                "儲存圖片",
-                "建立索引",
-                "寫 migration"
+                "前端穩定",
+                "字更大",
+                "圖更美",
+                "動作更快"
               ],
-              "answer": "傳遞篩選條件"
+              "answer": "前端穩定"
             },
             {
-              "id": "sp4_ch2_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明空資料回應應如何設計較佳。",
+              "question": "為何先驗參數",
               "answer_keywords": [
-                "空集合",
-                "一致",
-                "可解析"
-              ]
-            },
-            {
-              "id": "sp4_ch2_q5",
-              "type": "short_answer",
-              "question": "為什麼要先驗證 chapter 再查 DB？",
-              "answer_keywords": [
-                "效能",
+                "防錯",
                 "安全",
-                "錯誤清楚"
+                "減少無效查詢"
+              ]
+            },
+            {
+              "id": "q5",
+              "type": "short_answer",
+              "question": "錯誤回應最少要有",
+              "answer_keywords": [
+                "error",
+                "code",
+                "message"
               ]
             }
           ],
-          "io_logic_note": "輸入是 query params，輸出是可被前端直接渲染的 metrics JSON；錯誤要一致可解析。",
-          "practice_examples": [
-            "總覽 API：chapter filter -> metrics",
-            "日期篩選：date_from -> limited dataset",
-            "錯誤處理：invalid param -> 400"
-          ],
-          "examples": [
-            {
-              "id": "sp4_ch2_ex1",
-              "title": "總覽 API",
-              "input_format": "GET /api/metrics/overview?chapter=CH3",
-              "logic": "查詢並回傳 completion_rate/wrong_rate/avg_stay_sec。",
-              "example_output": "{\"chapter\":\"CH3\",\"completion_rate\":0.82,\"wrong_rate\":0.27}"
-            },
-            {
-              "id": "sp4_ch2_ex2",
-              "title": "日期篩選",
-              "input_format": "date_from=2026-03-01",
-              "logic": "僅計算指定日期後資料，避免歷史資料干擾。",
-              "example_output": "{\"records\":412}"
-            },
-            {
-              "id": "sp4_ch2_ex3",
-              "title": "錯誤回應",
-              "input_format": "chapter=BAD_ID",
-              "logic": "參數驗證失敗回傳 400 與明確錯誤訊息。",
-              "example_output": "{\"error\":\"invalid chapter\"}"
-            }
-          ]
+          "io_logic_note": "API 先做輸入驗證，再輸出可預期 JSON。"
         },
         {
-          "id": "ch3",
-          "title": "React Dashboard 呈現（Dashboard UI）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先做資料顯示再做美化",
-            "確保每種狀態都有 UI",
-            "切換篩選時保留互動流暢"
+          "id": "sp4_ch3",
+          "title": "React 儀表板實作",
+          "estimated_hours": 3,
+          "chapter_summary": "把 API 數據呈現為可讀且可行動的 UI。",
+          "detail_doc_url": "/docs/sp4-detailed-outline",
+          "detail_doc_label": "查看 SP4 React 儀表板實作 詳細說明",
+          "detail_doc_hint": "對照 SP4 Chapter 3。",
+          "input_contract": [
+            "api_response: metrics JSON",
+            "selected_chapter"
           ],
-          "syntax_focus": [
-            "useEffect/fetch",
-            "state 管理",
-            "loading/error UI"
+          "output_contract": [
+            "overview cards",
+            "weak topics",
+            "recommendation panel",
+            "ui state"
+          ],
+          "constraints": [
+            "章節切換後需同步刷新",
+            "loading/error 必須可見"
+          ],
+          "learning_method": [
+            "先正確顯示再美化",
+            "章節切換需清除舊狀態",
+            "錯誤要可重試"
           ],
           "steps": [
-            "建立總覽、弱點、建議三區塊。",
-            "串接 API 並映射至卡片與圖表。",
-            "支援 chapter filter 切換重抓。",
-            "加入 loading 與 error 狀態。"
+            "建三區塊",
+            "串 API",
+            "支援 chapter filter",
+            "補 loading/error"
           ],
           "example_code": "useEffect(() => { fetchMetrics(chapter); }, [chapter]);",
           "tasks": [
             {
               "id": "sp4_ch3_t1",
-              "text": "建立 dashboard 基本版面",
-              "done_criteria": "包含總覽/弱點/建議三區塊"
+              "text": "完成三區塊 UI",
+              "done_criteria": "overview/weakness/recommendation 皆顯示"
             },
             {
               "id": "sp4_ch3_t2",
               "text": "完成 API 串接",
-              "done_criteria": "可正確渲染主要指標"
+              "done_criteria": "章節切換可更新"
             },
             {
               "id": "sp4_ch3_t3",
-              "text": "加入 chapter filter",
-              "done_criteria": "切換後可重新抓取資料"
-            },
-            {
-              "id": "sp4_ch3_t4",
-              "text": "加入 loading/error 狀態",
-              "done_criteria": "使用者可辨識目前載入狀態"
-            },
-            {
-              "id": "sp4_ch3_t5",
-              "text": "完成互動測試",
-              "done_criteria": "切換與重試流程可穩定操作"
+              "text": "完成 loading/error",
+              "done_criteria": "失敗有提示可重試"
             }
           ],
           "quiz": [
             {
-              "id": "sp4_ch3_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "React 監聽 chapter 變化常用哪個 hook？",
+              "question": "監聽 chapter 變化常用？",
               "options": [
-                "useMemo",
                 "useEffect",
                 "useRef",
+                "useMemo",
                 "useId"
               ],
               "answer": "useEffect"
             },
             {
-              "id": "sp4_ch3_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "loading UI 的主要價值是？",
+              "question": "loading state 目的？",
               "options": [
-                "增加字數",
-                "降低使用者不確定感",
-                "減少資料",
-                "取代 API"
+                "回饋等待中",
+                "加速 API",
+                "改字體",
+                "上色"
               ],
-              "answer": "降低使用者不確定感"
+              "answer": "回饋等待中"
             },
             {
-              "id": "sp4_ch3_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "切換章節後最重要確認的是？",
+              "question": "error state 最少要有？",
               "options": [
-                "背景色",
-                "指標資料同步更新",
-                "字體大小",
-                "按鈕位置"
+                "錯誤訊息與重試",
+                "背景圖",
+                "icon",
+                "色票"
               ],
-              "answer": "指標資料同步更新"
+              "answer": "錯誤訊息與重試"
             },
             {
-              "id": "sp4_ch3_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明 error UI 至少該包含哪些資訊。",
+              "question": "避免舊資料殘留方法",
               "answer_keywords": [
-                "錯誤訊息",
-                "重試",
-                "狀態"
+                "切換時重抓並重置 state"
               ]
             },
             {
-              "id": "sp4_ch3_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "為何 Dashboard 要提供弱點與建議同時顯示？",
+              "question": "三區塊排序建議",
               "answer_keywords": [
-                "決策",
-                "行動",
-                "理解"
+                "總覽",
+                "弱點",
+                "建議"
               ]
             }
           ],
-          "io_logic_note": "輸入是 API JSON，輸出是可理解的視覺化資訊；切換條件時資料與 UI 要同步。",
-          "practice_examples": [
-            "指標卡片：metrics json -> ui cards",
-            "條件切換：chapter state -> refetch",
-            "錯誤顯示：api error -> retry UI"
-          ],
-          "examples": [
-            {
-              "id": "sp4_ch3_ex1",
-              "title": "指標卡片渲染",
-              "input_format": "metrics JSON",
-              "logic": "把 completion_rate/wrong_rate 映射到百分比卡片。",
-              "example_output": "畫面顯示 82% 與 27%"
-            },
-            {
-              "id": "sp4_ch3_ex2",
-              "title": "條件切換重抓",
-              "input_format": "selected chapter",
-              "logic": "chapter 變更觸發 fetch 並更新 state。",
-              "example_output": "切換 CH4 後顯示 CH4 指標"
-            },
-            {
-              "id": "sp4_ch3_ex3",
-              "title": "錯誤提示與重試",
-              "input_format": "API 500 response",
-              "logic": "顯示錯誤訊息並提供 retry 按鈕。",
-              "example_output": "資料載入失敗，點擊重試後恢復"
-            }
-          ]
+          "io_logic_note": "API 輸出需穩定映射成三區塊 UI 狀態。"
         },
         {
-          "id": "ch4",
-          "title": "複習建議連結（Review Recommendations）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "規則要可解釋",
-            "先做規則再做 UI 互動",
-            "邊界值案例先測"
+          "id": "sp4_ch4",
+          "title": "複習連結與參與度文案",
+          "estimated_hours": 3,
+          "chapter_summary": "把洞察轉成可行動複習建議，並以短 memo 提升參與度。",
+          "detail_doc_url": "/docs/sp4-detailed-outline",
+          "detail_doc_label": "查看 SP4 複習連結與參與度文案 詳細說明",
+          "detail_doc_hint": "對照 SP4 Chapter 4。",
+          "input_contract": [
+            "chapter",
+            "wrong_rate",
+            "completion_rate",
+            "stay_time_sec"
           ],
-          "syntax_focus": [
-            "if-rule 閾值規則",
-            "conditional rendering",
-            "deep links"
+          "output_contract": [
+            "need_review",
+            "review_link",
+            "reason",
+            "memo"
+          ],
+          "constraints": [
+            "need_review 規則要固定",
+            "memo 不超過 20 字",
+            "文案不可遮蔽核心資訊"
+          ],
+          "learning_method": [
+            "先規則再文案",
+            "建議必須可解釋",
+            "文案短且不干擾"
           ],
           "steps": [
-            "定義 wrong_rate 閾值。",
-            "生成複習建議與連結。",
-            "在 UI 條件顯示建議按鈕。",
-            "驗證高/中/低三種學習情境。"
+            "定義閾值",
+            "產生排序",
+            "顯示 reason",
+            "加入短 memo"
           ],
-          "example_code": "needReview = wrongRate > 0.25;\nlink = needReview ? `/course/${chapter}/review` : null;",
+          "example_code": "needReview = wrongRate > 0.25;\nlink = needReview ? '/course/ch3/review' : null;",
           "tasks": [
             {
               "id": "sp4_ch4_t1",
-              "text": "定義複習閾值規則",
-              "done_criteria": "規則含清楚閾值與判斷邏輯"
+              "text": "完成規則輸出",
+              "done_criteria": "回 need_review/link/reason"
             },
             {
               "id": "sp4_ch4_t2",
-              "text": "完成建議輸出邏輯",
-              "done_criteria": "回傳 need_review/link/reason 欄位"
+              "text": "完成排序",
+              "done_criteria": "可輸出優先複習章節"
             },
             {
               "id": "sp4_ch4_t3",
-              "text": "完成建議排序",
-              "done_criteria": "可按弱點優先順序排列"
-            },
-            {
-              "id": "sp4_ch4_t4",
-              "text": "完成 UI 導引按鈕",
-              "done_criteria": "符合條件時顯示複習入口"
-            },
-            {
-              "id": "sp4_ch4_t5",
-              "text": "完成情境測試",
-              "done_criteria": "高中低三種案例皆驗證"
+              "text": "完成 memo",
+              "done_criteria": "每次建議附 1 則短提示"
             }
           ],
           "quiz": [
             {
-              "id": "sp4_ch4_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "複習建議規則核心來源是？",
+              "question": "need_review 常見條件？",
               "options": [
-                "顏色偏好",
-                "學習指標",
-                "字型",
-                "圖片"
+                "wrong_rate > 閾值",
+                "有圖片",
+                "有主題",
+                "有動畫"
               ],
-              "answer": "學習指標"
+              "answer": "wrong_rate > 閾值"
             },
             {
-              "id": "sp4_ch4_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "若 wrong_rate 高於閾值通常應？",
+              "question": "reason 欄位用途？",
               "options": [
-                "進階章節",
-                "顯示複習建議",
-                "刪除資料",
-                "忽略"
+                "解釋建議",
+                "美觀",
+                "壓縮",
+                "快取"
               ],
-              "answer": "顯示複習建議"
+              "answer": "解釋建議"
             },
             {
-              "id": "sp4_ch4_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "建議排序依據通常為？",
+              "question": "memo 設計原則？",
               "options": [
-                "章節名稱字母",
-                "錯題率高低",
-                "隨機",
-                "日期"
+                "短而不干擾",
+                "越長越好",
+                "越多越好",
+                "只放笑話"
               ],
-              "answer": "錯題率高低"
+              "answer": "短而不干擾"
             },
             {
-              "id": "sp4_ch4_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請描述複習按鈕條件渲染邏輯。",
+              "question": "為何建議需可解釋",
               "answer_keywords": [
-                "條件",
-                "need_review",
-                "link"
+                "提升信任",
+                "方便行動"
               ]
             },
             {
-              "id": "sp4_ch4_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "為什麼建議需要附上 reason？",
+              "question": "給一則學習 memo",
               "answer_keywords": [
-                "可解釋",
-                "信任",
-                "行動"
+                "鼓勵",
+                "下一步"
               ]
             }
           ],
-          "io_logic_note": "輸入是分析指標，輸出是可執行複習行動；關鍵是規則透明、連結正確。",
-          "practice_examples": [
-            "閾值規則：wrong_rate -> need_review",
-            "建議排序：multi chapters -> priority list",
-            "UI 導引：need_review -> review button"
-          ],
-          "examples": [
-            {
-              "id": "sp4_ch4_ex1",
-              "title": "閾值規則",
-              "input_format": "wrong_rate: float",
-              "logic": "大於閾值就回傳 need_review=true 與對應連結。",
-              "example_output": "{\"need_review\":true,\"link\":\"/course/ch3/review\"}"
-            },
-            {
-              "id": "sp4_ch4_ex2",
-              "title": "建議排序",
-              "input_format": "chapter wrong_rate list",
-              "logic": "依 wrong_rate 由高到低排序，先推薦最弱章節。",
-              "example_output": "[\"CH3\",\"CH2\",\"CH5\"]"
-            },
-            {
-              "id": "sp4_ch4_ex3",
-              "title": "UI 導引",
-              "input_format": "recommendation object",
-              "logic": "條件渲染前往複習按鈕並顯示建議原因。",
-              "example_output": "顯示「前往 CH3 複習」"
-            }
-          ]
+          "io_logic_note": "以指標輸入生成可行動、可理解的複習輸出。"
         }
       ]
     },
     {
       "sp_id": "SP5",
-      "title": "Curriculum Database Design and Management",
-      "estimated_total_hours": 8,
+      "title": "課程資料庫調校專案",
+      "sp_doc_url": "/docs/sp5-detailed-outline",
+      "sp_doc_label": "開啟 SP5 詳細文件",
+      "estimated_total_hours": 12,
       "chapters": [
         {
-          "id": "ch1",
-          "title": "Schema 與鍵值策略（No ERD）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先看查詢再設計 schema",
-            "約束先明確，避免髒資料",
-            "以可擴充為優先"
+          "id": "sp5_ch1",
+          "title": "Schema 與鍵值策略",
+          "estimated_hours": 3,
+          "chapter_summary": "在不畫 ERD 前提下設計可維護 schema。",
+          "detail_doc_url": "/docs/sp5-detailed-outline",
+          "detail_doc_label": "查看 SP5 Schema 與鍵值策略 詳細說明",
+          "detail_doc_hint": "對照 SP5 Chapter 1。",
+          "input_contract": [
+            "queries: progress/wrong/weekly",
+            "entities: students/chapters/learning_progress"
           ],
-          "syntax_focus": [
-            "PRIMARY KEY/FOREIGN KEY",
-            "UNIQUE/NOT NULL",
-            "migration SQL"
+          "output_contract": [
+            "schema.sql",
+            "constraints list"
+          ],
+          "constraints": [
+            "必含 PK/FK/UNIQUE/NOT NULL",
+            "UNIQUE(student_id, chapter_id) 不可缺"
+          ],
+          "learning_method": [
+            "先列查詢再設計欄位",
+            "先 key 再細節",
+            "預設值要明確"
           ],
           "steps": [
-            "盤點核心查詢需求與欄位。",
-            "定義 PK/FK/UNIQUE。",
-            "加入必要約束與預設值。",
-            "輸出 schema.sql/migration。"
+            "列核心查詢",
+            "由查詢反推 schema",
+            "加 constraints",
+            "輸出 schema.sql"
           ],
-          "example_code": "CREATE TABLE learning_progress (\n  student_id TEXT NOT NULL,\n  chapter_id TEXT NOT NULL,\n  status TEXT NOT NULL DEFAULT \"not_started\",\n  UNIQUE(student_id, chapter_id)\n);",
+          "example_code": "UNIQUE(student_id, chapter_id)",
           "tasks": [
             {
               "id": "sp5_ch1_t1",
-              "text": "整理資料表需求清單",
-              "done_criteria": "列出核心實體與必要欄位"
+              "text": "完成 schema 設計",
+              "done_criteria": "students/chapters/progress 結構完整"
             },
             {
               "id": "sp5_ch1_t2",
-              "text": "完成 PK/FK 設計",
-              "done_criteria": "關聯鍵可支援主要查詢情境"
+              "text": "完成 key 約束",
+              "done_criteria": "PK/FK/UNIQUE/NOT NULL 齊備"
             },
             {
               "id": "sp5_ch1_t3",
-              "text": "完成 UNIQUE/NOT NULL 約束",
-              "done_criteria": "避免常見重複與空值問題"
-            },
-            {
-              "id": "sp5_ch1_t4",
-              "text": "補齊欄位預設值策略",
-              "done_criteria": "主要狀態欄位有合理 default"
-            },
-            {
-              "id": "sp5_ch1_t5",
-              "text": "輸出 schema 與 migration",
-              "done_criteria": "可在 DB 環境直接執行"
+              "text": "完成 schema.sql",
+              "done_criteria": "可直接建表"
             }
           ],
           "quiz": [
             {
-              "id": "sp5_ch1_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "UNIQUE(student_id, chapter_id) 主要避免？",
+              "question": "PK 主要作用？",
               "options": [
-                "跨表 join",
-                "重複進度紀錄",
+                "唯一識別",
+                "上色",
+                "快取",
+                "壓縮"
+              ],
+              "answer": "唯一識別"
+            },
+            {
+              "id": "q2",
+              "type": "mcq",
+              "question": "FK 主要作用？",
+              "options": [
+                "關聯完整性",
+                "字體控制",
+                "分頁",
+                "動畫"
+              ],
+              "answer": "關聯完整性"
+            },
+            {
+              "id": "q3",
+              "type": "mcq",
+              "question": "UNIQUE 避免什麼？",
+              "options": [
+                "重複紀錄",
+                "空字串",
                 "慢查詢",
-                "語法錯誤"
+                "多語系"
               ],
-              "answer": "重複進度紀錄"
+              "answer": "重複紀錄"
             },
             {
-              "id": "sp5_ch1_q2",
-              "type": "mcq",
-              "question": "FOREIGN KEY 主要功能為？",
-              "options": [
-                "加速前端",
-                "維持關聯完整性",
-                "改變字串",
-                "建立 index"
-              ],
-              "answer": "維持關聯完整性"
-            },
-            {
-              "id": "sp5_ch1_q3",
-              "type": "mcq",
-              "question": "本專案 SP5 是否要求 ERD？",
-              "options": [
-                "是",
-                "否",
-                "只要圖片",
-                "視情況"
-              ],
-              "answer": "否"
-            },
-            {
-              "id": "sp5_ch1_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明 schema 設計前先盤點查詢需求的原因。",
+              "question": "為何從查詢反推 schema",
               "answer_keywords": [
-                "需求",
-                "欄位",
-                "效能"
+                "需求導向",
+                "少回頭路"
               ]
             },
             {
-              "id": "sp5_ch1_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "何時應為欄位加上 NOT NULL + DEFAULT？",
+              "question": "DEFAULT 適合用在哪",
               "answer_keywords": [
-                "避免空值",
-                "穩定",
-                "查詢"
+                "status",
+                "not_started"
               ]
             }
           ],
-          "io_logic_note": "輸入是需求與查詢情境，輸出是可維護 schema；要能支援查詢且避免重複/空值資料。",
-          "practice_examples": [
-            "主外鍵設計：tables spec -> FK constraints",
-            "唯一限制：risk fields -> UNIQUE",
-            "預設值策略：nullable field -> default value"
-          ],
-          "examples": [
-            {
-              "id": "sp5_ch1_ex1",
-              "title": "主外鍵設計",
-              "input_format": "students/chapters/learning_progress 欄位規格",
-              "logic": "定義 learning_progress.student_id 外鍵連到 students.id。",
-              "example_output": "CREATE TABLE learning_progress (...)"
-            },
-            {
-              "id": "sp5_ch1_ex2",
-              "title": "唯一限制",
-              "input_format": "可重複風險欄位",
-              "logic": "在 student_id + chapter_id 加 UNIQUE 避免重複進度。",
-              "example_output": "UNIQUE(student_id, chapter_id)"
-            },
-            {
-              "id": "sp5_ch1_ex3",
-              "title": "預設值策略",
-              "input_format": "status 欄位需求",
-              "logic": "設定 NOT NULL + DEFAULT，避免 null 影響查詢。",
-              "example_output": "status TEXT NOT NULL DEFAULT 'not_started'"
-            }
-          ]
+          "io_logic_note": "查詢需求是輸入，schema.sql 是可執行輸出。"
         },
         {
-          "id": "ch2",
-          "title": "索引設計（Index Strategy）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "只為高頻查詢建索引",
-            "每加一個索引就做量測",
-            "避免過度索引影響寫入"
+          "id": "sp5_ch2",
+          "title": "索引設計與驗證",
+          "estimated_hours": 3,
+          "chapter_summary": "針對高頻查詢建立索引並量化改善。",
+          "detail_doc_url": "/docs/sp5-detailed-outline",
+          "detail_doc_label": "查看 SP5 索引設計與驗證 詳細說明",
+          "detail_doc_hint": "對照 SP5 Chapter 2。",
+          "input_contract": [
+            "slow_queries",
+            "baseline avg/p95"
           ],
-          "syntax_focus": [
-            "CREATE INDEX",
-            "Composite Index",
-            "before/after 量測"
+          "output_contract": [
+            "indexes.sql",
+            "after avg/p95",
+            "improvement_pct"
+          ],
+          "constraints": [
+            "至少 2 支查詢需可量化改善",
+            "索引需附存在理由"
+          ],
+          "learning_method": [
+            "先找慢查詢再建索引",
+            "一次改一項再量測",
+            "記錄讀寫權衡"
           ],
           "steps": [
-            "盤點高頻 where/join 條件。",
-            "建立對應單欄或複合索引。",
-            "量測前後查詢耗時。",
-            "記錄索引成本與收益。"
+            "盤點慢查詢",
+            "設計索引",
+            "量測 before/after",
+            "記錄成本"
           ],
-          "example_code": "CREATE INDEX idx_progress_student_chapter\nON learning_progress(student_id, chapter_id);",
+          "example_code": "CREATE INDEX idx_progress_student_chapter ON learning_progress(student_id, chapter_id);",
           "tasks": [
             {
               "id": "sp5_ch2_t1",
-              "text": "盤點高頻查詢",
-              "done_criteria": "列出至少 3 支核心查詢"
+              "text": "找出慢查詢",
+              "done_criteria": "至少 3 支有 baseline"
             },
             {
               "id": "sp5_ch2_t2",
               "text": "完成索引設計",
-              "done_criteria": "每支高頻查詢至少對應 1 個索引策略"
+              "done_criteria": "至少 2 個索引"
             },
             {
               "id": "sp5_ch2_t3",
-              "text": "建立索引 migration",
-              "done_criteria": "索引可透過 migration 套用"
-            },
-            {
-              "id": "sp5_ch2_t4",
-              "text": "執行效能前後測試",
-              "done_criteria": "至少 2 支查詢有測試結果"
-            },
-            {
-              "id": "sp5_ch2_t5",
-              "text": "整理索引策略說明",
-              "done_criteria": "記錄索引收益與副作用"
+              "text": "完成效能比較",
+              "done_criteria": "有 avg/p95 before/after"
             }
           ],
           "quiz": [
             {
-              "id": "sp5_ch2_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "複合索引欄位順序應依據？",
+              "question": "複合索引適合？",
               "options": [
-                "隨機",
-                "高頻查詢條件順序",
-                "字母排序",
-                "欄位長度"
+                "多欄 where/join",
+                "單純文字",
+                "圖片檔",
+                "色票"
               ],
-              "answer": "高頻查詢條件順序"
+              "answer": "多欄 where/join"
             },
             {
-              "id": "sp5_ch2_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "過度索引的常見副作用是？",
+              "question": "索引過多副作用？",
               "options": [
-                "查詢更慢",
-                "寫入成本上升",
-                "前端壞掉",
-                "JSON 無法解析"
+                "寫入變慢",
+                "前端太快",
+                "語法錯誤",
+                "無影響"
               ],
-              "answer": "寫入成本上升"
+              "answer": "寫入變慢"
             },
             {
-              "id": "sp5_ch2_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "效能比較應該用？",
+              "question": "效能比較常看？",
               "options": [
-                "不同 SQL 隨意比",
-                "同一 SQL 前後比",
-                "只看一次",
-                "只看 UI"
+                "avg + p95",
+                "theme",
+                "icon",
+                "font"
               ],
-              "answer": "同一 SQL 前後比"
+              "answer": "avg + p95"
             },
             {
-              "id": "sp5_ch2_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明何時用單欄索引、何時用複合索引。",
+              "question": "索引優先順序如何決定",
               "answer_keywords": [
-                "where",
-                "join",
-                "排序"
+                "高頻",
+                "慢查詢",
+                "收益"
               ]
             },
             {
-              "id": "sp5_ch2_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "為什麼索引也要記錄成本？",
+              "question": "何時該移除索引",
               "answer_keywords": [
-                "寫入",
-                "空間",
-                "維護"
+                "低使用",
+                "成本高",
+                "收益低"
               ]
             }
           ],
-          "io_logic_note": "輸入是查詢條件，輸出是索引策略與效能對比；要平衡查詢速度與寫入成本。",
-          "practice_examples": [
-            "高頻查詢索引：where fields -> index",
-            "排序查詢索引：order field -> index",
-            "效能對比：before/after -> ms diff"
-          ],
-          "examples": [
-            {
-              "id": "sp5_ch2_ex1",
-              "title": "高頻查詢索引",
-              "input_format": "WHERE student_id=? AND chapter_id=?",
-              "logic": "建立複合索引，對齊常見查詢條件順序。",
-              "example_output": "CREATE INDEX idx_progress_student_chapter ..."
-            },
-            {
-              "id": "sp5_ch2_ex2",
-              "title": "排序查詢索引",
-              "input_format": "ORDER BY updated_at DESC",
-              "logic": "針對排序欄位建索引，降低排序成本。",
-              "example_output": "CREATE INDEX idx_progress_updated_at ..."
-            },
-            {
-              "id": "sp5_ch2_ex3",
-              "title": "前後效能比較",
-              "input_format": "same SQL before/after index",
-              "logic": "量測平均耗時與 p95，確認改善是否顯著。",
-              "example_output": "120ms -> 28ms"
-            }
-          ]
+          "io_logic_note": "慢查詢輸入，索引策略與量測報告輸出。"
         },
         {
-          "id": "ch3",
-          "title": "核心 SQL 撰寫（Core Queries）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先定義輸出欄位再寫 SQL",
-            "每支 SQL 都加測試輸入",
-            "避免硬編碼常數"
+          "id": "sp5_ch3",
+          "title": "核心 SQL 與報表查詢",
+          "estimated_hours": 3,
+          "chapter_summary": "交付 API 可直接使用的進度/錯題/週報 SQL。",
+          "detail_doc_url": "/docs/sp5-detailed-outline",
+          "detail_doc_label": "查看 SP5 核心 SQL 與報表查詢 詳細說明",
+          "detail_doc_hint": "對照 SP5 Chapter 3。",
+          "input_contract": [
+            "student_id",
+            "chapter_id",
+            "week_start"
           ],
-          "syntax_focus": [
-            "JOIN/CTE",
-            "Aggregation",
-            "參數化查詢"
+          "output_contract": [
+            "progress_query_result",
+            "wrong_summary_result",
+            "weekly_report_result"
+          ],
+          "constraints": [
+            "欄位命名需固定",
+            "查詢需可參數化"
+          ],
+          "learning_method": [
+            "先定輸出欄位",
+            "SQL 可讀性優先",
+            "避免硬編碼"
           ],
           "steps": [
-            "完成進度查詢 SQL。",
-            "完成錯題彙總 SQL。",
-            "完成週報表 SQL。",
-            "驗證欄位命名與結果可被 API 使用。"
+            "寫進度 SQL",
+            "寫錯題 SQL",
+            "寫週報 SQL",
+            "統一欄位命名"
           ],
-          "example_code": "WITH chapter_stats AS (...)\nSELECT chapter, wrong_count FROM chapter_stats ORDER BY wrong_count DESC;",
+          "example_code": "WITH chapter_stats AS (...) SELECT chapter, wrong_count FROM chapter_stats;",
           "tasks": [
             {
               "id": "sp5_ch3_t1",
-              "text": "完成進度查詢 SQL",
-              "done_criteria": "可輸出 student completion 指標"
+              "text": "完成進度 SQL",
+              "done_criteria": "可回 completion_rate"
             },
             {
               "id": "sp5_ch3_t2",
-              "text": "完成錯題彙總 SQL",
-              "done_criteria": "可輸出章節或題目錯題統計"
+              "text": "完成錯題 SQL",
+              "done_criteria": "可回 wrong_count"
             },
             {
               "id": "sp5_ch3_t3",
-              "text": "完成週報表 SQL",
-              "done_criteria": "可輸出週級聚合結果"
-            },
-            {
-              "id": "sp5_ch3_t4",
-              "text": "參數化查詢改寫",
-              "done_criteria": "避免硬編碼 student/chapter 值"
-            },
-            {
-              "id": "sp5_ch3_t5",
-              "text": "完成 SQL 測試資料驗證",
-              "done_criteria": "至少 3 組輸入輸出案例正確"
+              "text": "完成週報 SQL",
+              "done_criteria": "可回 active_students/avg_accuracy"
             }
           ],
           "quiz": [
             {
-              "id": "sp5_ch3_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "CTE 常用來做什麼？",
+              "question": "CTE 常見用途？",
               "options": [
-                "定義暫時查詢片段提高可讀性",
-                "改 CSS",
-                "產生動畫",
-                "建立 API"
+                "拆解複雜查詢",
+                "加動畫",
+                "改字體",
+                "改顏色"
               ],
-              "answer": "定義暫時查詢片段提高可讀性"
+              "answer": "拆解複雜查詢"
             },
             {
-              "id": "sp5_ch3_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "參數化查詢主要好處是？",
+              "question": "參數化查詢價值？",
               "options": [
-                "更難維護",
-                "安全且可重用",
-                "加大檔案",
-                "取代索引"
+                "安全與重用",
+                "變好看",
+                "減行數",
+                "無差"
               ],
-              "answer": "安全且可重用"
+              "answer": "安全與重用"
             },
             {
-              "id": "sp5_ch3_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "彙總統計通常會用哪個語法？",
+              "question": "欄位命名一致可帶來？",
               "options": [
-                "GROUP BY",
-                "IMPORT",
-                "CLASS",
-                "TRY"
+                "API 穩定",
+                "圖更美",
+                "字更大",
+                "更快網路"
               ],
-              "answer": "GROUP BY"
+              "answer": "API 穩定"
             },
             {
-              "id": "sp5_ch3_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明進度查詢與錯題彙總在輸出欄位上的差異。",
+              "question": "為何避免硬編碼",
               "answer_keywords": [
-                "completion",
-                "wrong",
-                "欄位"
+                "可重用",
+                "安全"
               ]
             },
             {
-              "id": "sp5_ch3_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "為何 SQL 結果要對齊 API schema？",
+              "question": "週報常見欄位",
               "answer_keywords": [
-                "串接",
-                "一致",
-                "維護"
+                "week",
+                "active_students",
+                "avg_accuracy"
               ]
             }
           ],
-          "io_logic_note": "輸入是查詢參數，輸出是可被 API 直接使用的結構化資料。",
-          "practice_examples": [
-            "進度查詢：student_id -> completion_rate",
-            "錯題彙總：chapter_id -> wrong_count",
-            "週報表：week_start -> active/accuracy"
-          ],
-          "examples": [
-            {
-              "id": "sp5_ch3_ex1",
-              "title": "進度查詢",
-              "input_format": "student_id",
-              "logic": "JOIN 學習進度與章節資料，計算完成率。",
-              "example_output": "{\"student_id\":\"S01\",\"completion_rate\":0.78}"
-            },
-            {
-              "id": "sp5_ch3_ex2",
-              "title": "錯題彙總",
-              "input_format": "chapter_id",
-              "logic": "依題目 group by 計算錯誤次數與比例。",
-              "example_output": "{\"chapter\":\"CH3\",\"wrong_count\":42}"
-            },
-            {
-              "id": "sp5_ch3_ex3",
-              "title": "週報表",
-              "input_format": "week_start date",
-              "logic": "聚合活躍學習者數與平均作答率。",
-              "example_output": "{\"week\":\"2026-W12\",\"active_students\":86,\"avg_accuracy\":0.74}"
-            }
-          ]
+          "io_logic_note": "固定參數輸入對應固定欄位輸出，供 API 穩定映射。"
         },
         {
-          "id": "ch4",
-          "title": "效能檢查與最佳化（Performance Tuning）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先找瓶頸再優化",
-            "每次只改一項方便歸因",
-            "報告要含量化數據"
+          "id": "sp5_ch4",
+          "title": "EXPLAIN 與效能報告",
+          "estimated_hours": 3,
+          "chapter_summary": "以 EXPLAIN 與前後指標完成可解釋優化報告。",
+          "detail_doc_url": "/docs/sp5-detailed-outline",
+          "detail_doc_label": "查看 SP5 EXPLAIN 與效能報告 詳細說明",
+          "detail_doc_hint": "對照 SP5 Chapter 4。",
+          "input_contract": [
+            "query_name",
+            "before_plan",
+            "after_plan",
+            "before/after metrics"
           ],
-          "syntax_focus": [
-            "EXPLAIN",
-            "Seq Scan vs Index Scan",
-            "最佳化報告"
+          "output_contract": [
+            "report: {plan_change, avg, p95, improvement_pct}"
+          ],
+          "constraints": [
+            "需同時提供 avg 與 p95",
+            "不可只給單次測量"
+          ],
+          "learning_method": [
+            "先看執行計畫再動手",
+            "優化後必須重測",
+            "報告給非 DBA 也看得懂"
           ],
           "steps": [
-            "對慢查詢執行 EXPLAIN。",
-            "找出 full scan 根因。",
-            "調整索引或 SQL 後重測。",
-            "輸出 before/after 效能報告。"
+            "跑 EXPLAIN",
+            "找瓶頸",
+            "調整 SQL/索引",
+            "輸出報告"
           ],
           "example_code": "EXPLAIN ANALYZE SELECT ...;",
           "tasks": [
             {
               "id": "sp5_ch4_t1",
-              "text": "完成慢查詢清單",
-              "done_criteria": "至少列出 3 支待優化 SQL"
+              "text": "完成 EXPLAIN 判讀",
+              "done_criteria": "至少 2 支慢查詢"
             },
             {
               "id": "sp5_ch4_t2",
-              "text": "完成 EXPLAIN 判讀",
-              "done_criteria": "可指出主要瓶頸節點"
+              "text": "完成重測",
+              "done_criteria": "有 before/after"
             },
             {
               "id": "sp5_ch4_t3",
-              "text": "完成 SQL/索引優化",
-              "done_criteria": "至少 2 支查詢有實際調整"
-            },
-            {
-              "id": "sp5_ch4_t4",
-              "text": "完成重測數據收集",
-              "done_criteria": "before/after 指標完整可比較"
-            },
-            {
-              "id": "sp5_ch4_t5",
-              "text": "完成效能報告",
-              "done_criteria": "報告含改善幅度與後續建議"
+              "text": "完成報告",
+              "done_criteria": "含 avg/p95/改善率"
             }
           ],
           "quiz": [
             {
-              "id": "sp5_ch4_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "EXPLAIN 主要用途是？",
+              "question": "EXPLAIN 用途？",
               "options": [
-                "美化 SQL",
-                "看執行計畫與成本",
-                "建立 table",
-                "清除 cache"
+                "看執行計畫",
+                "畫圖",
+                "改字體",
+                "壓縮檔案"
               ],
-              "answer": "看執行計畫與成本"
+              "answer": "看執行計畫"
             },
             {
-              "id": "sp5_ch4_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "以下何者常是慢查詢訊號？",
+              "question": "Seq Scan 常表示？",
               "options": [
-                "Index Scan",
-                "Seq Scan on large table",
-                "cached query",
-                "small table lookup"
+                "全表掃描",
+                "索引命中",
+                "快取命中",
+                "網路錯誤"
               ],
-              "answer": "Seq Scan on large table"
+              "answer": "全表掃描"
             },
             {
-              "id": "sp5_ch4_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "最佳化報告至少需要？",
+              "question": "效能報告最必要欄位？",
               "options": [
-                "情緒描述",
-                "before/after 數據",
-                "Logo",
-                "字數限制"
+                "avg + p95",
+                "icon",
+                "theme",
+                "logo"
               ],
-              "answer": "before/after 數據"
+              "answer": "avg + p95"
             },
             {
-              "id": "sp5_ch4_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明為何優化時應一次只改一項。",
+              "question": "如何判斷優化值得上線",
               "answer_keywords": [
-                "歸因",
-                "比較",
-                "穩定"
+                "收益 > 成本",
+                "穩定可重現"
               ]
             },
             {
-              "id": "sp5_ch4_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "若改善有限，你下一步會做什麼？",
+              "question": "如何向 PM 說明成果",
               "answer_keywords": [
-                "瓶頸",
-                "量測",
-                "調整"
+                "數字",
+                "體感改善",
+                "風險"
               ]
             }
           ],
-          "io_logic_note": "輸入是慢查詢與執行計畫，輸出是具體優化行動與量化改善結果。",
-          "practice_examples": [
-            "執行計畫分析：slow sql -> scan strategy",
-            "查詢改寫：sql refactor -> lower cost",
-            "報告彙整：metrics -> improvement percent"
-          ],
-          "examples": [
-            {
-              "id": "sp5_ch4_ex1",
-              "title": "掃描策略分析",
-              "input_format": "slow SQL + EXPLAIN output",
-              "logic": "判讀是否走 Seq Scan，確認索引是否被使用。",
-              "example_output": "Seq Scan -> Index Scan"
-            },
-            {
-              "id": "sp5_ch4_ex2",
-              "title": "查詢改寫",
-              "input_format": "nested subquery SQL",
-              "logic": "改成 CTE 或先聚合再 join 降低成本。",
-              "example_output": "95ms -> 41ms"
-            },
-            {
-              "id": "sp5_ch4_ex3",
-              "title": "最佳化報告",
-              "input_format": "before/after benchmark data",
-              "logic": "彙整平均耗時、p95、改善百分比。",
-              "example_output": "效能提升 63%"
-            }
-          ]
+          "io_logic_note": "慢查詢與計畫輸入，輸出可量化、可解釋的效能證據。"
         }
       ]
     },
     {
       "sp_id": "SP6",
-      "title": "Adaptive Learning Path Integrator",
-      "estimated_total_hours": 8,
+      "title": "自適應學習整合系統",
+      "sp_doc_url": "/docs/sp6-detailed-outline",
+      "sp_doc_label": "開啟 SP6 詳細文件",
+      "estimated_total_hours": 12,
       "chapters": [
         {
-          "id": "ch1",
-          "title": "模組整合與資料流（Integration and Data Flow）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先對齊欄位命名再串接",
-            "整合前先定 API contract",
-            "每次整合一個模組降低風險"
+          "id": "sp6_ch1",
+          "title": "跨模組欄位對齊",
+          "estimated_hours": 3,
+          "chapter_summary": "統一 SP2~SP5 欄位與型別，消除整合摩擦。",
+          "detail_doc_url": "/docs/sp6-detailed-outline",
+          "detail_doc_label": "查看 SP6 跨模組欄位對齊 詳細說明",
+          "detail_doc_hint": "對照 SP6 Chapter 1。",
+          "input_contract": [
+            "sp2/sp3/sp4/sp5 payload"
           ],
-          "syntax_focus": [
-            "API contract",
-            "JSON schema 對齊",
-            "adapter pattern"
+          "output_contract": [
+            "normalized payload (snake_case)"
+          ],
+          "constraints": [
+            "命名統一 snake_case",
+            "缺欄位需報錯不可靜默"
+          ],
+          "learning_method": [
+            "先列欄位衝突表",
+            "先命名對齊再談邏輯",
+            "adapter 保持小而可測"
           ],
           "steps": [
-            "列出 SP2-SP5 輸入輸出欄位。",
-            "定義統一 schema。",
-            "實作 adapter 轉接層。",
-            "完成整合 smoke test。"
+            "盤點衝突欄位",
+            "建立 adapter",
+            "型別驗證",
+            "跑 smoke test"
           ],
-          "example_code": "normalized = {\"student_id\": payload.get(\"studentId\") or payload.get(\"student_id\")}",
+          "example_code": "normalized.student_id = payload.student_id || payload.studentId",
           "tasks": [
             {
               "id": "sp6_ch1_t1",
-              "text": "整理 SP2-SP5 I/O 規格",
-              "done_criteria": "列出所有關鍵欄位與型別"
+              "text": "完成 mapping 表",
+              "done_criteria": "source/target/type 清楚"
             },
             {
               "id": "sp6_ch1_t2",
-              "text": "定義統一 schema",
-              "done_criteria": "統一命名規則與必填欄位"
+              "text": "完成 adapter",
+              "done_criteria": "可輸出統一 schema"
             },
             {
               "id": "sp6_ch1_t3",
-              "text": "實作 adapter 層",
-              "done_criteria": "可處理至少 3 種異質 payload"
-            },
-            {
-              "id": "sp6_ch1_t4",
-              "text": "加入型別驗證",
-              "done_criteria": "關鍵欄位型別不符可攔截"
-            },
-            {
-              "id": "sp6_ch1_t5",
               "text": "完成 smoke test",
-              "done_criteria": "端到端整合流程可跑通一次"
+              "done_criteria": "核心流程跑通"
             }
           ],
           "quiz": [
             {
-              "id": "sp6_ch1_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "整合前先做什麼最關鍵？",
+              "question": "adapter 主要目的？",
               "options": [
-                "先做動畫",
-                "先對齊 schema",
-                "先改顏色",
-                "先發佈"
+                "欄位對齊",
+                "加動畫",
+                "改色彩",
+                "做快取"
               ],
-              "answer": "先對齊 schema"
+              "answer": "欄位對齊"
             },
             {
-              "id": "sp6_ch1_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "adapter pattern 在此主要用途是？",
+              "question": "欄位衝突先做什麼？",
               "options": [
-                "加速 DB",
-                "轉換異質資料格式",
-                "取代 API",
-                "壓縮圖片"
+                "列 mapping",
+                "刪資料",
+                "改框架",
+                "重寫前端"
               ],
-              "answer": "轉換異質資料格式"
+              "answer": "列 mapping"
             },
             {
-              "id": "sp6_ch1_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "若 accuracy 以字串傳入，推薦前應？",
+              "question": "smoke test 作用？",
               "options": [
-                "直接比較",
-                "轉成 float 並驗證",
-                "忽略",
-                "改成 int"
+                "確認主流程可跑",
+                "畫面美化",
+                "減少欄位",
+                "壓縮資料"
               ],
-              "answer": "轉成 float 並驗證"
+              "answer": "確認主流程可跑"
             },
             {
-              "id": "sp6_ch1_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請說明欄位命名不一致會造成哪些整合問題。",
+              "question": "為何統一 schema",
               "answer_keywords": [
-                "對應",
-                "錯誤",
-                "維護"
+                "整合穩定",
+                "減少轉換成本"
               ]
             },
             {
-              "id": "sp6_ch1_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "整合 smoke test 最少應驗證哪些項目？",
+              "question": "mapping 表至少含什麼",
               "answer_keywords": [
-                "資料流",
-                "欄位",
-                "成功"
+                "source",
+                "target",
+                "type"
               ]
             }
           ],
-          "io_logic_note": "輸入是多模組異質資料，輸出要是統一 schema 以支援推薦與前端展示。",
-          "practice_examples": [
-            "欄位對齊：mixed keys -> normalized keys",
-            "型別修正：string score -> float",
-            "轉接層驗證：heterogeneous payload -> unified object"
-          ],
-          "examples": [
-            {
-              "id": "sp6_ch1_ex1",
-              "title": "欄位對齊",
-              "input_format": "SP2-SP5 API JSON payloads",
-              "logic": "將 studentId/student_id 等異名欄位映射到統一命名。",
-              "example_output": "{\"student_id\":\"S01\",\"chapter\":\"CH3\",\"wrong_rate\":0.27}"
-            },
-            {
-              "id": "sp6_ch1_ex2",
-              "title": "型別修正",
-              "input_format": "accuracy=\"0.82\"",
-              "logic": "轉成 float 並限制範圍 0~1，避免規則判斷失準。",
-              "example_output": "{\"accuracy\":0.82}"
-            },
-            {
-              "id": "sp6_ch1_ex3",
-              "title": "轉接層驗證",
-              "input_format": "heterogeneous payload",
-              "logic": "透過 adapter 輸出統一欄位與型別，供下游推薦引擎使用。",
-              "example_output": "整合 API 可直接讀取 unified schema"
-            }
-          ]
+          "io_logic_note": "多來源輸入經 adapter 統一為可被規則與 UI 使用的標準輸出。"
         },
         {
-          "id": "ch2",
-          "title": "難度適配規則（Adaptive Rules）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "規則要可解釋",
-            "先測邊界再擴充規則",
-            "回傳 next_step + reason"
+          "id": "sp6_ch2",
+          "title": "難度適配與推薦規則",
+          "estimated_hours": 3,
+          "chapter_summary": "依學習表現輸出可解釋下一步建議。",
+          "detail_doc_url": "/docs/sp6-detailed-outline",
+          "detail_doc_label": "查看 SP6 難度適配與推薦規則 詳細說明",
+          "detail_doc_hint": "對照 SP6 Chapter 2。",
+          "input_contract": [
+            "quiz_accuracy",
+            "wrong_rate",
+            "stay_time_sec"
           ],
-          "syntax_focus": [
-            "if-rule engine",
-            "score mapping",
-            "boundary tests"
+          "output_contract": [
+            "next_step",
+            "reason",
+            "review_link"
+          ],
+          "constraints": [
+            "accuracy 範圍 0~1",
+            "0.6/0.8 邊界行為需固定"
+          ],
+          "learning_method": [
+            "先定區間再寫程式",
+            "規則需可解釋",
+            "先測邊界再上線"
           ],
           "steps": [
-            "定義低中高分數區間。",
-            "實作 recommend_next(metrics)。",
-            "補上推薦原因文字。",
-            "驗證邊界值與異常值。"
+            "定義區間",
+            "實作 recommend_next",
+            "補 reason",
+            "做邊界測試"
           ],
-          "example_code": "if accuracy < 0.6:\n    return {\"next_step\": \"review_basic\"}\nelif accuracy < 0.8:\n    return {\"next_step\": \"practice\"}\nreturn {\"next_step\": \"advance\"}",
+          "example_code": "if accuracy < 0.6: return 'review_basic'",
           "tasks": [
             {
               "id": "sp6_ch2_t1",
-              "text": "定義分數區間規則",
-              "done_criteria": "低中高區間邊界明確"
+              "text": "完成區間定義",
+              "done_criteria": "review/practice/advance 三段"
             },
             {
               "id": "sp6_ch2_t2",
-              "text": "完成 recommend_next 函式",
-              "done_criteria": "回傳 next_step 與 reason"
+              "text": "完成推薦函式",
+              "done_criteria": "回 next_step/reason/link"
             },
             {
               "id": "sp6_ch2_t3",
-              "text": "加入異常值處理",
-              "done_criteria": "空值或超範圍輸入可被處理"
-            },
-            {
-              "id": "sp6_ch2_t4",
-              "text": "完成邊界值測試",
-              "done_criteria": "0.6/0.8 案例結果穩定"
-            },
-            {
-              "id": "sp6_ch2_t5",
-              "text": "整理規則說明文件",
-              "done_criteria": "可讓非工程角色理解推薦邏輯"
+              "text": "完成邊界測試",
+              "done_criteria": "0.6/0.8 行為一致"
             }
           ],
           "quiz": [
             {
-              "id": "sp6_ch2_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "適配規則輸出至少應包含？",
+              "question": "accuracy < 0.6 建議？",
               "options": [
-                "color",
-                "next_step + reason",
-                "table name",
-                "uuid"
-              ],
-              "answer": "next_step + reason"
-            },
-            {
-              "id": "sp6_ch2_q2",
-              "type": "mcq",
-              "question": "邊界值測試主要防止？",
-              "options": [
-                "字串錯字",
-                "規則輸出不一致",
-                "檔案遺失",
-                "畫面變形"
-              ],
-              "answer": "規則輸出不一致"
-            },
-            {
-              "id": "sp6_ch2_q3",
-              "type": "mcq",
-              "question": "accuracy=0.55 常見建議是？",
-              "options": [
-                "advance",
                 "review_basic",
-                "skip",
-                "archive"
+                "practice_more",
+                "advance",
+                "skip"
               ],
               "answer": "review_basic"
             },
             {
-              "id": "sp6_ch2_q4",
-              "type": "short_answer",
-              "question": "請說明為什麼推薦規則需要 reason。",
-              "answer_keywords": [
+              "id": "q2",
+              "type": "mcq",
+              "question": "為何要 reason 欄位？",
+              "options": [
                 "可解釋",
-                "信任",
-                "學習"
-              ]
+                "變好看",
+                "減行數",
+                "壓縮"
+              ],
+              "answer": "可解釋"
             },
             {
-              "id": "sp6_ch2_q5",
+              "id": "q3",
+              "type": "mcq",
+              "question": "邊界測試重點？",
+              "options": [
+                "0.6/0.8",
+                "icon",
+                "font",
+                "theme"
+              ],
+              "answer": "0.6/0.8"
+            },
+            {
+              "id": "q4",
               "type": "short_answer",
-              "question": "若輸入指標缺值，你會如何設計 fallback？",
+              "question": "為何避免黑箱推薦",
               "answer_keywords": [
-                "預設",
-                "檢查",
-                "提示"
+                "提升信任",
+                "可改善"
+              ]
+            },
+            {
+              "id": "q5",
+              "type": "short_answer",
+              "question": "給一個推薦理由範例",
+              "answer_keywords": [
+                "錯題率高",
+                "停留時間長",
+                "先複習"
               ]
             }
           ],
-          "io_logic_note": "輸入是學習指標，輸出是 next_step 與 reason；要確保邊界值一致且使用者看得懂。",
-          "practice_examples": [
-            "分數分層推薦：accuracy -> next_step",
-            "邊界測試：0.6/0.8 -> deterministic output",
-            "推薦理由：metrics -> readable reason"
-          ],
-          "examples": [
-            {
-              "id": "sp6_ch2_ex1",
-              "title": "分數分層推薦",
-              "input_format": "accuracy: float",
-              "logic": "accuracy<0.6 複習，0.6~0.8 練習，>=0.8 進階。",
-              "example_output": "{\"next_step\":\"review_basic\"}"
-            },
-            {
-              "id": "sp6_ch2_ex2",
-              "title": "邊界值測試",
-              "input_format": "accuracy=0.6 / 0.8",
-              "logic": "固定比較運算子，確保邊界輸出不跳動。",
-              "example_output": "0.6 -> practice, 0.8 -> advance"
-            },
-            {
-              "id": "sp6_ch2_ex3",
-              "title": "推薦理由生成",
-              "input_format": "wrong_rate + stay_time",
-              "logic": "將指標轉為可讀文字，說明為何推薦該步驟。",
-              "example_output": "{\"reason\":\"CH3 錯題率偏高，先複習基礎題\"}"
-            }
-          ]
+          "io_logic_note": "指標輸入對映到可執行下一步，並附可理解原因。"
         },
         {
-          "id": "ch3",
-          "title": "前端整合頁面（Integrated UI）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先確保資訊完整再調整視覺",
-            "重新分析流程要有 loading",
-            "推薦理由預設收合可展開"
+          "id": "sp6_ch3",
+          "title": "單頁整合看板",
+          "estimated_hours": 3,
+          "chapter_summary": "在一頁整合進度、弱點、推薦，支援重新分析。",
+          "detail_doc_url": "/docs/sp6-detailed-outline",
+          "detail_doc_label": "查看 SP6 單頁整合看板 詳細說明",
+          "detail_doc_hint": "對照 SP6 Chapter 3。",
+          "input_contract": [
+            "integrated api response",
+            "last_updated_at"
           ],
-          "syntax_focus": [
-            "React components",
-            "state sync",
-            "re-analysis interaction"
+          "output_contract": [
+            "progress_block",
+            "weakness_block",
+            "recommendation_block",
+            "refresh_state"
+          ],
+          "constraints": [
+            "重新分析後三區塊需同步刷新",
+            "更新時間必須顯示"
+          ],
+          "learning_method": [
+            "先保證資料一致",
+            "再做互動細節",
+            "每區塊都要可行動"
           ],
           "steps": [
-            "建立進度/弱點/建議三區塊 UI。",
-            "串接整合 API 並同步狀態。",
-            "加入重新分析按鈕。",
-            "顯示最後更新時間與載入狀態。"
+            "建三區塊",
+            "串整合 API",
+            "加入重新分析",
+            "顯示更新時間"
           ],
-          "example_code": "const [recommendation, setRecommendation] = useState(null);\nconst onReanalyze = async () => setRecommendation(await fetchRecommendation());",
+          "example_code": "setRecommendation(await fetchRecommendation())",
           "tasks": [
             {
               "id": "sp6_ch3_t1",
-              "text": "建立整合頁面版型",
-              "done_criteria": "進度/弱點/建議三區塊完整"
+              "text": "完成三區塊版型",
+              "done_criteria": "progress/weakness/recommendation 齊全"
             },
             {
               "id": "sp6_ch3_t2",
-              "text": "完成整合 API 串接",
-              "done_criteria": "頁面可讀取並顯示整合資料"
+              "text": "完成整合串接",
+              "done_criteria": "資料可同步更新"
             },
             {
               "id": "sp6_ch3_t3",
-              "text": "加入重新分析互動",
-              "done_criteria": "按鈕可觸發重新計算流程"
-            },
-            {
-              "id": "sp6_ch3_t4",
-              "text": "加入更新時間與狀態",
-              "done_criteria": "顯示 loading/error/last_updated"
-            },
-            {
-              "id": "sp6_ch3_t5",
-              "text": "完成使用者流程測試",
-              "done_criteria": "主要互動可從頭到尾完成"
+              "text": "完成重新分析",
+              "done_criteria": "點擊可重抓重算"
             }
           ],
           "quiz": [
             {
-              "id": "sp6_ch3_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "前端整合頁面最核心價值是？",
+              "question": "整合頁三核心區塊？",
               "options": [
-                "增加動畫",
-                "把現況與下一步一次講清楚",
-                "減少 API",
-                "隱藏資料"
+                "progress/weakness/recommendation",
+                "header/footer/logo",
+                "css/js/html",
+                "api/db/cache"
               ],
-              "answer": "把現況與下一步一次講清楚"
+              "answer": "progress/weakness/recommendation"
             },
             {
-              "id": "sp6_ch3_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "重新分析按鈕點擊後應優先做？",
+              "question": "顯示 last_updated_at 的目的？",
               "options": [
-                "清空全部資料",
-                "顯示 loading 並重新抓取",
-                "重新整理瀏覽器",
-                "停用 API"
+                "資料可信度",
+                "美觀",
+                "壓縮",
+                "加速"
               ],
-              "answer": "顯示 loading 並重新抓取"
+              "answer": "資料可信度"
             },
             {
-              "id": "sp6_ch3_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "推薦原因展開功能主要改善？",
+              "question": "重新分析按鈕作用？",
               "options": [
-                "SQL 效能",
-                "可解釋性",
-                "DB 關聯",
-                "部署速度"
+                "重抓與重算",
+                "改色彩",
+                "刪資料",
+                "登出"
               ],
-              "answer": "可解釋性"
+              "answer": "重抓與重算"
             },
             {
-              "id": "sp6_ch3_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請描述三區塊資料不同步時可能的 UX 問題。",
+              "question": "如何避免刷新不同步",
               "answer_keywords": [
-                "混亂",
-                "不一致",
-                "信任"
+                "統一 state",
+                "序列更新"
               ]
             },
             {
-              "id": "sp6_ch3_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "最後更新時間在學習產品中的作用是什麼？",
+              "question": "推薦理由呈現方式",
               "answer_keywords": [
-                "新鮮度",
-                "判斷",
-                "信心"
+                "短",
+                "可展開",
+                "可理解"
               ]
             }
           ],
-          "io_logic_note": "輸入是整合 API 回應，輸出是使用者可理解的單頁視圖；重點是資料同步與互動回饋。",
-          "practice_examples": [
-            "三區塊視圖：combined data -> dashboard sections",
-            "重新分析：button click -> refetch",
-            "推薦原因展開：reason text -> collapsible ui"
-          ],
-          "examples": [
-            {
-              "id": "sp6_ch3_ex1",
-              "title": "三區塊視圖",
-              "input_format": "progress/weakness/recommendation JSON",
-              "logic": "分區渲染並確保三區塊資料同時更新。",
-              "example_output": "畫面顯示進度、弱點、下一步建議"
-            },
-            {
-              "id": "sp6_ch3_ex2",
-              "title": "重新計算建議",
-              "input_format": "click 重新分析",
-              "logic": "觸發 API 重算並覆蓋 recommendation state。",
-              "example_output": "新推薦內容立即更新"
-            },
-            {
-              "id": "sp6_ch3_ex3",
-              "title": "推薦原因展開",
-              "input_format": "recommendation.reason",
-              "logic": "提供展開/收合，讓使用者理解推薦依據。",
-              "example_output": "顯示「為何建議先複習 CH3」"
-            }
-          ]
+          "io_logic_note": "整合 API 輸入要一次映射到三區塊輸出，避免資料斷裂。"
         },
         {
-          "id": "ch4",
-          "title": "驗收與展示（Acceptance and Demo）",
-          "estimated_hours": 2,
-          "learning_method": [
-            "先跑通主流程再做展示稿",
-            "demo script 每步都可重現",
-            "README 以新成員視角驗證"
+          "id": "sp6_ch4",
+          "title": "E2E 驗收與 Demo",
+          "estimated_hours": 3,
+          "chapter_summary": "完成可重現端到端驗收與 5 分鐘展示腳本。",
+          "detail_doc_url": "/docs/sp6-detailed-outline",
+          "detail_doc_label": "查看 SP6 E2E 驗收與 Demo 詳細說明",
+          "detail_doc_hint": "對照 SP6 Chapter 4。",
+          "input_contract": [
+            "test_account",
+            "demo_seed_data",
+            "demo_script"
           ],
-          "syntax_focus": [
-            "E2E script",
-            "demo script",
-            "README reproducibility"
+          "output_contract": [
+            "e2e_status",
+            "flow_steps",
+            "demo_duration_min",
+            "reproducible"
+          ],
+          "constraints": [
+            "流程必須可重現",
+            "README 要能讓新成員獨立跑通"
+          ],
+          "learning_method": [
+            "先定主流程",
+            "固定樣本資料",
+            "反覆演練腳本"
           ],
           "steps": [
-            "定義登入到推薦的 E2E 主流程。",
-            "準備最小可重現測試資料。",
-            "撰寫 5 分鐘 demo script。",
-            "README 補一鍵啟動與故障排除。"
+            "定義主流程",
+            "準備最小樣本",
+            "撰寫 5 分鐘 script",
+            "新成員重跑驗證"
           ],
-          "example_code": "steps = [\"login\", \"learn\", \"analyze\", \"recommend\"]",
+          "example_code": "Flow: login -> learn -> analyze -> recommend",
           "tasks": [
             {
               "id": "sp6_ch4_t1",
-              "text": "定義 E2E 驗收流程",
-              "done_criteria": "流程含登入/學習/分析/推薦四段"
+              "text": "完成 E2E 腳本",
+              "done_criteria": "主流程連續可跑"
             },
             {
               "id": "sp6_ch4_t2",
-              "text": "準備展示資料集",
-              "done_criteria": "資料可重複載入且結果一致"
+              "text": "完成 Demo Script",
+              "done_criteria": "含開場/展示/收尾"
             },
             {
               "id": "sp6_ch4_t3",
-              "text": "完成 demo script",
-              "done_criteria": "5 分鐘內可完整展示價值"
-            },
-            {
-              "id": "sp6_ch4_t4",
-              "text": "補齊 README 重現指引",
-              "done_criteria": "新成員可依指引自行啟動"
-            },
-            {
-              "id": "sp6_ch4_t5",
-              "text": "完成最終驗收紀錄",
-              "done_criteria": "保留測試結果與待改進事項"
+              "text": "完成重現驗證",
+              "done_criteria": "新成員依 README 跑通"
             }
           ],
           "quiz": [
             {
-              "id": "sp6_ch4_q1",
+              "id": "q1",
               "type": "mcq",
-              "question": "驗收流程最重要的是？",
+              "question": "E2E 驗收首要目的？",
               "options": [
-                "看起來炫",
-                "可重現",
-                "文字很多",
-                "按鈕多"
+                "確認整體可用",
+                "改字體",
+                "加動畫",
+                "減檔案"
               ],
-              "answer": "可重現"
+              "answer": "確認整體可用"
             },
             {
-              "id": "sp6_ch4_q2",
+              "id": "q2",
               "type": "mcq",
-              "question": "Demo script 的主要目的為何？",
+              "question": "Demo script 必含？",
               "options": [
-                "固定敘事與操作節奏",
-                "增加工作量",
-                "替代測試",
-                "隨機展示"
+                "開場/展示/收尾",
+                "背景音樂",
+                "logo 動畫",
+                "主題色"
               ],
-              "answer": "固定敘事與操作節奏"
+              "answer": "開場/展示/收尾"
             },
             {
-              "id": "sp6_ch4_q3",
+              "id": "q3",
               "type": "mcq",
-              "question": "README 重現驗證最好由誰執行？",
+              "question": "重現成功關鍵？",
               "options": [
-                "原作者自己",
-                "新成員或第三方",
-                "設計師",
-                "任何人都不需要"
+                "完整 README",
+                "深色模式",
+                "字級",
+                "圖片"
               ],
-              "answer": "新成員或第三方"
+              "answer": "完整 README"
             },
             {
-              "id": "sp6_ch4_q4",
+              "id": "q4",
               "type": "short_answer",
-              "question": "請列出 E2E 主流程至少四個步驟。",
+              "question": "如何降低 demo 失敗率",
               "answer_keywords": [
-                "登入",
-                "學習",
-                "分析",
-                "推薦"
+                "固定資料",
+                "固定流程",
+                "預先排練"
               ]
             },
             {
-              "id": "sp6_ch4_q5",
+              "id": "q5",
               "type": "short_answer",
-              "question": "若新成員重現失敗，文件應如何改進？",
+              "question": "如何向面試官說專案價值",
               "answer_keywords": [
-                "補步驟",
-                "錯誤排除",
-                "前置條件"
+                "整合能力",
+                "可解釋推薦",
+                "可重現成果"
               ]
             }
           ],
-          "io_logic_note": "輸入是測試帳號與樣本資料，輸出是可重現的展示流程與驗收證據。",
-          "practice_examples": [
-            "E2E 主流程：test account + seed data -> pass report",
-            "Demo script：story steps -> reproducible demo",
-            "新成員重現：README commands -> onboarding result"
-          ],
-          "examples": [
-            {
-              "id": "sp6_ch4_ex1",
-              "title": "E2E 主流程測試",
-              "input_format": "test account + sample data",
-              "logic": "依固定流程跑登入、學習、分析、推薦並記錄成功/失敗。",
-              "example_output": "E2E 測試通過報告"
-            },
-            {
-              "id": "sp6_ch4_ex2",
-              "title": "Demo script",
-              "input_format": "展示步驟清單",
-              "logic": "固定敘事順序與操作步驟，確保可在短時間完成。",
-              "example_output": "5 分鐘內穩定展示端到端流程"
-            },
-            {
-              "id": "sp6_ch4_ex3",
-              "title": "新成員重現",
-              "input_format": "README startup instructions",
-              "logic": "請新成員依文件操作，回收阻塞點並修正文檔。",
-              "example_output": "首次重現成功，耗時 18 分鐘"
-            }
-          ]
+          "io_logic_note": "以固定輸入與固定流程輸出可展示、可交接的整合成果。"
         }
       ]
     }

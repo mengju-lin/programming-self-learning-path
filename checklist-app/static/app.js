@@ -15,35 +15,52 @@ function escapeHtml(value) {
 }
 
 function normalizeData(data) {
-  if (Array.isArray(data.sps)) return data;
+  if (!Array.isArray(data.sps)) {
+    return {
+      learning_path_title: data.title || "Learning Path Checklist",
+      language: data.language || "zh-TW",
+      quiz_rule: data.quiz_rule || {
+        per_chapter_questions: 5,
+        format: "3 mcq + 2 short_answer",
+        duration_minutes: 10
+      },
+      sps: []
+    };
+  }
 
   return {
-    learning_path_title: data.title || "Learning Path Checklist",
+    learning_path_title: data.learning_path_title || "Learning Path Checklist",
     language: data.language || "zh-TW",
     quiz_rule: data.quiz_rule || {
       per_chapter_questions: 5,
       format: "3 mcq + 2 short_answer",
       duration_minutes: 10
     },
-    sps: [
-      {
-        sp_id: data.sp_id || "SP1",
-        title: data.title || "Checklist",
-        estimated_total_hours: data.estimated_total_hours || 0,
-        chapters: (data.chapters || []).map((ch) => ({
-          ...ch,
-          learning_method: ch.learning_method || [],
-          syntax_focus: ch.syntax_focus || [],
-          steps: ch.steps || [],
-          example_code: ch.example_code || "",
-          tasks: ch.tasks || [],
-          quiz: ch.quiz || [],
-          io_logic_note: ch.io_logic_note || "",
-          practice_examples: ch.practice_examples || [],
-          examples: ch.examples || []
-        }))
-      }
-    ]
+    sps: data.sps.map((sp) => ({
+      sp_id: sp.sp_id,
+      title: sp.title || sp.sp_id,
+      estimated_total_hours: sp.estimated_total_hours || 0,
+      sp_doc_url: sp.sp_doc_url || "",
+      sp_doc_label: sp.sp_doc_label || "查看專案詳細文件",
+      chapters: (sp.chapters || []).map((ch) => ({
+        id: ch.id,
+        title: ch.title || ch.id,
+        estimated_hours: ch.estimated_hours || 0,
+        chapter_summary: ch.chapter_summary || "",
+        detail_doc_url: ch.detail_doc_url || sp.sp_doc_url || "",
+        detail_doc_label: ch.detail_doc_label || "查看本章詳細說明",
+        detail_doc_hint: ch.detail_doc_hint || "",
+        input_contract: ch.input_contract || [],
+        output_contract: ch.output_contract || [],
+        constraints: ch.constraints || [],
+        learning_method: ch.learning_method || [],
+        steps: ch.steps || [],
+        example_code: ch.example_code || "",
+        tasks: ch.tasks || [],
+        quiz: ch.quiz || [],
+        io_logic_note: ch.io_logic_note || ""
+      }))
+    }))
   };
 }
 
@@ -65,7 +82,7 @@ function taskKey(spId, taskId) {
 }
 
 function getSelectedSp() {
-  return data.sps.find((sp) => sp.sp_id === state.selectedSpId) || data.sps[0];
+  return data.sps.find((sp) => sp.sp_id === state.selectedSpId) || data.sps[0] || null;
 }
 
 function getSelectedChapter(sp) {
@@ -82,92 +99,35 @@ function chapterProgress(sp, chapter) {
 }
 
 function spProgress(sp) {
-  const allTasks = sp.chapters.flatMap((ch) => (ch.tasks || []).map((t) => taskKey(sp.sp_id, t.id)));
-  const done = allTasks.filter((key) => saved[key]).length;
-  const total = allTasks.length;
+  const keys = sp.chapters.flatMap((ch) => (ch.tasks || []).map((t) => taskKey(sp.sp_id, t.id)));
+  const done = keys.filter((k) => saved[k]).length;
+  const total = keys.length;
   const pct = total ? Math.round((done / total) * 100) : 0;
   return { done, total, pct };
 }
 
 function updateOverallProgress() {
-  const allTaskKeys = data.sps.flatMap((sp) =>
+  const keys = data.sps.flatMap((sp) =>
     sp.chapters.flatMap((ch) => (ch.tasks || []).map((t) => taskKey(sp.sp_id, t.id)))
   );
-  const doneCount = allTaskKeys.filter((key) => saved[key]).length;
-  const total = allTaskKeys.length;
-  const pct = total ? Math.round((doneCount / total) * 100) : 0;
-
+  const done = keys.filter((k) => saved[k]).length;
+  const total = keys.length;
+  const pct = total ? Math.round((done / total) * 100) : 0;
   overallBar.style.width = `${pct}%`;
   overallLabel.textContent = `${pct}%`;
 }
 
-function makeSpark(card) {
-  const spark = document.createElement("span");
-  spark.className = "spark";
-  spark.style.left = `${30 + Math.random() * 40}%`;
-  spark.style.top = `${38 + Math.random() * 24}%`;
-  spark.style.setProperty("--dx", `${-70 + Math.random() * 140}px`);
-  spark.style.setProperty("--dy", `${-90 + Math.random() * 40}px`);
-  spark.style.background = ["#0ea5e9", "#38bdf8", "#10b981", "#f59e0b"][Math.floor(Math.random() * 4)];
-  card.appendChild(spark);
-  setTimeout(() => spark.remove(), 700);
-}
-
-let moneyLayerEl = null;
-
-function moneyLayer() {
-  if (!moneyLayerEl) {
-    moneyLayerEl = document.createElement("div");
-    moneyLayerEl.className = "money-layer";
-    document.body.appendChild(moneyLayerEl);
-  }
-  return moneyLayerEl;
-}
-
-function makeMoney() {
-  const layer = moneyLayer();
-  const money = document.createElement("span");
-  const symbols = ["$", "$$", "$$$", "$$$$", "NT$", "USD$"];
-  money.className = "money-pop";
-  money.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-  money.style.left = `${Math.random() * 100}vw`;
-  money.style.top = `${62 + Math.random() * 34}vh`;
-  money.style.setProperty("--mx", `${-280 + Math.random() * 560}px`);
-  money.style.setProperty("--my", `${-220 - Math.random() * 680}px`);
-  money.style.setProperty("--ms", `${1.3 + Math.random() * 2.2}`);
-  money.style.setProperty("--rot", `${-26 + Math.random() * 52}deg`);
-  money.style.fontSize = `${1.6 + Math.random() * 2.8}rem`;
-  layer.appendChild(money);
-  setTimeout(() => money.remove(), 1450);
-}
-
-function rainMoney(_card, count = 180) {
-  for (let i = 0; i < count; i += 1) {
-    setTimeout(() => makeMoney(), i * 7);
-  }
-}
-
-function celebrate(card) {
-  for (let i = 0; i < 16; i += 1) {
-    setTimeout(() => makeSpark(card), i * 20);
-  }
-  rainMoney(card, 260);
-}
-
 function renderSpList() {
   spListEl.innerHTML = "";
-
-  data.sps.forEach((sp, idx) => {
+  data.sps.forEach((sp) => {
     const progress = spProgress(sp);
     const active = sp.sp_id === state.selectedSpId;
-
     const button = document.createElement("button");
     button.type = "button";
     button.className = [
       "w-full rounded-xl border p-3 text-left transition",
       active ? "border-sky-500 bg-sky-50" : "border-slate-200 hover:bg-slate-50"
     ].join(" ");
-
     button.innerHTML = `
       <div class="flex items-center justify-between gap-2">
         <span class="text-sm font-semibold text-slate-800">${escapeHtml(sp.sp_id)}</span>
@@ -175,35 +135,29 @@ function renderSpList() {
       </div>
       <p class="mt-1 text-xs text-slate-600">${escapeHtml(sp.title)}</p>
       <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-200">
-        <div class="h-full rounded-full bg-sky-500" style="width: ${progress.pct}%"></div>
+        <div class="h-full rounded-full bg-sky-500" style="width:${progress.pct}%"></div>
       </div>
     `;
-    button.style.animation = `slide-up 380ms ease-out ${idx * 45}ms both`;
-
     button.addEventListener("click", () => {
       state.selectedSpId = sp.sp_id;
       state.selectedChapterId = sp.chapters[0]?.id || null;
       render();
     });
-
     spListEl.appendChild(button);
   });
 }
 
 function renderChapterList(sp) {
   chapterListEl.innerHTML = "";
-
-  sp.chapters.forEach((chapter, idx) => {
+  sp.chapters.forEach((chapter) => {
     const progress = chapterProgress(sp, chapter);
     const active = chapter.id === state.selectedChapterId;
-
     const button = document.createElement("button");
     button.type = "button";
     button.className = [
       "w-full rounded-xl border p-3 text-left transition",
       active ? "border-emerald-500 bg-emerald-50" : "border-slate-200 hover:bg-slate-50"
     ].join(" ");
-
     button.innerHTML = `
       <div class="flex items-start justify-between gap-2">
         <span class="text-sm font-medium text-slate-800">${escapeHtml(chapter.title)}</span>
@@ -211,15 +165,17 @@ function renderChapterList(sp) {
       </div>
       <p class="mt-1 text-xs text-slate-500">${progress.done}/${progress.total} 任務</p>
     `;
-    button.style.animation = `slide-up 420ms ease-out ${idx * 55}ms both`;
-
     button.addEventListener("click", () => {
       state.selectedChapterId = chapter.id;
       render();
     });
-
     chapterListEl.appendChild(button);
   });
+}
+
+function renderList(items) {
+  if (!items || !items.length) return '<li class="text-sm text-slate-400">尚未提供</li>';
+  return items.map((item) => `<li class="text-sm text-slate-700">• ${escapeHtml(item)}</li>`).join("");
 }
 
 function renderChapterDetail(sp, chapter) {
@@ -229,44 +185,6 @@ function renderChapterDetail(sp, chapter) {
   }
 
   const progress = chapterProgress(sp, chapter);
-  const completed = progress.total > 0 && progress.done === progress.total;
-
-  chapterDetailEl.classList.toggle("chapter-complete", completed);
-  chapterDetailEl.classList.add("chapter-enter");
-  setTimeout(() => chapterDetailEl.classList.remove("chapter-enter"), 360);
-
-  const syntaxHtml = (chapter.syntax_focus || [])
-    .map((item) => `<li class="text-sm text-slate-700">• ${escapeHtml(item)}</li>`)
-    .join("");
-
-  const stepsHtml = (chapter.steps || [])
-    .map((item, idx) => `<li class="text-sm text-slate-700">${idx + 1}. ${escapeHtml(item)}</li>`)
-    .join("");
-
-  const methodsHtml = (chapter.learning_method || [])
-    .map((m) => `<li class="text-sm text-slate-600">• ${escapeHtml(m)}</li>`)
-    .join("");
-
-  const practiceExamplesHtml = (chapter.practice_examples || [])
-    .map((example) => `<li class="text-sm text-slate-700">• ${escapeHtml(example)}</li>`)
-    .join("");
-
-  const detailedExamplesHtml = (chapter.examples || [])
-    .map(
-      (example) => `
-      <article class="rounded-lg border border-slate-200 bg-white p-3">
-        <p class="text-sm font-semibold text-slate-800">${escapeHtml(example.title || "Example")}</p>
-        <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Input</p>
-        <p class="mt-1 text-sm text-slate-700">${escapeHtml(example.input_format || "-")}</p>
-        <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Logic</p>
-        <p class="mt-1 text-sm text-slate-700">${escapeHtml(example.logic || "-")}</p>
-        <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Output</p>
-        <p class="mt-1 text-sm text-slate-700">${escapeHtml(example.example_output || "-")}</p>
-      </article>
-    `
-    )
-    .join("");
-
   const tasksHtml = (chapter.tasks || [])
     .map((task) => {
       const key = taskKey(sp.sp_id, task.id);
@@ -276,7 +194,7 @@ function renderChapterDetail(sp, chapter) {
           <input type="checkbox" data-task-id="${task.id}" class="task-checkbox mt-1 h-4 w-4 rounded border-slate-400 text-sky-600 focus:ring-sky-500" ${checked} />
           <span>
             <span class="block text-sm font-medium text-slate-800">${escapeHtml(task.text)}</span>
-            <span class="block text-xs text-slate-500">完成標準：${escapeHtml(task.done_criteria)}</span>
+            <span class="block text-xs text-slate-500">完成標準：${escapeHtml(task.done_criteria || "未提供")}</span>
           </span>
         </label>
       `;
@@ -284,8 +202,8 @@ function renderChapterDetail(sp, chapter) {
     .join("");
 
   const quizHtml = (chapter.quiz || [])
-    .slice(0, 3)
-    .map((q, idx) => `<li class="text-xs text-slate-500">Q${idx + 1}：${escapeHtml(q.question)}</li>`)
+    .slice(0, 5)
+    .map((q, idx) => `<li class="text-xs text-slate-600">Q${idx + 1}（${escapeHtml(q.type || "quiz")}）：${escapeHtml(q.question)}</li>`)
     .join("");
 
   chapterDetailEl.innerHTML = `
@@ -293,10 +211,16 @@ function renderChapterDetail(sp, chapter) {
       <div>
         <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">${escapeHtml(sp.sp_id)}</p>
         <h2 class="text-xl font-bold text-slate-900">${escapeHtml(chapter.title)}</h2>
-        <p class="mt-1 text-xs text-slate-500">預估 ${chapter.estimated_hours || "-"} 小時</p>
+        <p class="mt-1 text-xs text-slate-500">預估 ${escapeHtml(chapter.estimated_hours)} 小時</p>
       </div>
-      ${completed ? '<span class="complete-badge rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">已完成</span>' : ""}
     </div>
+
+    <section class="mt-4 rounded-xl border border-sky-200 bg-sky-50 p-3">
+      <p class="text-xs font-semibold uppercase tracking-wide text-sky-700">章節導讀</p>
+      <p class="mt-2 text-sm text-slate-700">${escapeHtml(chapter.chapter_summary || "尚未提供章節摘要")}</p>
+      ${chapter.detail_doc_url ? `<a class="mt-3 inline-flex items-center rounded-md bg-sky-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-sky-700" href="${escapeHtml(chapter.detail_doc_url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(chapter.detail_doc_label || "查看本章詳細說明")}</a>` : ""}
+      ${chapter.detail_doc_hint ? `<p class="mt-2 text-xs text-slate-500">${escapeHtml(chapter.detail_doc_hint)}</p>` : ""}
+    </section>
 
     <div class="mt-4">
       <div class="mb-1 flex items-center justify-between text-xs text-slate-500">
@@ -304,50 +228,48 @@ function renderChapterDetail(sp, chapter) {
         <span>${progress.pct}% (${progress.done}/${progress.total})</span>
       </div>
       <div class="h-2 overflow-hidden rounded-full bg-slate-200">
-        <div class="h-full rounded-full bg-sky-500 transition-all duration-500" style="width: ${progress.pct}%"></div>
+        <div class="h-full rounded-full bg-sky-500 transition-all duration-300" style="width:${progress.pct}%"></div>
       </div>
     </div>
 
-    <div class="mt-5 grid gap-4 md:grid-cols-2">
+    <div class="mt-5 grid gap-4 md:grid-cols-3">
       <section class="rounded-xl bg-slate-50 p-3">
-        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">語法焦點</p>
-        <ul class="mt-2 space-y-1">${syntaxHtml || '<li class="text-sm text-slate-400">尚未提供</li>'}</ul>
+        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Input 合約</p>
+        <ul class="mt-2 space-y-1">${renderList(chapter.input_contract)}</ul>
       </section>
-
       <section class="rounded-xl bg-slate-50 p-3">
-        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">學習方法</p>
-        <ul class="mt-2 space-y-1">${methodsHtml || '<li class="text-sm text-slate-400">尚未提供</li>'}</ul>
+        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Output 合約</p>
+        <ul class="mt-2 space-y-1">${renderList(chapter.output_contract)}</ul>
+      </section>
+      <section class="rounded-xl bg-slate-50 p-3">
+        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">約束與錯誤處理</p>
+        <ul class="mt-2 space-y-1">${renderList(chapter.constraints)}</ul>
       </section>
     </div>
 
     <section class="mt-4 rounded-xl bg-slate-50 p-3">
+      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">自學提示</p>
+      <ul class="mt-2 space-y-1">${renderList(chapter.learning_method)}</ul>
+    </section>
+
+    <section class="mt-4 rounded-xl bg-slate-50 p-3">
       <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">步驟</p>
-      <ol class="mt-2 space-y-1">${stepsHtml || '<li class="text-sm text-slate-400">尚未提供</li>'}</ol>
+      <ol class="mt-2 space-y-1">${(chapter.steps || []).map((s, i) => `<li class="text-sm text-slate-700">${i + 1}. ${escapeHtml(s)}</li>`).join("") || '<li class="text-sm text-slate-400">尚未提供</li>'}</ol>
     </section>
 
     <section class="mt-4 rounded-xl bg-slate-50 p-3">
-      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">I/O 與邏輯焦點</p>
+      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">I/O 邏輯說明</p>
       <p class="mt-2 text-sm text-slate-700">${escapeHtml(chapter.io_logic_note || "尚未提供")}</p>
-    </section>
-
-    <section class="mt-4 rounded-xl bg-slate-50 p-3">
-      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">練習例子摘要</p>
-      <ul class="mt-2 space-y-1">${practiceExamplesHtml || '<li class="text-sm text-slate-400">尚未提供</li>'}</ul>
-    </section>
-
-    <section class="mt-4 rounded-xl bg-slate-50 p-3">
-      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">詳細 Examples（Input / Logic / Output）</p>
-      <div class="mt-2 grid gap-2">${detailedExamplesHtml || '<p class="text-sm text-slate-400">尚未提供</p>'}</div>
     </section>
 
     <section class="mt-4 rounded-xl bg-slate-900 p-3 text-slate-100">
       <p class="text-xs font-semibold uppercase tracking-wide text-slate-300">範例語法</p>
-      <pre class="mt-2 overflow-x-auto text-xs leading-relaxed"><code>${escapeHtml(chapter.example_code || "# 尚未提供範例語法")}</code></pre>
+      <pre class="mt-2 overflow-x-auto text-xs leading-relaxed"><code>${escapeHtml(chapter.example_code || "# 尚未提供")}</code></pre>
     </section>
 
     <section class="mt-4 space-y-2">
       <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Checklist</p>
-      ${tasksHtml}
+      ${tasksHtml || '<p class="text-sm text-slate-400">尚未提供</p>'}
     </section>
 
     <details class="mt-4 rounded-lg bg-slate-50 p-3">
@@ -358,32 +280,10 @@ function renderChapterDetail(sp, chapter) {
 
   chapterDetailEl.querySelectorAll(".task-checkbox").forEach((checkbox) => {
     checkbox.addEventListener("change", () => {
-      const chapterTasksLength = (chapter.tasks || []).length;
-      const beforeCompleted = chapterProgress(sp, chapter).done === chapterTasksLength;
-      const currentTaskId = checkbox.dataset.taskId;
-      const wasCheckedNow = checkbox.checked;
-      const key = taskKey(sp.sp_id, checkbox.dataset.taskId);
-      saved[key] = checkbox.checked;
+      saved[taskKey(sp.sp_id, checkbox.dataset.taskId)] = checkbox.checked;
       persist();
       render();
       updateOverallProgress();
-
-      if (wasCheckedNow) {
-        rainMoney(chapterDetailEl, 180);
-        const refreshedRow = chapterDetailEl
-          .querySelector(`input[data-task-id="${currentTaskId}"]`)
-          ?.closest("label");
-        if (refreshedRow) {
-          refreshedRow.classList.remove("task-hit");
-          refreshedRow.offsetWidth;
-          refreshedRow.classList.add("task-hit");
-        }
-      }
-
-      const afterCompleted = chapterProgress(sp, chapter).done === chapterTasksLength;
-      if (!beforeCompleted && afterCompleted) {
-        celebrate(chapterDetailEl);
-      }
     });
   });
 }
@@ -391,11 +291,8 @@ function renderChapterDetail(sp, chapter) {
 function render() {
   const sp = getSelectedSp();
   const chapter = getSelectedChapter(sp);
-
   renderSpList();
-  if (sp) {
-    renderChapterList(sp);
-  }
+  if (sp) renderChapterList(sp);
   renderChapterDetail(sp, chapter);
   updateOverallProgress();
 }
