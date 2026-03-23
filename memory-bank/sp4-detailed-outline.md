@@ -1,149 +1,242 @@
-# SP4 詳細大綱（Learning Analytics API and Dashboard）
+# SP4 詳細學習路徑：學習洞察 API 與儀表板（Learning Insights API and Dashboard）
 
 ## 專案情境（Scenario）
-教學團隊需要即時看到學習進度與弱點，你需要把資料轉成可查詢 API，並在前端清楚呈現可行動洞察。
+教學團隊希望「快速看懂」學生進度與弱點。你需要把資料變成 API，再用 Dashboard 呈現可行動的洞察。
 
-## 核心目標（Goals）
-- 定義可落地的學習指標（完成率、錯題率、停留時間）。
-- 建立穩定的 Flask 分析 API。
-- 用 React Dashboard 呈現弱點與複習建議。
+## 專案目標（Goals）
+1. 定義可解釋學習指標。
+2. 建立穩定可查詢 API。
+3. 讓學生與老師都看得懂的 Dashboard。
 
-## Chapter 1：指標定義與 SQL 聚合
+## 預期產出（Deliverables）
+- `metrics.sql`
+- `/api/metrics/overview`
+- React Dashboard（總覽/弱點/建議）
+- 複習連結推薦規則
+
+## 建議節奏（12 小時）
+- Chapter 1：3h
+- Chapter 2：3h
+- Chapter 3：3h
+- Chapter 4：3h
+
+## 章節 I/O 實作合約（Implementation Contract）
+### CH1：指標定義與 SQL 聚合
+- Input Schema：
+```json
+{"learning_events_table":"learning_events","quiz_results_table":"quiz_results","chapter":"CH3"}
+```
+- Output Schema：
+```json
+{"chapter":"CH3","completion_rate":0.82,"wrong_rate":0.27,"avg_stay_sec":523}
+```
+- Constraints：`completion_rate`、`wrong_rate` 範圍需在 `0.0~1.0`。
+
+### CH2：Flask 分析 API
+- Input Schema：
+```json
+{"query":{"chapter":"CH3","date_from":"2026-03-01"}}
+```
+- Success Output：
+```json
+{"data":{"chapter":"CH3","completion_rate":0.82,"wrong_rate":0.27,"avg_stay_sec":523},"meta":{"records":412}}
+```
+- Error Output：
+```json
+{"error":{"code":"INVALID_CHAPTER","message":"chapter not found"}}
+```
+
+### CH3：React 儀表板實作
+- Input Schema：
+```json
+{"api_response":{"data":{"chapter":"CH3","completion_rate":0.82,"wrong_rate":0.27,"avg_stay_sec":523}}}
+```
+- Output Schema：
+```json
+{"ui":{"overview_cards":3,"weak_topics":["CH3"],"recommendation_panel":true},"state":{"loading":false,"error":null}}
+```
+- Constraints：chapter 切換後 1 次請求對應 1 次 state 更新，避免舊資料殘留。
+
+### CH4：複習連結與參與度文案
+- Input Schema：
+```json
+{"chapter":"CH3","wrong_rate":0.31,"completion_rate":0.58,"stay_time_sec":640}
+```
+- Output Schema：
+```json
+{"need_review":true,"review_link":"/course/ch3/review","reason":"錯題率偏高","memo":"先救 CH3，今天會更穩！"}
+```
+- Constraints：`memo` 不超過 20 字、不可覆蓋核心學習資訊。
+
+---
+
+## Chapter 1：指標定義與 SQL 聚合（Metrics and SQL）
 ### 章節目標
-把學習事件轉成可解讀指標，且 SQL 可驗證。
+讓每個指標可被公式、SQL、手算三方驗證。
 
-### 語法與工具焦點
-- SQL `GROUP BY`、`COUNT`、`AVG`
-- 指標定義文件化
-- 小樣本比對
+### Input / Output
+- Input：`learning_events`、`quiz_results`
+- Output：完成率、錯題率、停留時間
 
-### 步驟指引
-1. 定義每項指標公式與欄位來源。
-2. 撰寫對應 SQL 聚合查詢。
-3. 用小樣本手算驗證 SQL 結果。
-4. 輸出 `metrics.sql` 與欄位說明。
+### 學習步驟
+1. 定義指標公式（含分子分母）。
+2. 撰寫對應 SQL。
+3. 用小樣本手算比對。
+4. 輸出欄位說明文件。
 
-### 練習例子（Examples）
-- 例子 1：完成率  
-  Input 格式：`learning_events`。  
-  Logic：`completed / assigned` 聚合。  
-  範例輸出：`{"chapter":"CH3","completion_rate":0.82}`。
-- 例子 2：錯題率  
-  Input 格式：`quiz_results`。  
-  Logic：`wrong_answers / total_answers`。  
-  範例輸出：`{"chapter":"CH3","wrong_rate":0.27}`。
-- 例子 3：停留時間  
-  Input 格式：事件起訖時間。  
-  Logic：計算每章平均停留秒數。  
-  範例輸出：`{"chapter":"CH3","avg_stay_sec":523}`。
+### 自學提示
+- 沒有明確分母的指標通常不可信。
+- 先追求可解釋，再追求複雜度。
+
+### AI 半手動提示
+```text
+請根據 learning_events 與 quiz_results，
+寫出 completion_rate / wrong_rate / avg_stay_time 的 SQL，
+並附每個欄位解釋。
+```
 
 ### 完成檢核
-- 每項指標都有 SQL 與欄位說明。
-- 可用小樣本交叉驗證計算正確性。
+- 每個指標都能說明「怎麼算、為何這樣算」。
+- SQL 結果與手算差異可解釋。
 
-## Chapter 2：Flask 分析 API
+### 10 分鐘測驗（5 題）
+1. MCQ：完成率分母通常是？
+2. MCQ：錯題率核心資料來源？
+3. MCQ：停留時間怎麼算？
+4. SA：為何要做手算比對？
+5. SA：指標設計常見誤區。
+
+錯題複習連結：
+- `#chapter-1指標定義與-sql-聚合metrics-and-sql`
+
+---
+
+## Chapter 2：Flask 分析 API（Analytics API）
 ### 章節目標
-提供前端可直接消費且格式一致的分析 API。
+輸出讓前端穩定使用的查詢服務。
 
-### 語法與工具焦點
-- Flask Blueprint
-- query params 驗證
-- 統一回應 schema
+### Input / Output
+- Input：`chapter`、`date_from`
+- Output：固定 JSON schema（含 metrics 與 metadata）
 
-### 步驟指引
-1. 建立 `/api/metrics/overview`。
-2. 接收 `chapter`、`date_from` 等查詢參數。
-3. 回傳固定 JSON schema。
-4. 非法參數回 400，空資料回空集合。
+### 學習步驟
+1. 建 `/api/metrics/overview`。
+2. 驗證查詢參數。
+3. 查無資料時回空集合而非錯誤。
+4. 錯誤情境回一致格式。
 
-### 練習例子（Examples）
-- 例子 1：總覽 API  
-  Input 格式：`GET /api/metrics/overview?chapter=CH3`。  
-  Logic：查詢三項指標並組裝回應。  
-  範例輸出：`{"chapter":"CH3","completion_rate":0.82,"wrong_rate":0.27}`。
-- 例子 2：日期篩選  
-  Input 格式：`date_from=2026-03-01`。  
-  Logic：只統計日期區間內資料。  
-  範例輸出：`{"records": 412}`。
-- 例子 3：錯誤處理  
-  Input 格式：`chapter=BAD_ID`。  
-  Logic：參數驗證失敗回 400。  
-  範例輸出：`{"error":"invalid chapter"}`。
+### 自學提示
+- API 的穩定度比單次速度更重要。
+- 前端最怕欄位名稱漂移。
+
+### AI 半手動提示
+```text
+請幫我設計 Flask API /api/metrics/overview，
+支援 chapter/date_from 參數，
+回傳固定 schema，非法參數回 400。
+```
 
 ### 完成檢核
-- 前端可穩定解析 API。
-- API 對非法參數有一致錯誤回應。
+- 前端不用猜欄位即可渲染。
+- 錯誤與正常回應格式一致。
 
-## Chapter 3：React Dashboard 呈現
+### 10 分鐘測驗（5 題）
+1. MCQ：API schema 固定的價值？
+2. MCQ：非法參數應回？
+3. MCQ：空資料應如何回應？
+4. SA：為何要先驗證參數？
+5. SA：你會如何設計 error code？
+
+錯題複習連結：
+- `#chapter-2flask-分析-apianalytics-api`
+
+---
+
+## Chapter 3：React 儀表板實作（Dashboard UI）
 ### 章節目標
-讓使用者一眼看懂進度、弱點與優先複習章節。
+讓使用者 30 秒內看懂學習狀態。
 
-### 語法與工具焦點
-- `useEffect`、`fetch`
-- state 管理
-- loading/error UI
+### Input / Output
+- Input：metrics API JSON
+- Output：總覽卡片、弱點清單、建議區塊
 
-### 步驟指引
-1. 建立三個區塊：總覽、弱點、複習建議。
-2. 串接 API 並映射到卡片/圖表。
-3. 支援 chapter filter 重新抓資料。
-4. 加入 loading 與 error 顯示。
+### 學習步驟
+1. 建立三區塊版型。
+2. 串 API 並管理 state。
+3. 支援 chapter filter 重抓。
+4. 補 loading/error/retry。
 
-### 練習例子（Examples）
-- 例子 1：指標卡片渲染  
-  Input 格式：API JSON。  
-  Logic：將指標值映射成卡片內容。  
-  範例輸出：畫面顯示 `82%`、`27%`。
-- 例子 2：條件切換重抓  
-  Input 格式：使用者切換章節。  
-  Logic：更新 query params 並重新 fetch。  
-  範例輸出：切換 CH4 後顯示 CH4 指標。
-- 例子 3：錯誤提示  
-  Input 格式：API 500。  
-  Logic：顯示錯誤訊息與重試按鈕。  
-  範例輸出：`資料載入失敗，請重試`。
+### 自學提示
+- 先保證資料正確顯示，再做視覺優化。
+- 章節切換時要避免舊資料殘留。
+
+### AI 半手動提示
+```text
+請幫我做 React dashboard：
+- overview cards
+- weak topics list
+- recommendation panel
+需有 loading/error，且 chapter 切換會重抓。
+```
 
 ### 完成檢核
-- 篩選切換時資料可同步更新。
-- 使用者可辨識載入中與錯誤狀態。
+- 切換章節後資料同步更新。
+- 錯誤情境有可理解提示。
 
-## Chapter 4：複習建議連結
+### 10 分鐘測驗（5 題）
+1. MCQ：監聽章節變化常用哪個 hook？
+2. MCQ：為什麼需要 loading state？
+3. MCQ：error state 最少要提供什麼？
+4. SA：避免 UI 顯示舊資料的方法。
+5. SA：你會如何安排三區塊資訊優先順序？
+
+錯題複習連結：
+- `#chapter-3react-儀表板實作dashboard-ui`
+
+---
+
+## Chapter 4：複習連結與參與度文案（Review Links and Engagement Copy）
 ### 章節目標
-把分析結果轉成可行動的複習建議。
+把指標轉成可行動建議，提升持續學習意願。
 
-### 語法與工具焦點
-- if-rule 規則
-- Conditional Rendering
-- 深連結（Deep Link）
+### Input / Output
+- Input：`wrong_rate`、`completion_rate`、`stay_time`
+- Output：`need_review`、`review_link`、`reason`、`memo`
 
-### 步驟指引
+### 學習步驟
 1. 定義弱點閾值（例如 `wrong_rate > 0.25`）。
-2. 生成建議項目（章節、原因、連結）。
-3. 在 UI 條件顯示複習按鈕。
-4. 驗證高/中/低三種情境。
+2. 產生章節複習排序。
+3. 顯示「為何推薦」說明。
+4. 加一則輕量 memo/joke（資訊優先）。
 
-### 練習例子（Examples）
-- 例子 1：閾值規則  
-  Input 格式：`wrong_rate: float`。  
-  Logic：高於閾值就回傳複習建議。  
-  範例輸出：`{"need_review":true,"link":"/course/ch3/review"}`。
-- 例子 2：建議排序  
-  Input 格式：多章錯題率。  
-  Logic：依錯題率降序排列優先順序。  
-  範例輸出：`["CH3", "CH2", "CH5"]`。
-- 例子 3：UI 導引  
-  Input 格式：規則判斷結果。  
-  Logic：條件渲染「前往複習」按鈕。  
-  範例輸出：顯示 `前往 CH3 複習`。
+### 自學提示
+- 建議要能被解釋，不能像黑箱。
+- 文案要短，避免喧賓奪主。
+
+### AI 半手動提示
+```text
+請根據 wrong_rate/completion_rate/stay_time，
+輸出 review 建議與原因，
+並附一則簡短鼓勵 memo（20 字內）。
+```
 
 ### 完成檢核
-- 弱點章節可一鍵導向複習內容。
-- 建議規則可被解釋且可重現。
+- 使用者可一鍵跳到對應複習章節。
+- 推薦規則可被口頭解釋。
 
-## 章節測驗規格（固定）
-- 每章 5 題：3 題選擇題 + 2 題簡答題。
-- 時間 10 分鐘內，錯題需對應複習連結。
+### 10 分鐘測驗（5 題）
+1. MCQ：推薦規則第一步應做什麼？
+2. MCQ：`need_review=true` 常見條件？
+3. MCQ：為何要給 `reason` 欄位？
+4. SA：資訊與趣味內容如何平衡？
+5. SA：舉一則不干擾學習的鼓勵 memo。
 
-## 最終完成檢核
-- API 與 dashboard 指標一致。
-- 使用者可依建議立即採取複習行動。
+錯題複習連結：
+- `#chapter-4複習連結與參與度文案review-links-and-engagement-copy`
+
+---
+
+## SP4 最終驗收（Final Acceptance）
+- API 與 dashboard 數據一致。
+- 使用者可快速辨識弱點與下一步。
+- 每章都有可追蹤進度與複習入口。

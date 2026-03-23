@@ -8,10 +8,9 @@
 ## 一、來源優先順序（Source Priority）
 1. `memory-bank/human-raw-ideas.md`
 2. `memory-bank/side-projects-outline.md`
-3. `memory-bank/sp1-detailed-learning-path.md`
-4. `memory-bank/sp2-detailed-outline.md` ~ `memory-bank/sp6-detailed-outline.md`
-5. `memory-bank/side-projects-chapter-tutorials.md`
-6. `checklist-app/README.md`（落地展示與驗收方式）
+3. `memory-bank/sp1-detailed-outline.md` ~ `memory-bank/sp6-detailed-outline.md`
+4. `memory-bank/side-projects-chapter-tutorials.md`
+5. `checklist-app/README.md`（落地展示與驗收方式）
 
 若文件之間衝突，優先採用：
 - 人類需求 > 已寫大綱 > 既有模板。

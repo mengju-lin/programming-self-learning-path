@@ -1,150 +1,267 @@
-# SP2 詳細大綱（AI Meeting-Driven PM Assistant）
+# SP2 詳細學習路徑：AI 會議任務轉換器（AI Meeting-to-Execution Converter）
 
 ## 專案情境（Scenario）
-你接手每週產品會議，需要在短時間內把會議紀錄轉成可執行任務、里程碑與追蹤清單，並理解 AI 工具如何嵌入 AI-supported PM workflow。
+你是 Junior AI-supported PM，需要把會議內容快速轉成可執行任務，並讓團隊能在 GitHub 上直接開工。
 
-## 核心目標（Goals）
-- 把會議文字轉為結構化資料（摘要、行動項目、負責人、截止日）。
-- 建立可更新任務狀態的 API，讓執行面可追蹤。
-- 輸出 GitHub Issue 樣板，支援團隊直接開工。
+## 專案目標（Goals）
+1. 將會議逐字稿轉為結構化輸出。
+2. 產生任務拆解、里程碑與狀態追蹤。
+3. 建立可直接貼用的 GitHub Issue 樣板。
 
-## Chapter 1：會議資料結構化
+## 預期產出（Deliverables）
+- `meeting_structured.json`
+- `tasks.json`、`milestones.json`
+- `/api/tasks`、`/api/tasks/<id>/status`
+- `issues/*.md`
+
+## 建議節奏（12 小時）
+- Chapter 1：2.5h
+- Chapter 2：3h
+- Chapter 3：3h
+- Chapter 4：3.5h
+
+## 章節 I/O 實作合約（Implementation Contract）
+### CH1：會議逐字稿結構化
+- Input Schema：
+```json
+{
+  "meeting_notes": "string",
+  "meeting_meta": {"date": "2026-03-23", "participants": ["Amy", "Ken"]}
+}
+```
+- Output Schema：
+```json
+{
+  "summary": ["..."],
+  "action_items": [{"task": "...", "owner": "Amy", "due_date": "2026-03-25"}],
+  "needs_review": []
+}
+```
+- Constraints：`due_date` 無法解析時不可硬補，必須放入 `needs_review`。
+
+### CH2：任務拆解與里程碑
+- Input Schema：
+```json
+{
+  "action_items": [{"task": "...", "owner": "Amy", "due_date": "2026-03-25"}]
+}
+```
+- Output Schema：
+```json
+{
+  "tasks": [{"id": "t1", "task": "...", "owner": "Amy", "status": "todo", "due_date": "2026-03-25"}],
+  "milestones": [{"week": "W1", "task_ids": ["t1", "t2"]}],
+  "overdue_items": []
+}
+```
+- Constraints：`status` 初始值固定 `todo`，`owner` 不得為空。
+
+### CH3：任務狀態 API
+- Input Schema：
+```json
+{
+  "request": {"task_id": "t1", "status": "doing"}
+}
+```
+- Output Schema：
+```json
+{
+  "task": {"id": "t1", "status": "doing"},
+  "error": null
+}
+```
+- Error Schema：
+```json
+{
+  "error": {"code": "INVALID_STATUS", "message": "status must be todo/doing/done"}
+}
+```
+
+### CH4：GitHub Issue 樣板匯出
+- Input Schema：
+```json
+{
+  "tasks": [{"id": "t1", "task": "更新 API 文件", "owner": "Amy", "due_date": "2026-03-25"}]
+}
+```
+- Output Schema：
+```json
+{
+  "generated_files": ["issues/t1.md"],
+  "count": 1
+}
+```
+- Constraints：每個輸出檔需有 `背景`、`目標`、`完成標準` 三段。
+
+---
+
+## Chapter 1：會議逐字稿結構化（Meeting Structuring）
 ### 章節目標
-把非結構化會議文字轉為可追蹤欄位。
+把「不好追蹤」的長文字，變成「可執行」的欄位資料。
 
-### 語法與工具焦點
-- `str` 清理、`list[dict]` 結構化
-- 規則式抽取（Rule-based Extraction）
-- JSON 輸出
+### Input / Output
+- Input：`meeting_notes: str`
+- Output：`summary`、`action_items`、`owner`、`due_date`、`needs_review`
 
-### 步驟指引
+### 學習步驟
 1. 定義 `meeting_input` 與 `meeting_output` schema。
-2. 將逐字稿切句並移除冗語。
-3. 抽取決策句、行動句、負責人、截止日。
-4. 匯出 `meeting_structured.json`。
+2. 切句、移除冗語、標記決策句。
+3. 抽取行動項目並補齊 `owner` / `due_date`。
+4. 缺值資料設為 `needs_review=true`。
 
-### 練習例子（Examples）
-- 例子 1：摘要抽取  
-  Input 格式：`meeting_notes: str`（多行逐字稿）。  
-  Logic：切句、去口語贅詞、保留決策句。  
-  範例輸出：`{"summary": ["本週先上線 MVP", "下週補回歸測試"]}`。
-- 例子 2：行動項目抽取  
-  Input 格式：`sentences: list[str]`。  
-  Logic：找出動詞開頭句，補齊 `owner` 與 `due_date`。  
-  範例輸出：`{"action_items": [{"task":"更新 API 文件","owner":"Amy","due_date":"2026-03-25"}]}`。
-- 例子 3：資料品質檢查  
-  Input 格式：`action_items: list[dict]`。  
-  Logic：檢查欄位缺漏，若缺漏標記 `needs_review=true`。  
-  範例輸出：`{"task":"整理 dashboard","needs_review": true}`。
+### 自學提示
+- 一開始先用規則式（Rule-based）比直接上模型更穩。
+- 日期抓不到時不要亂猜，標記 review 即可。
+
+### AI 半手動提示
+```text
+請把下面會議紀錄整理成 JSON：
+- summary: 3 點內
+- action_items: task/owner/due_date
+- 若缺欄位，請加 needs_review=true
+```
 
 ### 完成檢核
-- 輸出至少含 `summary`、`action_items`、`owner`、`due_date`。
-- 缺漏欄位可被標記，不會直接丟進後續流程。
+- 輸出 JSON 可直接被 Chapter 2 使用。
+- 欄位缺漏都會被標記，不會默默遺失。
 
-## Chapter 2：任務拆解與里程碑
+### 10 分鐘測驗（5 題）
+1. MCQ：結構化最重要的價值？
+2. MCQ：`needs_review` 何時要設 true？
+3. MCQ：summary 建議幾點內？
+4. SA：規則式 vs AI 先後順序。
+5. SA：如何處理缺失 due_date？
+
+錯題複習連結：
+- `#chapter-1會議逐字稿結構化meeting-structuring`
+
+---
+
+## Chapter 2：任務拆解與里程碑（Task Breakdown and Milestones）
 ### 章節目標
-把行動項目轉成可執行任務與每週里程碑。
+把行動項目轉成每週可執行任務。
 
-### 語法與工具焦點
-- 函式拆分（Function Decomposition）
-- 排序與分組（Sorting / Grouping）
-- `datetime` 日期處理
+### Input / Output
+- Input：`action_items: list[dict]`
+- Output：`tasks.json`、`milestones.json`、`overdue_items`
 
-### 步驟指引
-1. 建立 `build_tasks(action_items)`。
-2. 每個 action item 拆 2-3 個子任務並補 `status="todo"`。
-3. 依 `due_date` 排序後，按週分組為里程碑。
-4. 輸出 `tasks.json` 與 `milestones.json`。
+### 學習步驟
+1. 寫 `build_tasks(action_items)`。
+2. 每筆 action item 拆 2~3 個子任務。
+3. 依 `due_date` 排序並分組到週里程碑。
+4. 產生逾期判斷欄位。
 
-### 練習例子（Examples）
-- 例子 1：任務拆解  
-  Input 格式：`action_items: list[dict]`。  
-  Logic：一筆 action item 轉多筆子任務，保留 `owner`。  
-  範例輸出：`{"tasks": [{"task":"設計 API schema","owner":"Amy","status":"todo"}]}`。
-- 例子 2：里程碑分組  
-  Input 格式：`tasks: list[dict]`（含 `due_date`）。  
-  Logic：排序後依週次分組並計算任務數。  
-  範例輸出：`{"milestones": [{"week":"W1","tasks":4}]}`。
-- 例子 3：逾期檢查  
-  Input 格式：任務清單與今日日期。  
-  Logic：若 `due_date < today` 且非 done，標記 `overdue`。  
-  範例輸出：`{"task":"補單元測試","status":"doing","overdue": true}`。
+### 自學提示
+- 任務拆太細會難維護，目標是「可執行」不是「完美拆解」。
+- 子任務命名請用動詞開頭。
+
+### AI 半手動提示
+```text
+請將以下 action items 拆解為可執行子任務，
+每個任務需有 owner/due_date/status，
+並依週次輸出 milestones。
+```
 
 ### 完成檢核
-- 任務都含 `task`、`owner`、`status`、`due_date`。
-- 能產出每週里程碑與逾期任務清單。
+- 每筆任務都有 `task`、`owner`、`due_date`、`status`。
+- 可列出本週與逾期任務。
 
-## Chapter 3：Flask API 與狀態更新
+### 10 分鐘測驗（5 題）
+1. MCQ：任務拆解的最小單位應該是？
+2. MCQ：里程碑分組常用哪個欄位？
+3. MCQ：逾期判斷基礎是？
+4. SA：為什麼要先排序再分組？
+5. SA：任務命名原則。
+
+錯題複習連結：
+- `#chapter-2任務拆解與里程碑task-breakdown-and-milestones`
+
+---
+
+## Chapter 3：任務狀態 API（Task Status API）
 ### 章節目標
-建立任務查詢與更新端點，支援協作追蹤。
+讓團隊可以更新任務狀態，不再靠口頭同步。
 
-### 語法與工具焦點
-- Flask `GET/POST`
-- request JSON 驗證
-- 狀態機（todo/doing/done）
+### Input / Output
+- Input：`GET /api/tasks`、`POST /api/tasks/<id>/status`
+- Output：任務清單、更新結果、錯誤回應
 
-### 步驟指引
-1. 建立 `GET /api/tasks`。
-2. 建立 `POST /api/tasks/<id>/status`。
-3. 驗證狀態值合法，非法回傳 400。
-4. 更新資料後回傳最新任務。
+### 學習步驟
+1. 建立查詢與更新端點。
+2. 定義允許狀態：`todo`/`doing`/`done`。
+3. 非法輸入回 400 並附錯誤訊息。
+4. 補最小測試（curl 或 Postman）。
 
-### 練習例子（Examples）
-- 例子 1：查詢任務 API  
-  Input 格式：`GET /api/tasks`。  
-  Logic：回傳標準任務清單 schema。  
-  範例輸出：`{"tasks":[{"id":"t1","status":"doing"}]}`。
-- 例子 2：更新狀態 API  
-  Input 格式：`POST /api/tasks/t1/status` + `{"status":"done"}`。  
-  Logic：驗證狀態後更新並回傳。  
-  範例輸出：`{"id":"t1","status":"done"}`。
-- 例子 3：錯誤處理  
-  Input 格式：`{"status":"closed"}`。  
-  Logic：狀態不在允許集合時回 400。  
-  範例輸出：`{"error":"invalid status"}`。
+### 自學提示
+- API 成功與失敗都要有一致 schema。
+- 先確保可更新，再加權限或進階邏輯。
+
+### AI 半手動提示
+```text
+請產生 Flask API：
+1) GET /api/tasks
+2) POST /api/tasks/<id>/status
+要求：驗證 status 合法，錯誤回 400 JSON。
+```
 
 ### 完成檢核
-- 前端可成功更新任務狀態。
-- 非法狀態可被攔截且有清楚錯誤訊息。
+- 狀態更新可重現。
+- 非法值有清楚錯誤回應。
 
-## Chapter 4：GitHub Issue 樣板輸出
+### 10 分鐘測驗（5 題）
+1. MCQ：狀態更新用哪個 HTTP method？
+2. MCQ：非法狀態建議回什麼碼？
+3. MCQ：統一 schema 的好處？
+4. SA：如何設計錯誤訊息讓前端好處理？
+5. SA：為什麼要限制 status 值集合？
+
+錯題複習連結：
+- `#chapter-3任務狀態-apitask-status-api`
+
+---
+
+## Chapter 4：GitHub Issue 樣板匯出（Issue Export）
 ### 章節目標
-把任務自動轉為可貼上 GitHub 的 issue 內容。
+把任務直接變成可貼到 GitHub 的執行單。
 
-### 語法與工具焦點
-- Markdown 模板字串
-- 批次檔案輸出
-- README 操作指引
+### Input / Output
+- Input：`tasks: list[dict]`
+- Output：`issues/*.md`（含背景、目標、完成標準）
 
-### 步驟指引
-1. 設計 issue 欄位（背景、目標、完成標準、owner、due date）。
+### 學習步驟
+1. 定義 issue 模板欄位。
 2. 任務逐筆轉 markdown。
-3. 批次輸出到 `issues/*.md`。
-4. README 補上「輸入→輸出」操作說明。
+3. 批次輸出 `issues/*.md`。
+4. README 補上操作指引。
 
-### 練習例子（Examples）
-- 例子 1：單筆模板轉換  
-  Input 格式：單筆任務 dict。  
-  Logic：映射標題、描述、負責人、截止日。  
-  範例輸出：`## [Task] 更新 API 文件`。
-- 例子 2：批次輸出  
-  Input 格式：`tasks: list[dict]`。  
-  Logic：逐筆寫入 `issues/{task_id}.md`。  
-  範例輸出：`issues/t1.md`, `issues/t2.md`。
-- 例子 3：完成標準自動補齊  
-  Input 格式：缺少 done criteria 的任務。  
-  Logic：套用預設完成標準模板。  
-  範例輸出：`- [ ] API 文件含範例請求與回應`。
+### 自學提示
+- 模板越固定，團隊協作越快。
+- 每份 issue 最少要有完成標準（Done Criteria）。
+
+### AI 半手動提示
+```text
+請把 tasks.json 轉成 GitHub issue markdown，
+每一份需包含：背景、目標、步驟、完成標準、owner、due date。
+```
 
 ### 完成檢核
-- 產出檔可直接貼到 GitHub Issue 使用。
-- README 清楚描述資料流與重跑方式。
+- 至少產生 3 份可用 issue 檔。
+- 任務資訊可追溯到原會議內容。
 
-## 章節測驗規格（固定）
-- 每章 5 題：3 題選擇題 + 2 題簡答題。
-- 時間 10 分鐘內，錯題需對應複習連結。
+### 10 分鐘測驗（5 題）
+1. MCQ：Issue 模板最必要欄位是？
+2. MCQ：為什麼要批次輸出？
+3. MCQ：done criteria 缺漏會造成什麼問題？
+4. SA：你會如何讓 issue 更容易被執行？
+5. SA：給一個「好任務標題」範例。
 
-## 最終完成檢核
-- 會議逐字稿可穩定轉成摘要、行動項目與里程碑。
-- API 可查詢、更新任務狀態，並處理錯誤輸入。
-- 可輸出可直接使用的 GitHub Issue 樣板。
+錯題複習連結：
+- `#chapter-4github-issue-樣板匯出issue-export`
+
+---
+
+## SP2 最終驗收（Final Acceptance）
+- 從會議文字到任務看板可一條龍完成。
+- 任務狀態可更新、可查詢。
+- GitHub Issue 可直接被團隊採用。
+- 有一份「會議重點 Memo」做參與度強化。

@@ -1,149 +1,241 @@
-# SP6 詳細大綱（Adaptive Learning Path Integrator）
+# SP6 詳細學習路徑：自適應學習整合系統（Adaptive Learning Integrator）
 
 ## 專案情境（Scenario）
-展示日前你需要整合 SP2-SP5，交付可操作的端到端學習路徑系統，讓使用者看到進度、弱點與下一步建議。
+你要在展示日前把 SP2~SP5 串起來，交付一個可操作、可解釋、可展示的端到端學習系統。
 
-## 核心目標（Goals）
-- 串接前端、後端、資料庫與 AI 產出流程。
-- 建立可解釋的難度適配與複習推薦規則。
-- 完成可重現的 Demo 流程與 README。
+## 專案目標（Goals）
+1. 對齊跨模組資料格式與 API contract。
+2. 建立可解釋的難度適配與推薦規則。
+3. 完成可重現的 E2E Demo。
 
-## Chapter 1：模組整合與資料流
+## 預期產出（Deliverables）
+- 整合 API
+- 推薦規則文件
+- 單頁整合 Dashboard
+- 5 分鐘 Demo Script + 最終 README
+
+## 建議節奏（12 小時）
+- Chapter 1：3h
+- Chapter 2：3h
+- Chapter 3：3h
+- Chapter 4：3h
+
+## 章節 I/O 實作合約（Implementation Contract）
+### CH1：跨模組欄位對齊
+- Input Schema：
+```json
+{"sp2":{"studentId":"S01","taskStatus":"done"},"sp3":{"student_id":"S01","chapter":"CH3"},"sp4":{"wrong_rate":0.27},"sp5":{"completion_rate":0.78}}
+```
+- Output Schema：
+```json
+{"student_id":"S01","chapter":"CH3","task_status":"done","wrong_rate":0.27,"completion_rate":0.78}
+```
+- Constraints：命名統一用 `snake_case`，缺欄位需回錯誤而非靜默忽略。
+
+### CH2：難度適配與推薦規則
+- Input Schema：
+```json
+{"quiz_accuracy":0.58,"wrong_rate":0.31,"stay_time_sec":640}
+```
+- Output Schema：
+```json
+{"next_step":"review_basic","reason":"錯題率高且停留時間長","review_link":"/course/ch3/review"}
+```
+- Constraints：`quiz_accuracy` 必須在 `0~1`；邊界 `0.6/0.8` 行為需固定。
+
+### CH3：單頁整合看板
+- Input Schema：
+```json
+{"progress":{"completion_rate":0.62},"weakness":{"top":["CH3","CH2"]},"recommendation":{"next_step":"review_basic","reason":"CH3 錯題率高"},"last_updated_at":"2026-03-23T14:30:00+08:00"}
+```
+- Output Schema：
+```json
+{"ui":{"progress_block":true,"weakness_block":true,"recommendation_block":true,"refresh_button":true}}
+```
+- Constraints：點擊「重新分析」後，三區塊必須同步刷新。
+
+### CH4：E2E 驗收與 Demo
+- Input Schema：
+```json
+{"test_account":"demo_user","dataset":"demo_seed.json","script":"demo_script.md"}
+```
+- Output Schema：
+```json
+{"e2e_status":"pass","flow":["login","learn","analyze","recommend"],"demo_duration_min":5,"reproducible":true}
+```
+- Constraints：需提供可重現步驟與阻塞排查指引，讓新成員可獨立完成重跑。
+
+---
+
+## Chapter 1：跨模組欄位對齊（Schema Alignment and Adapter）
 ### 章節目標
-讓 SP2-SP5 資料在同一 schema 下可穩定流動。
+把 SP2~SP5 的資料格式整成同一種語言。
 
-### 語法與工具焦點
-- API contract
-- JSON schema 對齊
-- adapter pattern
+### Input / Output
+- Input：多來源 payload（SP2~SP5）
+- Output：統一 schema payload
 
-### 步驟指引
-1. 列出 SP2-SP5 的輸入輸出欄位。
-2. 定義統一欄位命名與型別。
-3. 建 adapter 轉接層。
-4. 寫整合 smoke test。
+### 學習步驟
+1. 列出欄位衝突表（name/type/source）。
+2. 建 adapter 層處理欄位轉換。
+3. 檢查型別與必要欄位。
+4. 補 smoke test。
 
-### 練習例子（Examples）
-- 例子 1：欄位對齊  
-  Input 格式：多服務 JSON。  
-  Logic：把 `studentId`、`student_id` 統一為 `student_id`。  
-  範例輸出：`{"student_id":"S01","chapter":"CH3","wrong_rate":0.27}`。
-- 例子 2：型別修正  
-  Input 格式：字串型分數 `"0.82"`。  
-  Logic：轉 float 並驗證範圍 0~1。  
-  範例輸出：`{"accuracy":0.82}`。
-- 例子 3：轉接層驗證  
-  Input 格式：異質回應 payload。  
-  Logic：透過 adapter 產生統一 schema。  
-  範例輸出：整合 API 可直接取值。
+### 自學提示
+- 先解決 naming conflict，再處理商業規則。
+- adapter 要小且可測，避免混進商業邏輯。
+
+### AI 半手動提示
+```text
+請幫我設計 adapter，將 SP2~SP5 payload 統一成：
+student_id/chapter/quiz_accuracy/wrong_rate/completion_rate/suggested_next_step
+並附上驗證規則。
+```
 
 ### 完成檢核
-- 整合流程不再依賴手動欄位修正。
-- smoke test 可通過核心資料流。
+- 整合流程不需手動改欄位。
+- smoke test 通過。
 
-## Chapter 2：難度適配規則
+### 10 分鐘測驗（5 題）
+1. MCQ：adapter 的主要目的？
+2. MCQ：欄位衝突最先處理什麼？
+3. MCQ：為什麼要做 smoke test？
+4. SA：你會如何設計欄位衝突表？
+5. SA：adapter 與商業邏輯應如何分離？
+
+錯題複習連結：
+- `#chapter-1跨模組欄位對齊schema-alignment-and-adapter`
+
+---
+
+## Chapter 2：難度適配與推薦規則（Difficulty and Recommendation Rules）
 ### 章節目標
-依學習表現自動給出下一步建議，且可解釋。
+依學習表現產生可解釋下一步建議。
 
-### 語法與工具焦點
-- if-rule 規則引擎
-- 分數區間映射
-- 邊界值測試
+### Input / Output
+- Input：`quiz_accuracy`、`wrong_rate`、`stay_time`
+- Output：`next_step`、`reason`、`review_link`
 
-### 步驟指引
-1. 定義分數區間與建議動作。
+### 學習步驟
+1. 定義分數區間：<0.6、0.6~0.8、>=0.8。
 2. 實作 `recommend_next(metrics)`。
-3. 補上推薦原因文字。
-4. 測試邊界值與異常輸入。
+3. 為每個建議補 `reason`。
+4. 做邊界值測試（0.6/0.8）。
 
-### 練習例子（Examples）
-- 例子 1：分數分層推薦  
-  Input 格式：`accuracy: float`。  
-  Logic：低分複習、中分練習、高分進階。  
-  範例輸出：`{"next_step":"review_basic"}`。
-- 例子 2：邊界值測試  
-  Input 格式：`accuracy=0.6 / 0.8`。  
-  Logic：確保臨界值輸出一致。  
-  範例輸出：`0.6 -> practice`, `0.8 -> advance`。
-- 例子 3：推薦理由  
-  Input 格式：`wrong_rate`、`stay_time`。  
-  Logic：組合弱點原因到說明字串。  
-  範例輸出：`{"reason":"CH3 錯題率偏高，先複習基礎題"}`。
+### 自學提示
+- 推薦結果要能說服人，不是只回一個代碼。
+- 邊界值最容易出 bug，務必先測。
+
+### AI 半手動提示
+```text
+請根據 accuracy/wrong_rate/stay_time 產生推薦規則：
+- review_basic / practice_more / advance
+輸出需包含 reason 與 review_link。
+```
 
 ### 完成檢核
-- 不同輸入可得到穩定且可解釋建議。
-- 邊界值與異常值都有測試覆蓋。
+- 不同區間輸入都有穩定輸出。
+- `reason` 文字可被學生理解。
 
-## Chapter 3：前端整合頁面
+### 10 分鐘測驗（5 題）
+1. MCQ：<0.6 建議類型？
+2. MCQ：為何需要 reason 欄位？
+3. MCQ：邊界值測試重點？
+4. SA：規則可解釋性為何重要？
+5. SA：給一個推薦理由範例。
+
+錯題複習連結：
+- `#chapter-2難度適配與推薦規則difficulty-and-recommendation-rules`
+
+---
+
+## Chapter 3：單頁整合看板（Unified Dashboard）
 ### 章節目標
-讓使用者在單一頁面理解現況與下一步。
+在一頁呈現進度、弱點、推薦與理由。
 
-### 語法與工具焦點
-- React 組件整合
-- 狀態同步
-- 重新分析互動
+### Input / Output
+- Input：整合 API 回應
+- Output：統一視圖（progress/weakness/recommendation）
 
-### 步驟指引
-1. 建立進度、弱點、建議三區塊。
-2. 串接整合 API 並統一狀態管理。
-3. 加入「重新分析」按鈕。
-4. 顯示最後更新時間與載入狀態。
+### 學習步驟
+1. 設計三區塊資料模型。
+2. 串接整合 API。
+3. 提供「重新分析」按鈕。
+4. 顯示 `last_updated_at` 與推薦理由。
 
-### 練習例子（Examples）
-- 例子 1：三區塊視圖  
-  Input 格式：`progress/weakness/recommendation` JSON。  
-  Logic：分區渲染並保持一致更新。  
-  範例輸出：畫面同時顯示進度、弱點、下一步。
-- 例子 2：重新計算建議  
-  Input 格式：使用者點擊 `重新分析`。  
-  Logic：重新呼叫 API 並替換建議區塊資料。  
-  範例輸出：新推薦內容立即更新。
-- 例子 3：推薦原因展開  
-  Input 格式：`recommendation.reason`。  
-  Logic：提供展開/收合讓使用者理解規則。  
-  範例輸出：顯示 `為何建議先複習 CH3`。
+### 自學提示
+- 先確保資料一致刷新，再加互動動畫。
+- 每個區塊都要有「可行動下一步」。
+
+### AI 半手動提示
+```text
+請設計一個整合 dashboard：
+- Progress
+- Weak Topics
+- Recommendation + Reason
+並支援一鍵重新分析。
+```
 
 ### 完成檢核
-- 使用者可理解「系統推薦什麼、為什麼」。
-- 重新分析後畫面資料可同步刷新。
+- 使用者可理解「現在在哪、下一步做什麼」。
+- 重新分析後內容會更新。
 
-## Chapter 4：驗收與展示
+### 10 分鐘測驗（5 題）
+1. MCQ：整合頁最核心三區塊？
+2. MCQ：為何要顯示 last_updated_at？
+3. MCQ：推薦區至少要有哪兩欄？
+4. SA：如何避免重新分析造成畫面閃爍？
+5. SA：你會如何排序弱點章節？
+
+錯題複習連結：
+- `#chapter-3單頁整合看板unified-dashboard`
+
+---
+
+## Chapter 4：E2E 驗收與 Demo（End-to-End Demo）
 ### 章節目標
-完成可重現、可展示、可交接的端到端成果。
+把專案變成可展示、可交接成果。
 
-### 語法與工具焦點
-- E2E 測試腳本
-- Demo script
-- README 指南
+### Input / Output
+- Input：測試帳號、最小樣本資料、README
+- Output：E2E report、Demo Script、重現紀錄
 
-### 步驟指引
-1. 定義 E2E 主流程（登入→學習→分析→推薦）。
+### 學習步驟
+1. 定義主流程：登入 -> 學習 -> 分析 -> 推薦。
 2. 準備最小可重現資料。
-3. 撰寫 5 分鐘 demo script。
-4. README 補一鍵啟動與常見問題。
+3. 寫 5 分鐘 Demo Script。
+4. 讓新成員照 README 跑一次。
 
-### 練習例子（Examples）
-- 例子 1：E2E 主流程測試  
-  Input 格式：測試帳號與樣本資料。  
-  Logic：跑完整主流程並記錄結果。  
-  範例輸出：E2E 測試通過報告。
-- 例子 2：Demo script  
-  Input 格式：展示步驟清單。  
-  Logic：固定敘事順序，確保每次可重現。  
-  範例輸出：可在 5 分鐘內穩定展示。
-- 例子 3：新成員重現  
-  Input 格式：README 指令流程。  
-  Logic：新成員照文件操作並紀錄阻塞點。  
-  範例輸出：`首次重現成功，耗時 18 分鐘`。
+### 自學提示
+- Demo 成功率比炫技更重要。
+- 每一步都要有「預期畫面/預期輸出」。
+
+### AI 半手動提示
+```text
+請幫我整理 5 分鐘 Demo Script：
+- 開場（問題）
+- 展示（流程）
+- 收尾（價值）
+每段給 2~3 句講稿。
+```
 
 ### 完成檢核
-- 主流程可端到端執行。
-- README 可讓新成員快速重現。
+- 新成員可在短時間內重現。
+- Demo 有穩定腳本，不靠臨場記憶。
 
-## 章節測驗規格（固定）
-- 每章 5 題：3 題選擇題 + 2 題簡答題。
-- 時間 10 分鐘內，錯題需對應複習連結。
+### 10 分鐘測驗（5 題）
+1. MCQ：E2E 驗收首要目的？
+2. MCQ：最小可重現資料的重要性？
+3. MCQ：Demo script 必含哪三段？
+4. SA：如何確保 demo 不翻車？
+5. SA：你會怎麼向面試官說這個專案價值？
 
-## 最終完成檢核
-- 完成可展示的整合系統。
-- 可清楚說明資料流、推薦規則與產品價值。
+錯題複習連結：
+- `#chapter-4e2e-驗收與-demoend-to-end-demo`
+
+---
+
+## SP6 最終驗收（Final Acceptance）
+- SP2~SP5 完整串接成功。
+- 推薦規則可解釋且可重現。
+- 完成可展示、可交接的 E2E 成果。
